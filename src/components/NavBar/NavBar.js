@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Container, Flex, ButtonGroup, Button, Avatar, Divider } from '@chakra-ui/react'
 import { IoAdd, IoPersonAddOutline } from "react-icons/io5";
 import Logo from './Logo'
+import { Outlet } from "react-router-dom";
 function NavBar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-    return (
-        <>
-            <Container maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}}>
+    return (<>
+    <Container maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}}>
                 <Flex justifyContent={'space-between'} alignItems={'center'} py={'2'}>
                     <Logo fontSize={{base: 'md', md: 'lg'}}></Logo>
                     {isLoggedIn ?
@@ -24,8 +24,9 @@ function NavBar() {
 
                 </Flex>
             </Container>
-            <Divider></Divider>
-        </>
+            <Outlet></Outlet>
+    </>
+            
 
     )
 }

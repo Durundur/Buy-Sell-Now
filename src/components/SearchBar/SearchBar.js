@@ -1,10 +1,13 @@
 import { Container, Input, HStack, InputGroup, InputLeftElement, InputRightElement, Button, Box } from "@chakra-ui/react";
 import {IoLocationOutline, IoSearchOutline} from 'react-icons/io5'
+import { Outlet } from "react-router-dom";
+
 
 function SearchBar(){
     return(
-        <Box bg={'gray.50'}>
-        <Container py={10} maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}} >
+        <>
+        <Box >
+        <Container bg={'gray.50'} py={10} maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}} >
             <HStack>
                 <InputGroup size={'lg'} bg={'#fff'}>
                 <InputGroup w={'150%'} >
@@ -23,7 +26,9 @@ function SearchBar(){
                 </InputGroup>
             </HStack>
         </Container>        
-    </Box>
+        </Box>
+        <Outlet/>
+        </>
     )
 }
 

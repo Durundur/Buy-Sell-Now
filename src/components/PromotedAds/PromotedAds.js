@@ -56,7 +56,7 @@ function PromotedAds(){
         <Box color={'blue.900'} bg={'gray.50'}>
              <Container  maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}} >
                 <Header text={'Ogłoszenia promowane'}></Header>
-                <SimpleGrid spacing={4} columns={{base: 2, md: 3, lg: 4}}>
+                <SimpleGrid spacing={{base: 2, md: 4}} columns={{base: 2, md: 3, lg: 4}}>
                     {data.map(item=>{
                         return <AdPreviewGridItem data={item}></AdPreviewGridItem>
                     })}

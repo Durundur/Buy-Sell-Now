@@ -2,7 +2,7 @@ import { Box, Image, Text, AspectRatio, Link } from "@chakra-ui/react"
 import SecondaryText from '../SecondaryText'
 function AdPreviewGridItem(props) {
     return (
-        <Box boxShadow={'md'} p={3} bg={'white'} rounded={4} w={{ base: '100%' }}>
+        <Box boxShadow={'md'} p={{base: 2, md:3}} bg={'white'} rounded={4} w={{ base: '100%' }}>
             <AspectRatio mb={4} ratio={4 / 3}>
                 <Link to={props.data.id}>
                     <Image objectFit={'contain'} src={props.data.image}></Image>
