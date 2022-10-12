@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Flex, ButtonGroup, Button, Avatar, Divider } from '@chakra-ui/react'
+import { Container, Flex, ButtonGroup, Button, Avatar } from '@chakra-ui/react'
 import { IoAdd, IoPersonAddOutline } from "react-icons/io5";
 import Logo from './Logo'
 import { Outlet } from "react-router-dom";
