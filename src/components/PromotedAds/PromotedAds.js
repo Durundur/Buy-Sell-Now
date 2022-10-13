@@ -1,4 +1,5 @@
 import { Container, Box, SimpleGrid } from "@chakra-ui/react";
+import { Outlet } from "react-router";
 import AdPreviewGridItem from "../AdPreview/AdPreviewGridItem";
 import Header from "../Header";
 function PromotedAds(){
@@ -53,7 +54,7 @@ function PromotedAds(){
         currency: 'zł'
     }]
     return(
-        <Box color={'blue.900'} bg={'gray.50'}>
+        <Box pb={10} color={'blue.900'} bg={'gray.50'}>
              <Container  maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}} >
                 <Header text={'Ogłoszenia promowane'}></Header>
                 <SimpleGrid spacing={{base: 2, md: 4}} columns={{base: 2, md: 3, lg: 4}}>
@@ -61,7 +62,7 @@ function PromotedAds(){
                         return <AdPreviewGridItem data={item}></AdPreviewGridItem>
                     })}
                 </SimpleGrid>
-                
+                <Outlet></Outlet>
              </Container>
         </Box>
        

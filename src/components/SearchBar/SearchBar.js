@@ -6,8 +6,8 @@ import { Outlet } from "react-router-dom";
 function SearchBar(){
     return(
         <>
-        <Box >
-        <Container bg={'gray.50'} py={10} maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}} >
+        <Box bg={'gray.50'}>
+        <Container maxW={{base:'container.md',lg:'container.lg', xl:'container.xl'}}  py={10} >
             <HStack>
                 <InputGroup size={'lg'} bg={'#fff'}>
                 <InputGroup w={'150%'} >
