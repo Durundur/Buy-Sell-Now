@@ -1,11 +1,11 @@
 
 import { Outlet } from "react-router-dom";
-import Header from "../Header";
+import Header from "./Header";
 
 function Categories(){
     return(
         <>
-            <Header text='Kategorie Główne'></Header>
+            <Header>Kategorie Główne</Header>
             <Outlet/>
         </>
     )

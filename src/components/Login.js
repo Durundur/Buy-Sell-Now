@@ -1,6 +1,6 @@
 import {Box, Button, Container, Input, InputGroup, VStack, Link, Divider, InputRightElement } from '@chakra-ui/react'
-import Header from '../Header'
-import SecondaryText from '../SecondaryText'
+import Header from './Header'
+import SecondaryText from './SecondaryText'
 import React from 'react'
 
 function Login (){
@@ -9,7 +9,7 @@ function Login (){
     return(
         <Box bg={'gray.50'}>
             <Container pb={10}  maxW={{base:'container.md'}} >
-                <Header text={'Logowanie'}></Header>
+                <Header >Logowanie</Header>
                 <VStack gap={4}>
                         <Input bg={'white'} placeholder='e-mail' type={'email'}></Input>
                         <Box w={'100%'}>

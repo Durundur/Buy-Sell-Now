@@ -27,7 +27,7 @@ function SearchBar(){
             </HStack>
         </Container>        
         </Box>
-        <Outlet/>
+        <Outlet></Outlet>
         </>
     )
 }

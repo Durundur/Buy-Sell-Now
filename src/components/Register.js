@@ -1,6 +1,6 @@
 import {Box, Button, Container, Input, InputGroup, VStack, Link, Checkbox, InputRightElement, HStack } from '@chakra-ui/react'
-import Header from '../Header'
-import SecondaryText from '../SecondaryText'
+import Header from './Header'
+import SecondaryText from './SecondaryText'
 import React from 'react'
 
 function Register (){
@@ -9,7 +9,7 @@ function Register (){
     return(
         <Box bg={'gray.50'}>
             <Container pb={10}  maxW={{base:'container.md'}} >
-                <Header text={'Rejestracja'}></Header>
+                <Header>Rejestracja</Header>
                 <VStack gap={4}>
                         <Input bg={'white'} placeholder='e-mail' type={'email'}></Input>
                         <Box w={'100%'}>

@@ -1,6 +1,6 @@
 import { Box, Container, Text } from "@chakra-ui/react";
 import SecondaryText from "./SecondaryText";
-import Logo from "./NavBar/Logo";
+import Logo from "./Logo";
 
 function Footer() {
     return (
