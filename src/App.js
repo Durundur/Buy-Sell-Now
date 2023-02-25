@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Register from './components/Register'
 import Footer from './components/Footer';
 import Ad from './pages/Ad';
+import NewAd from './pages/NewAd';
 function App() {
   return (
     <Router>
@@ -17,6 +18,7 @@ function App() {
             <Route path='login' element={<Login/>}></Route>
             <Route path='register' element={<Register/>}></Route>
             <Route path='ogloszenie/:id' element={<Ad/>}></Route>
+            <Route path='nowe' element={<NewAd/>}></Route>
           </Route>
       </Routes>
     </Router>

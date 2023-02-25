@@ -1,0 +1,55 @@
+
+.uploader__uploaded-file-container{
+    border: 1px solid #121b243c;
+    border-radius: 5px;
+    background-color: #F7FAFC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1A365D;
+}
+.uploader__files-input-label{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+}
+.uploader__img{
+    object-fit:cover;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    position: relative;
+}
+.uploader__icon{
+    position: absolute;
+    font-size: 24px;
+}
+.uploader__text{
+    position: absolute;
+}
+
+.uploader__uploaded-file-container:hover  .uploader__img{
+    filter: brightness(50%);
+}
+.uploader__icons-container > *{
+    display: none;
+}
+.uploader__uploaded-file-container:hover  .uploader__icons-container > *{
+    border-radius: 20px;
+    padding: 5px;
+    cursor: pointer;
+    display: block;
+    
+}
+.uploader__icons-container{
+    font-size: 26px;
+    position: absolute;
+    z-index: 100;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+

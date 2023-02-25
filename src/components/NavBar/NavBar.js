@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Flex, ButtonGroup, Button, Avatar, Divider } from '@chakra-ui/react'
+import { Container, Flex, ButtonGroup, Button, Avatar, Divider, Box } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 import { IoAdd, IoPersonAddOutline } from "react-icons/io5";
 import Logo from '../Logo'
@@ -7,9 +7,9 @@ import { Outlet } from "react-router-dom";
 function NavBar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-    return (<>
+    return (<Box boxShadow={'md'}>
         <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
-            <Flex justifyContent={'space-between'} alignItems={'center'} py={'2'}>
+            <Flex  justifyContent={'space-between'} alignItems={'center'} py={'2'}>
                 <Logo fontSize={{ base: 'md', md: 'lg' }}></Logo>
                 {isLoggedIn ?
                     <Flex alignItems={'center'} gap={'2'}>
@@ -34,7 +34,7 @@ function NavBar() {
             </Flex>
         </Container>
         <Divider></Divider>
-    </>
+    </Box>
     )
 }
 
