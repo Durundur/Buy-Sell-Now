@@ -1,0 +1,152 @@
+import {
+  Button, useDisclosure, Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton, Lorem, HStack, GridItem, Image, SimpleGrid, Box, Flex, Text
+} from "@chakra-ui/react"
+import { useState } from "react"
+import CategoriesData from './CategoriesData'
+import MainCategorySelect from './MainCategorySelect'
+import { TfiAngleRight } from 'react-icons/tfi'
+import SecondaryText from '../../components/SecondaryText'
+export default function Category(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isMainCategory, setIsMainCategory] = useState(false)
+  const [subcategories, setSubCategories] = useState()
+  const [subsubcategories, setSubSubCategories] = useState()
+  const [mainCategory, setMainCategory] = useState()
+  const [subCategory, setSubCategory] = useState()
+  const [subSubCategory, setSubSubCategory] = useState()
+  const [mainCategoryImage, setMainCategoryImage] = useState()
+
+  const onCloseModal = () => {
+    onClose()
+    setIsMainCategory(false)
+  }
+  const handleSelectMainCategory = (categoryName) => {
+    setIsMainCategory(true)
+    setMainCategory(categoryName)
+    setSubCategories(CategoriesData.find(o => o.name === categoryName).subcategories)
+  }
+  const handleSelectMainCategoryFromList = (categoryName) => {
+    setMainCategory(categoryName)
+    setSubCategories(CategoriesData.find(o => o.name === categoryName).subcategories)
+    setSubSubCategories([])
+    setSubSubCategory()
+  }
+  const handleSelectSubCategory = (subCategoryName) => {
+    setSubCategory(subCategoryName)
+    let subSubCategories = subcategories.find(o => o.name === subCategoryName).subsubcategories
+    setSubSubCategories(subSubCategories)
+    console.log(subSubCategories)
+    if(subSubCategories==undefined || subSubCategories.length===0){
+      setMainCategoryImage(CategoriesData.find(o => o.name === mainCategory).picture)
+      onClose()
+    }
+  }
+  const handleSelectSubSubCategory = (subSubCategoryName) => {
+    setSubSubCategory(subSubCategoryName)
+    setMainCategoryImage(CategoriesData.find(o => o.name === mainCategory).picture)
+    onClose()
+  }
+  
+  return (
+    <>
+      <Button  display={'inline-block'} onClick={onOpen} sx={{ 'width': 'calc(var(--chakra-sizes-container-sm)/2)', 'height': 'calc(var(--chakra-sizes-container-sm)/10)' }} mb={'30px'} variant={'solid'} colorScheme={'blue'}>
+        {mainCategoryImage ? 
+        <Flex alignItems={'center'} justifyContent={'space-around'} flexDirection={'row'}>
+          <Box sx={{ 'width': 'calc(var(--chakra-sizes-container-sm)/10)', 'height': 'calc(var(--chakra-sizes-container-sm)/10)' }} borderRadius={'50%'}>
+            <Image alt={''} src={mainCategoryImage}></Image>
+          </Box>
+          <Box>
+              <Text textTransform={'capitalize'} fontWeight={'bold'}>{subSubCategory}</Text>
+              <SecondaryText textTransform={'capitalize'}>{mainCategory + ' / ' + subCategory}</SecondaryText>
+          </Box>
+        </Flex> : 
+        'Wybierz kategorie'}
+      </Button>
+
+      <Modal size={'5xl'} isOpen={isOpen} onClose={onCloseModal}>
+        <ModalOverlay />
+        <ModalContent color={'blue.900'} >
+          <ModalHeader>Wybierz kategorię</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {!isMainCategory ?
+              <SimpleGrid height={'lg'} columns={'3'} gap={'20px'} mb={'30px'}>
+                {
+                  CategoriesData.map((category, index) => {
+                    return <MainCategorySelect key={index} onClick={() => { handleSelectMainCategory(category.name) }} category={category} />
+                  })
+                }
+              </SimpleGrid> :
+              <HStack mb={'30px'} >
+                <Box width={'100%'} paddingX={'10px'} height={'lg'} overflowY={'auto'} sx={{
+                  '&::-webkit-scrollbar': {
+                    width: '4px',
+                    borderRadius: '8px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: `blue.500`,
+                    borderRadius: '8px',
+                  },
+                }}>
+                  {
+                    CategoriesData?.map((category, index) => {
+                      return <Flex onClick={(event)=>handleSelectMainCategoryFromList(category.name,event.target)} cursor={'pointer'} mb={'10px'} key={category.name} justifyContent={'space-between'} alignItems={'center'} bg={'gray.50'} padding={'20px'} borderRadius={'10px'}>
+                        <Text textTransform={'capitalize'}>{category.name}</Text>
+                        <TfiAngleRight />
+                      </Flex>
+                    })
+                  }
+                </Box>
+                <Box width={'100%'} paddingX={'10px'} height={'lg'} overflowY={'auto'} sx={{
+                  '&::-webkit-scrollbar': {
+                    width: '4px',
+                    borderRadius: '8px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: `blue.500`,
+                    borderRadius: '8px',
+                  },
+                }}>
+                  {
+                    subcategories?.map((subcategory) => {
+                      return <Flex cursor={'pointer'} mb={'10px'} key={subcategory.name} onClick={() => { handleSelectSubCategory(subcategory.name) }} justifyContent={'space-between'} alignItems={'center'} bg={'gray.50'} padding={'20px'} borderRadius={'10px'}>
+                        <Text textTransform={'capitalize'}>{subcategory.name}</Text>
+                        <TfiAngleRight />
+                      </Flex>
+                    })
+                  }
+                </Box>
+                <Box width={'100%'} paddingX={'10px'} height={'lg'} overflowY={'auto'} sx={{
+                  '&::-webkit-scrollbar': {
+                    width: '4px',
+                    borderRadius: '8px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: `blue.500`,
+                    borderRadius: '8px',
+                  },
+                }}>
+                  {
+                    subsubcategories?.map((subsubcategory) => {
+                      return <Flex onClick={()=>handleSelectSubSubCategory(subsubcategory)} cursor={'pointer'} mb={'10px'} key={subsubcategory} justifyContent={'space-between'} alignItems={'center'} bg={'gray.50'} padding={'20px'} borderRadius={'10px'}>
+                        <Text textTransform={'capitalize'}>{subsubcategory}</Text>
+                        <TfiAngleRight />
+                      </Flex>
+                    })
+                  }
+                </Box>
+              </HStack>
+            }
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
+

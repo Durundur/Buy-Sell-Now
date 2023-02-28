@@ -1,6 +1,7 @@
 import { Container, Box, Text, Input, Button, Flex, Textarea } from "@chakra-ui/react";
 import SecondaryText from "../components/SecondaryText";
 import Uploader from '../components/Uploader/Uploader'
+import Category from "../components/SelectCategory/Category";
 export default function NewAd() {
     return (
         <Box color={'blue.900'} bg={'gray.50'}>
@@ -13,11 +14,9 @@ export default function NewAd() {
                             <Text mb={'10px'}>Tytuł ogłoszenia</Text>
                             <Input mb={'30px'} size={'md'}></Input>
                             <Text mb={'10px'}>Kategoria</Text>
-                            <Button mb={'30px'} variant={'solid'} colorScheme={'blue'}>Wybierz kategorie</Button>
+                            <Category/>
                         </Box>
                     </Box>
-
-
                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                             <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Zdjęcia</Text>
                             <SecondaryText mb={'10px'} >Pierwsze zdjęcie będzie zdjęciem głównym. Przeciągaj zdjęcia na inne miejsca, aby zmienić ich kolejność</SecondaryText>
