@@ -9,8 +9,7 @@ import Register from './components/Register'
 import Footer from './components/Footer';
 import Ad from './pages/Ad';
 import NewAd from './pages/NewAd';
-import CategorySelector from './components/SelectCategory/CategorySelector.js'
-
+import UploadGrid from './components/Uploader/UploadGrid';
 function App() {
   return (
     <Router>
@@ -22,7 +21,7 @@ function App() {
             <Route path='ogloszenie/:id' element={<Ad/>}></Route>
             <Route path='nowe' element={<NewAd/>}></Route>
           </Route>
-          <Route path='test' element={<CategorySelector/>}></Route>
+          <Route path='test' element={<UploadGrid/>}></Route>
       </Routes>
     </Router>
   );

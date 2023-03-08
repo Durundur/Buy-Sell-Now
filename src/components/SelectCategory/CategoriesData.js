@@ -21,36 +21,39 @@ const categories = [
             {
                 name: 'samochody osobowe',
                 subsubcategories: [
-                    'Aixam', 'Alfa Romeo', 'Audi', 'BMW', 'Cadillac', 'Chevrolet', 'Chrysler', 'Citroen', 'Dacia', 'Daewoo', 'Daihatsu', 'Dodge', 'Fiat', 'Ford', 'Honda', 'Hyundai', 'Infiniti', 'Jaguar', 'Jeep', 'Kia', 'Lancia', 'Land Rover', 'Lexus', 'Mazda', 'Mercedes-Benz', 'Mini', 'Mitsubishi', 'Nissan', 'Opel', 'Peugeot', 'Polonez', 'Porsche', 'Renault', 'Rover', 'Saab', 'Seat', 'Skoda', 'Smart', 'SsangYong', 'Subaru', 'Suzuki', 'Toyota', 'Volkswagen', 'Volvo', 'Pozostałe']
+                    'aixam', 'alfa romeo', 'audi', 'BMW', 'cadillac', 'chevrolet', 'chrysler', 'citroen', 'dacia', 'daewoo', 'daihatsu', 'dodge', 'fiat', 'ford', 'honda', 'hyundai', 'infiniti', 'jaguar', 'jeep', 'kia', 'lancia', 'land rover', 'lexus', 'mazda', 'mercedes-benz', 'mini', 'mitsubishi', 'nissan', 'opel', 'peugeot', 'polonez', 'porsche', 'renault', 'rover', 'saab', 'seat', 'skoda', 'smart', 'ssangYong', 'subaru', 'suzuki', 'toyota', 'volkswagen', 'volvo', 'pozostałe samochody osobowe']
             },
             {
                 name: 'motocykle i skutery',
-                subsubcategories: ['Chopper', 'Enduro-Funbike', 'Cross', 'Motorower', 'Quad', 'Skuter', 'Sportowy', 'Szosowo-Turystyczny', 'Pozostałe']
+                subsubcategories: ['chopper', 'enduro-funbike', 'cross', 'motorower', 'quad', 'skuter', 'sportowy', 'szosowo-Turystyczny', 'pozostałe motocykle i skutery']
             },
             {
                 name: 'dostawcze',
-                subsubcategories: ['Autolaweta', 'Chłodnia i izoterma', 'Furgon', 'Kamper', 'Kontener', 'Plandeka', 'Skrzynia', 'Wywrotka', 'Pozostałe']
+                subsubcategories: ['autolaweta', 'chłodnia i izoterma', 'furgon', 'kamper', 'kontener', 'plandeka', 'skrzynia', 'wywrotka', 'pozostałe dostawcze']
             },
             {
                 name: 'ciężarowe',
-                subsubcategories: ['Autobus', 'Autolaweta', 'Chłodnia i izoterma', 'Ciągnik siodłowy', 'Dźwigi', 'Plandeka', 'Do zabudowy', 'Wywrotka', 'Pozostałe']
+                subsubcategories: ['autobus', 'autolaweta', 'chłodnia i izoterma', 'ciągnik siodłowy', 'dźwigi', 'plandeka', 'do zabudowy', 'wywrotka', 'pozostałe ciężarowe']
             },
             {
                 name: 'budowlane',
-                subsubcategories: ['Dźwigi', 'Koparki', 'Koparko-ładowarki', 'Ładowarki', 'Maszyny drogowe', 'Wózki widłowe', 'Pozostałe']
+                subsubcategories: ['dźwigi', 'koparki', 'koparko-ładowarki', 'ładowarki', 'maszyny drogowe', 'wózki widłowe', 'pozostałe budowlane']
             },
             {
                 name: 'przyczepy i naczepy',
-                subsubcategories: ['burtowe i plandeki', 'chłodnie i izotermy', 'wywrotki', 'burtowe i plandeki', 'kempingowe', 'pozostałe']
+                subsubcategories: ['burtowe i plandeki', 'chłodnie i izotermy', 'wywrotki', 'burtowe i plandeki', 'kempingowe', 'pozostałe przyczepy i naczepy']
             },
             {
-                name: 'części'
+                name: 'części',
+                subsubcategories: ['osobowe', 'samochody na częsci', 'dostawcze i ciężarowe', 'motocyklowe','pozostałe części']
+
             },
             {
-                name: 'opony i felgi'
+                name: 'opony i felgi',
+                subsubcategories: ['opony', 'felgi', 'koła', 'pozostałe opony i felgi']
             },
             {
-                name: 'pozostałe'
+                name: 'pozostałe w motoryzacja'
             },
         ]
     },
@@ -60,33 +63,27 @@ const categories = [
         subcategories: [
             {
                 name: 'mieszkania',
-                subsubcategories: ['Wynajem', 'Sprzedaż', 'Zamiana']
             },
             {
                 name: 'domy',
-                subsubcategories: ['Wynajem', 'Sprzedaż', 'Zamiana']
             },
             {
                 name: 'działki',
-                subsubcategories: ['Wynajem', 'Sprzedaż', 'Zamiana']
             },
             {
                 name: 'biura i lokale',
-                subsubcategories: ['Wynajem', 'Sprzedaż', 'Zamiana']
             },
             {
                 name: 'garaże i parkingi',
-                subsubcategories: ['Wynajem', 'Sprzedaż', 'Zamiana']
             },
             {
                 name: 'stancje i pokoje',
             },
             {
                 name: 'hale i magazyny',
-                subsubcategories: ['Wynajem', 'Sprzedaż', 'Zamiana']
             },
             {
-                name: 'pozostałe'
+                name: 'pozostałe nieruchomości'
             },
         ]
     },
@@ -95,19 +92,61 @@ const categories = [
         picture: job,
         subcategories: [
             {
-                name: 'administracja biurowa'
+                name: 'administracja biurowa',
+                subsubcategories: ['administracja, prace biurowe', 'sekretariat, recepcja']
             },
             {
-                name: 'budowa',
+                name: 'budowa, remonty',
             },
             {
-                name: 'dostawca',
+                name: 'dostawca, kurier miejski',
             },
             {
                 name: 'handel internetowy',
             },
             {
-                name: 'edukacja',
+                name: 'finanse, księgowość',
+                subsubcategories: ['księgowość', 'finanse, bankowość', 'pozostałe finanse i księgowość']
+            },
+            {
+                name: 'fryzjerstwo, kosmetyka',
+                subsubcategories: ['fryzjer', 'kosmetolog']
+            },
+            {
+                name: 'gastronomia',
+                subsubcategories: ['cukiernik, piekarz', 'kelner, barman', 'kucharz', 'pomoc kuchenna', 'manager']
+            },
+            {
+                name: 'HR',
+                subsubcategories: ['kadry i płace', 'rekrutacja']
+            },
+            {
+                name: 'IT',
+                subsubcategories: ['programista', 'tester', 'analityk', 'wsparcie techniczne', 'administrator systemów', 'administrator baz danych', 'administrator sieci']
+            },
+            {
+                name: 'kierowca',
+            },
+            {
+                name: 'logistyka, spedycja',
+                subsubcategories: ['logistyka',  'spedycja']
+            },
+            {
+                name: 'mechanika',
+            },
+            {
+                name: 'praca za granicą',
+            },
+            {
+                name: 'pracownik sklepu',
+                subsubcategories: ['kasjer, pracownik sklepu', 'zarządzanie sklepem']
+            },
+            {
+                name: 'produkcja',
+                subsubcategories: ['zarządzanie produkcją', 'praca inżynieryjna, techniczna', 'utrzymanie ruchu']
+            },
+            {
+                name: 'pozostałe w praca'
             }
         ]
     },
@@ -116,16 +155,22 @@ const categories = [
         picture: antiques,
         subcategories: [
             {
-                name: 'antyki'
+                name: 'antyki',
+                subsubcategories: ['stare meble', 'stare zegary', 'zabytki techniki', 'stare instrumenty', 'stara biżuteria', 'pozostałe antyki']
+
             },
             {
                 name: 'kolekcje',
             },
             {
                 name: 'sztuka',
+                subsubcategories: ['fotografia','grafika','malarstwo','plakat','rysunek','rzeźba']
+
             },
             {
                 name: 'rękodzieło',
+                subsubcategories: ['biżuteria - półprodukty','produkty rękodzielnicze','szycie i filcowanie']
+
             }
         ]
     },
@@ -134,28 +179,46 @@ const categories = [
         picture: house,
         subcategories: [
             {
-                name: 'budowa'
+                name: 'budowa',
+                subsubcategories: ['bramy i ogrodzenia','cegły, bloczki, pustaki','cementy i zaprawy','dachy','deski tarasowe','drewno','drzwi','garaże i hale mobilne', 'elewacje', 'okna', 'pozostałe w budowa']
+
             },
             {
                 name: 'instalacje',
+                subsubcategories: ['elektryka','fotowoltaika','hydraulika','klimatyzacja i wentylacja','pozostałe instalacje']
+
             },
             {
                 name: 'meble',
+                subsubcategories: ['biukra','kanapy','łóżka', 'stoły', 'szwki', 'szafy', 'komody', 'pozostałe meble']
+
             },
             {
                 name: 'ogród',
+                subsubcategories: ['baseny','kosiarki','meble ogrodowe', 'rośliny', 'place zabaw', 'pozostałe w ogród']
+
             },
             {
-                name: 'narzędzia'
+                name: 'narzędzia',
+                subsubcategories: ['agregaty','elektronarzędzia','maszyny warsztatowe', 'spawarki', 'zestawy narzędzi', 'pozostałe narzędzia']
+
             },
             {
                 name: 'ogrzewanie',
+                subsubcategories: ['grzejniki','kotły, piece','pompy ciepła', 'kominki', 'pozostałe ogrzewanie']
+
             },
             {
                 name: 'oświetlenie',
+
             },
             {
                 name: 'wykończenie wnętrz',
+                subsubcategories: ['kuchnia','łazienka','malowanie','płytki','podłogi','tapety i panele ścienne','pozostałe wykończenie wnętrz']
+
+            },
+            {
+                name: 'pozostałe w dom i ogród',
             }
         ]
     },
@@ -164,16 +227,24 @@ const categories = [
         picture: electronics,
         subcategories: [
             {
-                name: 'fotografia'
+                name: 'fotografia',
+                subsubcategories: ['aparaty','obiektywy','akcesoria','pozostała elektronika']
+
             },
             {
                 name: 'gry i konsole',
+                subsubcategories: ['gry','konsole','akcesoria','pozostałe gry i konsole']
+
             },
             {
                 name: 'komputery',
+                subsubcategories: ['komputery stacjonarne','laptopy','monitory','oprogramowanie','akcesoria','pozostałe komputery']
+
             },
             {
                 name: 'smartwatche i opaski',
+                subsubcategories: ['smartwatche','opaski','pozostałe smartwatche i opaski']
+
             },
             {
                 name: 'sprzęt AGD'
@@ -183,9 +254,14 @@ const categories = [
             },
             {
                 name: 'telefony',
+                subsubcategories: ['smartfony','akcesoria','pozostałe telefony']
+
             },
             {
                 name: 'telewizory',
+            },
+            {
+                name: 'pozostałe w elektronika',
             }
         ]
     },
@@ -194,7 +270,7 @@ const categories = [
         picture: fashion,
         subcategories: [
             {
-                name: 'ubrania damskie'
+                name: 'ubrania damskie',
             },
             {
                 name: 'ubrania męskie',
@@ -206,10 +282,13 @@ const categories = [
                 name: 'akcesoria',
             },
             {
-                name: 'biżuteria'
+                name: 'biżuteria',
             },
             {
                 name: 'buty',
+            },
+            {
+                name: 'pozostałe w moda',
             }
         ]
     },
@@ -218,7 +297,7 @@ const categories = [
         picture: agriculture,
         subcategories: [
             {
-                name: 'ciągniki'
+                name: 'ciągniki',
             },
             {
                 name: 'maszyny rolnicze',
@@ -231,6 +310,9 @@ const categories = [
             },
             {
                 name: 'zwierzęta',
+            },
+            {
+                name: 'pozostałe w rolnictwo',
             }
         ]
     },
@@ -252,6 +334,9 @@ const categories = [
             },
             {
                 name: 'gryzonie i króliki',
+            },
+            {
+                name: 'pozostałe w zwierzęta',
             }
         ]
     },
@@ -260,7 +345,7 @@ const categories = [
         picture: children,
         subcategories: [
             {
-                name: 'akcesoria dla niemowląt'
+                name: 'akcesoria dla niemowląt',
             },
             {
                 name: 'buciki',
@@ -281,7 +366,7 @@ const categories = [
                 name: 'zabawki',
             },
             {
-                name: 'pozostałe',
+                name: 'pozostałe w dla dzieci',
             }
         ]
     },
@@ -290,7 +375,7 @@ const categories = [
         picture: sport,
         subcategories: [
             {
-                name: 'gry planszowe'
+                name: 'gry planszowe',
             },
             {
                 name: 'fitness',
@@ -309,6 +394,9 @@ const categories = [
             },
             {
                 name: 'wędkarstwo',
+            },
+            {
+                name: 'pozostałe w sport i hobby',
             }
         ]
     },
@@ -317,13 +405,16 @@ const categories = [
         picture: education,
         subcategories: [
             {
-                name: 'książki'
+                name: 'książki',
             },
             {
                 name: 'muzyka',
             },
             {
                 name: 'filmy',
+            },
+            {
+                name: 'pozostałe w edukacja',
             }
         ]
     },
@@ -332,11 +423,15 @@ const categories = [
         picture: services,
         subcategories: [
             {
-                name: 'usługi'
+                name: 'usługi',
+                subsubcategories: ['budowa i remont', 'obsługa imprez', 'sprzątanie', 'tłumaczenia', 'usługi informatyczne', 'usługi motoryzacyjne', 'korepetycje', 'serwis i naprawa']
+
             },
             {
                 name: 'wyposażenie firm',
-                subsubcategories: ['Budowa i remont', 'Obsługa imprez', 'Sprzątanie', 'Tłumaczenia', 'Usługi informatyczne', 'Usługi motoryzacyjne', 'Korepetycje', 'Serwis i naprawa']
+            },
+            {
+                name: 'pozostałe w usługi',
             }
         ]
     }

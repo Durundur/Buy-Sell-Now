@@ -10,18 +10,7 @@ import { TfiHelpAlt, TfiAngleRight, TfiLocationPin, TfiMobile } from "react-icon
 const ad = {
     tittle: 'Oculus Quest 2 jak nowy Resident evil 4 beatsaber Kabel',
     price: '2000',
-    desc:
-        `Witam, mam do sprzedania kask do wirtualnej rzeczywistości. Oculus Quest 2 resident evil 4 edition. Kupiłem go na nowy rok i był używany sporadycznie ponieważ nie było czasu na zabawę i to jest jeden z powodów sprzedaży tego kasku. Stan kasku jest nowy, ma nie więcej niż 2 miesiące, traktowany z należytą starannością. Kask sprzedawany jest w komplecie, nie trzeba nic kupować, wszystko jest na miejscu, oto lista tego, co jest w zestawie z kaskiem:
-    1) oculus quest 2 sam kask
-    2) dwa joysticki
-    3)2 licencjonowane gry RESIDENT EVIL 4, BEATSABER są zarejestrowane na koncie, konto + poczta
-    4)oryginalna ładowarka + adapter do niej
-    5)Ściereczka z mikrofibry do czyszczenia soczewek
-    6Wydłużony kabel do podłączenia do komputera, można nim również naładować kask
-    7)Silikonowa podkładka na twarz
-    
-    Preferuję osobiste spotkanie, w którym mieszkam Pecice Male Można w zasadzie spotkać się w innym mieście tak jak się umawiamy.
-    Lepiej napisz do OLX.`,
+    desc: 'Witam, mam do sprzedania kask do wirtualnej rzeczywistości. Oculus Quest 2 resident evil 4 edition. Kupiłem go na nowy rok i był używany sporadycznie ponieważ nie było czasu na zabawę i to jest jeden z powodów sprzedaży tego kasku. Stan kasku jest nowy, ma nie więcej niż 2 miesiące, traktowany z należytą starannością. Kask sprzedawany jest w komplecie, nie trzeba nic kupować, wszystko jest na miejscu, oto lista tego, co jest w zestawie z kaskiem:<br />    1) oculus quest 2 sam kask<br />    2) dwa joysticki<br />    3)2 licencjonowane gry RESIDENT EVIL 4, BEATSABER są zarejestrowane na koncie, konto + poczta<br />    4)oryginalna ładowarka + adapter do niej<br />    5)Ściereczka z mikrofibry do czyszczenia soczewek<br />    6Wydłużony kabel do podłączenia do komputera, można nim również naładować kask<br />    7)Silikonowa podkładka na twarz<br />    <br />    Preferuję osobiste spotkanie, w którym mieszkam Pecice Male Można w zasadzie spotkać się w innym mieście tak jak się umawiamy.<br />    Lepiej napisz do OLX.',
     phoneNumber: '8122342332',
     imgs: ['https://ireland.apollo.olxcdn.com/v1/files/jznjeb2yse6-PL/image;s=1000x700', 'https://ireland.apollo.olxcdn.com/v1/files/zn318df69ott1-PL/image;s=1000x700', 'https://ireland.apollo.olxcdn.com/v1/files/z5ftjdojw3b83-PL/image;s=1000x700', 'https://ireland.apollo.olxcdn.com/v1/files/nb83znj31khz2-PL/image;s=1000x700']
 }
@@ -44,7 +33,7 @@ function Ad() {
                             <Text fontSize={'2xl'} fontWeight={'bold'} >{ad.price}</Text>
                             <GeneralSpec></GeneralSpec>
                             <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>opis</Text>
-                            <Text fontSize={'lg'} whiteSpace={'pre-line'}>{ad.desc}</Text>
+                            <Text fontSize={'lg'} whiteSpace={'pre-line'} dangerouslySetInnerHTML={{__html: ad.desc}}></Text>
                             <Divider></Divider>
                             <Flex justifyContent={'space-between'}>
                                 <SecondaryText>ID: 816424953</SecondaryText>

@@ -65,8 +65,8 @@ function PromotedAds(){
              <Container  maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}} >
                 <Header>Ogłoszenia promowane</Header>
                 <SimpleGrid spacing={{base: 2, md: 4}} columns={{base: 2, md: 3, lg: 4}}>
-                    {data.map(item=>{
-                        return <AdPreviewGridItem data={item}></AdPreviewGridItem>
+                    {data.map((item, index)=>{
+                        return <AdPreviewGridItem key={index} data={item}></AdPreviewGridItem>
                     })}
                 </SimpleGrid>
                 <Outlet></Outlet>
