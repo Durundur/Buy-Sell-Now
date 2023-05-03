@@ -1,9 +1,13 @@
 import { Container, Input, HStack, InputGroup, InputLeftElement, InputRightElement, Button, Box } from "@chakra-ui/react";
 import { IoLocationOutline, IoSearchOutline } from 'react-icons/io5'
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate  } from "react-router-dom";
 
 
 function SearchBar() {
+    const navigate = useNavigate();
+    const handleSearchButton = () =>{
+        navigate('/ogloszenia')
+    }
     return (
         <>
             <Box bg={'gray.50'}>
@@ -22,7 +26,7 @@ function SearchBar() {
                                 />
                                 <Input sx={{ borderRadius: '0' }} placeholder="Lokalizacja" />
                             </InputGroup>
-                            <Button px={10} sx={{ borderLeftRadius: '0' }} variant={'solid'} colorScheme={'blue'} rightIcon={<IoSearchOutline />}>Szukaj</Button>
+                            <Button px={10} sx={{ borderLeftRadius: '0' }} variant={'solid'} colorScheme={'blue'} onClick={()=>{handleSearchButton()}} rightIcon={<IoSearchOutline />}>Szukaj</Button>
                         </InputGroup>
                     </HStack>
                 </Container>

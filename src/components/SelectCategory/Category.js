@@ -7,29 +7,33 @@ import {
   ModalBody,
   ModalCloseButton, Lorem, HStack, GridItem, Image, SimpleGrid, Box, Flex, Text
 } from "@chakra-ui/react"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import CategoriesData from './CategoriesData'
 import MainCategorySelect from './MainCategorySelect'
 import { TfiAngleRight } from 'react-icons/tfi'
 import SecondaryText from '../../components/SecondaryText'
 export default function Category(props) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [isMainCategory, setIsMainCategory] = useState(false)
+  const {isOpen, onOpen, onClose } = useDisclosure()
   const [subcategories, setSubCategories] = useState()
   const [subsubcategories, setSubSubCategories] = useState()
   const [mainCategory, setMainCategory] = useState()
   const [subCategory, setSubCategory] = useState()
   const [subSubCategory, setSubSubCategory] = useState()
   const [mainCategoryImage, setMainCategoryImage] = useState()
+  const [isMainCategory, setIsMainCategory] = useState()
 
-  const onCloseModal = () => {
-    onClose()
+  const closeModal = ()=>{
     setIsMainCategory(false)
+    onClose()
   }
+
   const handleSelectMainCategory = (categoryName) => {
     setIsMainCategory(true)
     setMainCategory(categoryName)
     setSubCategories(CategoriesData.find(o => o.name === categoryName).subcategories)
+    setSubSubCategories([])
+    setSubCategory();
+    setSubSubCategory();
   }
   const handleSelectMainCategoryFromList = (categoryName) => {
     setMainCategory(categoryName)
@@ -44,13 +48,13 @@ export default function Category(props) {
     console.log(subSubCategories)
     if(subSubCategories==undefined || subSubCategories.length===0){
       setMainCategoryImage(CategoriesData.find(o => o.name === mainCategory).picture)
-      onClose()
+      closeModal()
     }
   }
   const handleSelectSubSubCategory = (subSubCategoryName) => {
     setSubSubCategory(subSubCategoryName)
     setMainCategoryImage(CategoriesData.find(o => o.name === mainCategory).picture)
-    onClose()
+    closeModal()
   }
   
   return (
@@ -69,7 +73,7 @@ export default function Category(props) {
         'Wybierz kategorie'}
       </Button>
 
-      <Modal size={'5xl'} isOpen={isOpen} onClose={onCloseModal}>
+      <Modal size={'5xl'} isOpen={isOpen} onClose={closeModal}>
         <ModalOverlay />
         <ModalContent color={'blue.900'} >
           <ModalHeader>Wybierz kategorię</ModalHeader>
@@ -79,7 +83,7 @@ export default function Category(props) {
               <SimpleGrid height={'lg'} columns={'3'} gap={'20px'} mb={'30px'}>
                 {
                   CategoriesData.map((category, index) => {
-                    return <MainCategorySelect key={index} onClick={() => { handleSelectMainCategory(category.name) }} category={category} />
+                    return <MainCategorySelect key={category.name} onClick={() => { handleSelectMainCategory(category.name) }} category={category} />
                   })
                 }
               </SimpleGrid> :
@@ -96,7 +100,7 @@ export default function Category(props) {
                 }}>
                   {
                     CategoriesData?.map((category, index) => {
-                      return <Flex onClick={(event)=>handleSelectMainCategoryFromList(category.name,event.target)} cursor={'pointer'} mb={'10px'} key={category.name} justifyContent={'space-between'} alignItems={'center'} bg={'gray.50'} padding={'20px'} borderRadius={'10px'}>
+                      return <Flex shadow={'md'} onClick={(event)=>handleSelectMainCategoryFromList(category.name,event.target)} cursor={'pointer'} mb={'10px'} key={category.name} justifyContent={'space-between'} alignItems={'center'} bg={category.name!==mainCategory ? 'gray.50' : 'gray.200'} padding={'20px'} borderRadius={'10px'}>
                         <Text textTransform={'capitalize'}>{category.name}</Text>
                         <TfiAngleRight />
                       </Flex>
@@ -115,7 +119,7 @@ export default function Category(props) {
                 }}>
                   {
                     subcategories?.map((subcategory) => {
-                      return <Flex cursor={'pointer'} mb={'10px'} key={subcategory.name} onClick={() => { handleSelectSubCategory(subcategory.name) }} justifyContent={'space-between'} alignItems={'center'} bg={'gray.50'} padding={'20px'} borderRadius={'10px'}>
+                      return <Flex shadow={'md'} cursor={'pointer'} mb={'10px'} key={subcategory.name} onClick={() => { handleSelectSubCategory(subcategory.name) }} justifyContent={'space-between'} alignItems={'center'} bg={subcategory.name!==subCategory ? 'gray.50' : 'gray.200'} padding={'20px'} borderRadius={'10px'}>
                         <Text textTransform={'capitalize'}>{subcategory.name}</Text>
                         <TfiAngleRight />
                       </Flex>
@@ -134,7 +138,7 @@ export default function Category(props) {
                 }}>
                   {
                     subsubcategories?.map((subsubcategory) => {
-                      return <Flex onClick={()=>handleSelectSubSubCategory(subsubcategory)} cursor={'pointer'} mb={'10px'} key={subsubcategory} justifyContent={'space-between'} alignItems={'center'} bg={'gray.50'} padding={'20px'} borderRadius={'10px'}>
+                      return <Flex shadow={'md'} onClick={()=>handleSelectSubSubCategory(subsubcategory)} cursor={'pointer'} mb={'10px'} key={subsubcategory} justifyContent={'space-between'} alignItems={'center'} bg={subsubcategory!==subSubCategory ? 'gray.50' : 'gray.200'} padding={'20px'} borderRadius={'10px'}>
                         <Text textTransform={'capitalize'}>{subsubcategory}</Text>
                         <TfiAngleRight />
                       </Flex>

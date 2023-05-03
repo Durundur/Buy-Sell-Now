@@ -1,5 +1,5 @@
 import { Box, Container, Flex, HStack, Text, Stack, Divider, Avatar, VStack, Button } from "@chakra-ui/react";
-import React from "react";
+import {React, useRef} from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import GeneralSpec from "../components/GeneralSpec";
@@ -18,7 +18,10 @@ const ad = {
 
 function Ad() {
     const location = useLocation();
+    const phoneNumber = useRef(null);
     const id = location.pathname.split("/")[2];
+
+    
     return (
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >
@@ -63,9 +66,9 @@ function Ad() {
                                 <Button w={'100%'} variant={'solid'} colorScheme={'blue'}>Wyślij wiadomość</Button>
                                 <HStack justifyContent={'center'} alignItems={'center'}>
                                     <TfiMobile fontSize={'24px'} />
-                                    <Text fontSize={'24px'}>xxx xxx xxx</Text>
+                                    <Text ref={phoneNumber} fontSize={'24px'}>xxx xxx xxx</Text>
                                 </HStack>
-                                <Button variant={'solid'} colorScheme={'blue'} w={'100%'} onClick={(e) => { e.target.textContent = ad.phoneNumber }}>Zadzwoń</Button>
+                                <Button variant={'solid'} colorScheme={'blue'} w={'100%'} onClick={(e) => { phoneNumber.current.textContent = ad.phoneNumber }}>Zadzwoń</Button>
                             </VStack>
                             <Link>
                                 <HStack m={'20px'} justifyContent={'center'} alignItems={'center'}>
@@ -75,7 +78,7 @@ function Ad() {
                             </Link>
                         </Box>
 
-                        <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} width={'100%'} padding={'20px'}>
+                        <VStack boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} width={'100%'} padding={'20px'} alignItems={'stretch'}>
                             <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>lokalizacja</Text>
                             <HStack my={'20px'} justifyContent={'center'} alignItems={'center'}>
                                 <TfiLocationPin fontSize={'32px'} />
@@ -89,7 +92,7 @@ function Ad() {
                                 <iframe src="https://maps.google.com/maps?q=Warszawa%20Mokot%C3%B3w+(My%20Business%20Name)&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
                                 </iframe>
                             </Box>
-                        </Box>
+                        </VStack>
 
 
                     </Flex>

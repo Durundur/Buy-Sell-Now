@@ -15,8 +15,6 @@ export default function NewAd() {
     const handleAddButton = async (e) => {
         try {
             await setfilesUrls(await UploaderRef.current.postFiles())
-            
-            
         } catch (error) {
 
         }

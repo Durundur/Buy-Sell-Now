@@ -20,7 +20,7 @@ function NavBar() {
                     </Flex>
                     :
                     <ButtonGroup size={{ base: 'sm', md: 'md' }}>
-                        <Link key={'1'} _hover={{textDecoration: 'none'}} to={'/login'}>
+                        <Link _hover={{textDecoration: 'none'}} to={'/login'}>
                             <Button >Zaloguj się</Button>
                         </Link>
                         <Link _hover={{textDecoration: 'none'}} to={'/register'}>

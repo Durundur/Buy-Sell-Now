@@ -8,7 +8,7 @@ function AdPreviewGridItem(props) {
                 <Link to={'/ogloszenie/' + props.data._id}>
                     <Image objectFit={'contain'} src={props.data.image}></Image>
                 </Link>
-            </AspectRatio>
+            </AspectRatio>  
             <Box  h={'72px'}>
                 <Text as={'span'} noOfLines={3}>
                     <Link to={'/ogloszenie/' + props.data._id}>

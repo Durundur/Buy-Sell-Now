@@ -10,16 +10,18 @@ import Footer from './components/Footer';
 import Ad from './pages/Ad';
 import NewAd from './pages/NewAd';
 import UploadGrid from './components/Uploader/UploadGrid';
+import AdsList from './pages/AdsList';
 function App() {
   return (
     <Router>
         <Routes>
           <Route path='/' element={[<NavBar/>, <SearchBar/>, <Footer/>]}>
             <Route path='' element={[<Categories/>,<PromotedAds/>]}></Route>
-            <Route path='login' element={<Login/>}></Route>
-            <Route path='register' element={<Register/>}></Route>
+            <Route path='logowanie' element={<Login/>}></Route>
+            <Route path='rejestracja' element={<Register/>}></Route>
             <Route path='ogloszenie/:id' element={<Ad/>}></Route>
             <Route path='nowe' element={<NewAd/>}></Route>
+            <Route path='ogloszenia' element={<AdsList/>}></Route>
           </Route>
           <Route path='test' element={<UploadGrid/>}></Route>
       </Routes>
