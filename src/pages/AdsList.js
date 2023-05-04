@@ -2,13 +2,15 @@ import React from 'react'
 import { Link } from "react-router-dom"
 import { Box, Image, Text, AspectRatio, Container, VStack } from "@chakra-ui/react"
 import AdPreviewListItem from '../components/AdPreview/AdPreviewListItem'
+import useFetch from '../hooks/useFetch'
 function AdsList (props){
+    const {data, loading, error} = useFetch("http://localhost:7000/api/v1/ads")
     return (
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >
                 <VStack spacing={{base: 2, md: 4}}>
-                    {data.map((ad)=>{
-                        return <AdPreviewListItem key={ad._id} ad={ad}></AdPreviewListItem>
+                    {data && data.map((ad)=>{
+                        return <AdPreviewListItem key={ad._id} adData={ad}></AdPreviewListItem>
                     })}
                 </VStack>
             </Container>    

@@ -1,7 +1,7 @@
 import React from 'react';
 import NavBar from './components/NavBar/NavBar';
 import SearchBar from './components/SearchBar.js'
-import Categories from './components/Categories';
+import CategoriesMainPage from './components/SelectCategory/CategoriesMainPage';
 import PromotedAds from './components/PromotedAds'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Login from './components/Login';
@@ -16,7 +16,7 @@ function App() {
     <Router>
         <Routes>
           <Route path='/' element={[<NavBar/>, <SearchBar/>, <Footer/>]}>
-            <Route path='' element={[<Categories/>,<PromotedAds/>]}></Route>
+            <Route path='' element={[<CategoriesMainPage/>,<PromotedAds/>]}></Route>
             <Route path='logowanie' element={<Login/>}></Route>
             <Route path='rejestracja' element={<Register/>}></Route>
             <Route path='ogloszenie/:id' element={<Ad/>}></Route>
