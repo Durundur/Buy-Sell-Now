@@ -4,10 +4,10 @@ import SecondaryText from "../SecondaryText"
 function AdPreviewListItem(props){
     return(
         <HStack  alignItems={'stretch'} boxShadow={'md'} width={'100%'} p={{base: 2, md:3}} bg={'#fff'} borderRadius={'20px'}>
-            <AspectRatio  width={'17%'}>
+            <AspectRatio  ratio={4/3}  minWidth={'17%'}>
                 <Image objectFit={'contain'} src={props.adData?.images[0]}></Image>
             </AspectRatio>
-            <VStack flexGrow={1} alignItems={'flex-start'} justifyContent={'space-between'}>
+            <VStack height={{base: '160px', md: '120px', sm: '70px'}} flexGrow={1} alignItems={'flex-start'} justifyContent={'space-between'}>
                <Link to={'/ogloszenie/' + props.adData?._id}>
                     <Text fontSize={'xl'}>{props.adData?.tittle}</Text>
                </Link>

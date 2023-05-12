@@ -16,11 +16,14 @@ function CategoriesMainPage(){
                 <Header>Kategorie Główne</Header>
                     <SimpleGrid minChildWidth='80px' spacing={10}>
                         {
-                            CategoriesData.map((category, index) => {
+                            CategoriesData.map((category) => {
                                 return (
                                     <VStack _hover={{
                                         p: {
                                             textDecoration: "underline",
+                                        },
+                                        div: {
+                                            backgroundColor: "gray.200",
                                         }
                                     }} cursor={'pointer'} onClick={()=>handleClickMainCategory(category.name)} key={category.name} alignItems={'center'}>
                                             <Box shadow={'md'} bg={'gray.100'} borderRadius={'50%'} padding={'5px'}><Image src={category?.picture}></Image></Box>

@@ -36,7 +36,7 @@ function Ad() {
                             </Flex>
                         </Stack>
                     </Flex>
-                    <Flex gap={'20px'} flexDirection={'column'}>
+                    <Flex width={'30%'} gap={'20px'} flexDirection={'column'}>
                         <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                             <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>osoba prywatna</Text>
                             <Flex mt={'20px'} gap={'20px'} alignItems={'center'}>

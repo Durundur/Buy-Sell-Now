@@ -33,8 +33,28 @@ const ImageSquare = (props) => {
 }
 
 
-const UploadGrid = forwardRef((props,ref) => {
+const UploadGrid = forwardRef((props, ref) => {
     const [files, setFiles] = useState([])
+
+    useImperativeHandle(ref, () => ({
+        async postFiles(){
+            const formData = new FormData();
+            try {
+                const filesUrls = await Promise.all(
+                    files.map(async (file) => {
+                        formData.append("file", file);
+                        formData.append("upload_preset", "gtu733xq");
+                        const res = await axios.post('https://api.cloudinary.com/v1_1/dj16gqjts/image/upload', formData)
+                        const { url } = res.data;
+                        return url;
+                    })
+                )
+                return filesUrls
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }))
 
     const handleFilesChange = (event) => {
         if (files.length != 0) {
@@ -53,26 +73,8 @@ const UploadGrid = forwardRef((props,ref) => {
         newFiles.splice(index, 1)
         setFiles(newFiles)
     }
-    const postFiles = async () => {
-        const formData = new FormData();
-        try {
-            const filesUrls = await Promise.all(
-                files.map(async (file) => {
-                    formData.append("file", file);
-                    formData.append("upload_preset", "gtu733xq");
-                    const res = await axios.post('https://api.cloudinary.com/v1_1/dj16gqjts/image/upload', formData)
-                    const { url } = res.data;
-                    return url;
-                })
-            )
-            return filesUrls
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    useImperativeHandle(ref, () => ({
-        postFiles: postFiles
-      }));
+    
+
     
     return (
         <div {...props} className="uploader">
