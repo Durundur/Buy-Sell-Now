@@ -4,7 +4,7 @@ import { Box, Image, Text, AspectRatio, Container, VStack } from "@chakra-ui/rea
 import AdPreviewListItem from '../components/AdPreview/AdPreviewListItem'
 import useFetch from '../hooks/useFetch'
 function AdsList (props){
-    const {data, loading, error} = useFetch("http://localhost:7000/api/v1/ads")
+    const {data, loading, error} = useFetch("https://buy-sell-now.fly.dev/api/v1/ads")
     return (
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >

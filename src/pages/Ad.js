@@ -12,7 +12,7 @@ function Ad() {
     const location = useLocation();
     const phoneNumber = useRef(null);
     const id = location.pathname.split("/")[2];
-    const {data, loading, error} = useFetch("http://localhost:7000/api/v1/ads/" + id)
+    const {data, loading, error} = useFetch("https://buy-sell-now.fly.dev/api/v1/ads/" + id)
     return (
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >

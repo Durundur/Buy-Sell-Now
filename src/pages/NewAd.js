@@ -13,7 +13,7 @@ export default function NewAd() {
     const [charCounter, setCharCounter] = useState(0)
     const [categories, setCategories] = useState();
     const [categoryFields, setCategoryFields] = useState()
-    const { response, isLoading, postData} = usePost('http://localhost:7000/api/v1/ads', adData)
+    const { response, isLoading, postData} = usePost('https://buy-sell-now.fly.dev/api/v1/ads', adData)
     const navigate = useNavigate();
 
     const handleAddButton = async (e) => {
