@@ -1,7 +1,8 @@
-import {Box, Button, Container, Input, InputGroup, VStack, Link, Divider, InputRightElement } from '@chakra-ui/react'
+import {Box, Button, Container, Input, InputGroup, VStack, Divider, InputRightElement } from '@chakra-ui/react'
 import Header from './Header'
 import SecondaryText from './SecondaryText'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function Login (){
     const [show, setShow] = React.useState(false)
@@ -27,7 +28,7 @@ function Login (){
                         <Button w={'50%'} colorScheme={'blue'} >Zaloguj się</Button>
                         <SecondaryText  align={'center'}>lub</SecondaryText>
                         <Button>
-                            <Link _hover={{textDecoration: 'none'}} href='/register'>
+                            <Link _hover={{textDecoration: 'none'}} href='/rejestracja'>
                             Zarejestruj się
                             </Link>
                         </Button>

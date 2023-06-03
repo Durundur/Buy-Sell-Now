@@ -1,4 +1,5 @@
-import {Box, Button, Container, Input, InputGroup, VStack, Link, Checkbox, InputRightElement, HStack } from '@chakra-ui/react'
+import {Box, Button, Container, Input, InputGroup, VStack, Checkbox, InputRightElement, HStack } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 import Header from './Header'
 import SecondaryText from './SecondaryText'
 import React from 'react'
@@ -32,7 +33,7 @@ function Register (){
                         <Button w={'50%'} colorScheme={'blue'} >Załóż konto</Button>
                         <SecondaryText  align={'center'}>lub</SecondaryText>
                         <Button>
-                            <Link _hover={{textDecoration: 'none'}} href='/login'>
+                            <Link _hover={{textDecoration: 'none'}} href='/logowanie'>
                             Zaloguj się
                             </Link>
                         </Button>

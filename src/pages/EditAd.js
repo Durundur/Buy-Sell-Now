@@ -2,19 +2,34 @@ import { Container, Box, Text, Input, Button, Flex, Textarea, Select } from "@ch
 import SecondaryText from "../components/SecondaryText";
 import UploadGrid from '../components/Uploader/UploadGrid'
 import Category from "../components/SelectCategory/Category";
-import axios from "axios";
 import { createRef, useEffect, useRef, useState } from 'react'
-import { useNavigate } from "react-router";
+import { useNavigate,useLocation } from "react-router";
 import categoriesFields from "../components/categoriesFields";
 import usePost from "../hooks/usePost";
-export default function NewAd() {
-    const [adData, setAdData] = useState({})
+import useFetch from "../hooks/useFetch";
+
+export default function EditAd() {
+    const navigate = useNavigate();
     const uploaderRef = useRef()
     const [charCounter, setCharCounter] = useState(0)
+
+
+    const [adData, setAdData] = useState({})
     const [categories, setCategories] = useState();
     const [categoryFields, setCategoryFields] = useState()
     const { response, isLoading, postData} = usePost('https://buy-sell-now.fly.dev/api/v1/ads', adData)
-    const navigate = useNavigate();
+    
+
+    const location = useLocation();
+    const id = '647a43b5b4038a610b46a503' || location.pathname.split("/")[2];
+    const {data, loading, error, setData} = useFetch("https://buy-sell-now.fly.dev/api/v1/ads/" + id)
+
+    // useEffect(()=>{
+    //     console.log(testVar)
+    // },[testVar])
+
+    
+
 
     const handleAddButton = async (e) => {
         try {
@@ -64,22 +79,26 @@ export default function NewAd() {
         }  
     }, [categories])
 
+    console.log(data)
 
-
+    const formatDescritpion = (text)=>{
+        return text?.replace(/<br\s*[\/]?>/gi, "\n")
+    }
 
 
     return (
         <Box pt={'30px'} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >
-                <Text mb={'30px'} fontWeight={'bold'} textTransform={'capitalize'} fontSize={'lg'}>dodaj ogłoszenie</Text>
+                <Text mb={'30px'} fontWeight={'bold'} textTransform={'capitalize'} fontSize={'lg'}>edytuj ogłoszenie</Text>
                 <Flex gap={'20px'} flexDirection={'column'}>
                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                         <Box maxW={'container.sm'}>
                             <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Im więcej szczegółów, tym lepiej!</Text>
                             <Text mb={'10px'}>Tytuł ogłoszenia</Text>
-                            <Input  shadow={'md'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} name={'tittle'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
+                            <Input  shadow={'md'} variant="filled" bg={'gray.50'} value={data?.tittle} onChange={(e) => handleInputChange(e)} name={'tittle'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                             <Text mb={'10px'}>Kategoria</Text>
                             <Category  passData={(categories)=>{getCategories(categories)}}/>
+                            {console.log}
                         </Box>
                     </Box>
                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -93,7 +112,7 @@ export default function NewAd() {
                             <Textarea onChange={(e) => {
                                 handleInputChange(e)
                                 setCharCounter(e.target.value.length)
-                            }} name="description" autoComplete={'off'} mb={'10px'} rows={'11'} shadow={'sm'} variant="filled" bg={'gray.50'} resize={'none'} placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></Textarea>
+                            }} name="description" value={formatDescritpion(data?.description)} autoComplete={'off'} mb={'10px'} rows={'11'} shadow={'sm'} variant="filled" bg={'gray.50'} resize={'none'} placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></Textarea>
                             <Flex mb={'30px'} justifyContent={'space-between'}>
                                 <SecondaryText>{charCounter >= 180 ? null : `Wpisz jeszcze przynajmniej ${180 - charCounter} znaków`}</SecondaryText>
                                 <SecondaryText>{charCounter}/9000</SecondaryText>
@@ -122,7 +141,7 @@ export default function NewAd() {
                                                     })
                                                 }
                                             </Select>
-                                            : <Input key={field.label + field.name} shadow={'sm'} variant="filled" bg={'gray.50'}   onChange={(e) => handleInputChange(e)} placeholder={field?.placeholder} type={field?.type}  name={field?.name} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
+                                            : <Input value={data?.field.name} key={field.label + field.name} shadow={'sm'} variant="filled" bg={'gray.50'}   onChange={(e) => handleInputChange(e)} placeholder={field?.placeholder} type={field?.type}  name={field?.name} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                                         }
                                         
                                     </>)
@@ -137,11 +156,11 @@ export default function NewAd() {
                         <Box maxW={'30%'}>
                             <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dane kontaktowe</Text>
                             <Text textTransform={'capitalize::first-letter'} mb={'10px'}>Osoba kontaktowa</Text>
-                            <Input shadow={'sm'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} name={'advertiser.name'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
+                            <Input value={data?.advertiser.name} shadow={'sm'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} name={'advertiser.name'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                             <Text textTransform={'capitalize::first-letter'} mb={'10px'}>Numer telefonu</Text>
-                            <Input shadow={'sm'} variant="filled" bg={'gray.50'}  onChange={(e) => handleInputChange(e)} name={'advertiser.phoneNumber'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
+                            <Input value={data?.advertiser.phoneNumber} shadow={'sm'} variant="filled" bg={'gray.50'}  onChange={(e) => handleInputChange(e)} name={'advertiser.phoneNumber'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                             <Text textTransform={'capitalize::first-letter'} mb={'10px'}>Lokalizacja</Text>
-                            <Input shadow={'sm'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} name={'localization.place'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
+                            <Input value={data?.localization.place} shadow={'sm'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} name={'localization.place'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                         </Box>
                     </Box>
 
