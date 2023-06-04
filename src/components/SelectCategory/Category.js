@@ -55,21 +55,25 @@ export default function Category(props) {
     setSubSubCategoryName(subSubCategoryName)
     closeModal()
   }
-  const passDataToParent = ()=>{
-    props.passData([mainCategoryName, subCategoryName, subSubCategoryName])
-  }
+
   useEffect(()=>{
     if(mainCategoryName){
-      passDataToParent()
+      props.onChange([mainCategoryName, subCategoryName, subSubCategoryName])
     }
   }, [mainCategoryName, subCategoryName, subSubCategoryName])
 
-  
+  useEffect(()=>{
+      let val = props.value.split('.');
+      setMainCategoryName(val[0])
+      setSubCategoryName(val[1])
+      setSubSubCategoryName(val[2])
+      setMainCategoryImage(CategoriesData.find(o => o.name === val[0]).picture)
+  }, [props.value])
 
   return (
     <>
       <Button display={'inline-block'} onClick={onOpen} sx={{ 'width': 'calc(var(--chakra-sizes-container-sm)/2)', 'height': 'calc(var(--chakra-sizes-container-sm)/10)' }} mb={'30px'} variant={'solid'} colorScheme={'blue'}>
-        {mainCategoryImage ?
+        {subCategoryName ?
           <Flex alignItems={'center'} justifyContent={'space-around'} flexDirection={'row'}>
             <Box sx={{ 'width': 'calc(var(--chakra-sizes-container-sm)/10)', 'height': 'calc(var(--chakra-sizes-container-sm)/10)' }} borderRadius={'50%'}>
               <Image alt={''} src={mainCategoryImage}></Image>
@@ -162,4 +166,3 @@ export default function Category(props) {
     </>
   )
 }
-

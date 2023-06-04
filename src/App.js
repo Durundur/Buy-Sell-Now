@@ -11,12 +11,16 @@ import Ad from './pages/Ad';
 import NewAd from './pages/NewAd';
 import AdsList from './pages/AdsList';
 import EditAd from './pages/EditAd';
-import EditAdC from './pages/EditAdC'
+
+
+
+import TestCom from './components/TestCom';
 import { MyAccount, MyAds, MyRating, MySettings, MyShipments, ObservedAds, MyMessages } from './components/MyAccount';
 function App() {
   return (
     <Router>
       <Routes>
+      
         <Route path='/' element={[<NavBar />, <Footer />]}>
           <Route element={<SearchBar />}>
             <Route path='' element={[<CategoriesMainPage />, <PromotedAds />]}></Route>
@@ -37,6 +41,7 @@ function App() {
               <Route path='obserwowane' element={<ObservedAds activeTab={5} />}></Route>
             </Route>
           </Route>
+          <Route path='test' element={<TestCom/>}></Route>
         </Route>
       </Routes>
     </Router>

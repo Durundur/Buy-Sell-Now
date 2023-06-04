@@ -47,9 +47,6 @@ export default function NewAd() {
         }
     }
 
-    const getCategories = (categories)=>{
-        setCategories(categories)
-    }
 
     useEffect(()=>{
         if(response.status === 200)
@@ -79,7 +76,8 @@ export default function NewAd() {
                             <Text mb={'10px'}>Tytuł ogłoszenia</Text>
                             <Input  shadow={'md'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} name={'tittle'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                             <Text mb={'10px'}>Kategoria</Text>
-                            <Category  passData={(categories)=>{getCategories(categories)}}/>
+                            <Category value='moda.dostawcze.furgon' onChange={(categories)=>{setCategories(categories)
+                            console.log(categories)}}/>
                         </Box>
                     </Box>
                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>

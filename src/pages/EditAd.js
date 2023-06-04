@@ -62,9 +62,6 @@ export default function EditAd() {
         }
     }
 
-    const getCategories = (categories)=>{
-        setCategories(categories)
-    }
 
     useEffect(()=>{
         if(response.status === 200)
@@ -79,12 +76,17 @@ export default function EditAd() {
         }  
     }, [categories])
 
-    console.log(data)
-
     const formatDescritpion = (text)=>{
         return text?.replace(/<br\s*[\/]?>/gi, "\n")
     }
 
+
+
+
+
+
+    const testCategories = ['motoryzacja', 'dostawcze', 'autolaweta'];
+    console.log(categories)
 
     return (
         <Box pt={'30px'} color={'blue.900'} bg={'gray.50'}>
@@ -97,7 +99,7 @@ export default function EditAd() {
                             <Text mb={'10px'}>Tytuł ogłoszenia</Text>
                             <Input  shadow={'md'} variant="filled" bg={'gray.50'} value={data?.tittle} onChange={(e) => handleInputChange(e)} name={'tittle'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                             <Text mb={'10px'}>Kategoria</Text>
-                            <Category  passData={(categories)=>{getCategories(categories)}}/>
+                            <Category onChange={(categories)=>{setCategories(categories)}}/>
                             {console.log}
                         </Box>
                     </Box>
