@@ -8,17 +8,32 @@ import { useNavigate } from "react-router";
 import categoriesFields from "../components/categoriesFields";
 import usePost from "../hooks/usePost";
 export default function NewAd() {
-    const [adData, setAdData] = useState({})
+    const [adData, setAdData] = useState()
     const uploaderRef = useRef()
     const [charCounter, setCharCounter] = useState(0)
     const [categories, setCategories] = useState();
     const [categoryFields, setCategoryFields] = useState()
-    const { response, isLoading, postData} = usePost('https://buy-sell-now.fly.dev/api/v1/ads', adData)
+    const { response, error, isPosting, postData} = usePost('https://buy-sell-now.fly.dev/api/v1/ads', adData)
     const navigate = useNavigate();
 
+    const setCategoriesInAdData = ()=>{
+        setAdData((prev)=>{
+            return {...prev, "mainCategory": categories[0], "subCategory": categories[1], "subSubCategory": categories[2]}
+        })
+    }
+
+    useEffect(() => {
+        console.log(response)
+    }, [response])
+
     const handleAddButton = async (e) => {
+        setCategoriesInAdData();
         try {
-            adData['images'] = await uploaderRef.current.postFiles();
+            let imagesUrls = await uploaderRef.current.postFiles();
+            setAdData((prev)=>{
+                return {...prev, 'images': imagesUrls}
+            })
+            console.log(adData)
             postData()
         } catch (error) {
             console.log(error)
@@ -56,7 +71,7 @@ export default function NewAd() {
     useEffect(() => {
         if(categories){
             if(categoriesFields){
-                setCategoryFields(categoriesFields.find(o=> o.subCategoryName.includes(categories[1])).fields)
+                setCategoryFields(categoriesFields.find(o=> o.subCategoryName.includes(categories[1]))?.fields)
             }
         }  
     }, [categories])
@@ -74,10 +89,9 @@ export default function NewAd() {
                         <Box maxW={'container.sm'}>
                             <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Im więcej szczegółów, tym lepiej!</Text>
                             <Text mb={'10px'}>Tytuł ogłoszenia</Text>
-                            <Input  shadow={'md'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} name={'tittle'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
+                            <Input  shadow={'md'} variant="filled" bg={'gray.50'} value={adData?.tittle} onChange={(e) => handleInputChange(e)} name={'tittle'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                             <Text mb={'10px'}>Kategoria</Text>
-                            <Category value='moda.dostawcze.furgon' onChange={(categories)=>{setCategories(categories)
-                            console.log(categories)}}/>
+                            <Category id={'category'} value={`${adData?.mainCategory}.${adData?.subCategory}.${adData?.subSubCategory}`}  onChange={(categories)=>{setCategories(categories)}}/>
                         </Box>
                     </Box>
                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -111,7 +125,7 @@ export default function NewAd() {
                                         {
                                             field.type==='select' ? 
                                             <Select key={field.label + field.name} shadow={'sm'} variant="filled" bg={'gray.50'}  textTransform={'capitalize'} onChange={(e) => handleInputChange(e)}  name={field?.name} autoComplete={'off'} mb={'30px'} size={'md'}>
-                                                <option selected hidden disabled value>{field.placeholder}</option>
+                                                <option selected hidden disabled>{field.placeholder}</option>
                                                 {
                                                     field.values.map((option)=>{
                                                         return(

@@ -89,7 +89,10 @@ function AdPreviewListItem(props) {
                 {
                     props.type === 'userAd' ?
                         <HStack width={'100%'} justifyContent={'flex-end'}>
+                            <Link to={'/edycja/' + props.adData?._id}>
                             <Button variant={'solid'}>Edytuj</Button>
+                            </Link>
+                            
                             <Button variant={'solid'}>Odświerz za 20 zł</Button>
                             <Button variant={'solid'}>Promuj</Button>
                             <Button variant={'solid'}>Zakończ</Button>

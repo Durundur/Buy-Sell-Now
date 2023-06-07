@@ -1,16 +1,11 @@
-import {Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Lorem, HStack, GridItem, Image, SimpleGrid, Box, Flex, Text} from "@chakra-ui/react"
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Lorem, HStack, GridItem, Image, SimpleGrid, Box, Flex, Text } from "@chakra-ui/react"
 import { useEffect, useRef, useState } from "react"
 import CategoriesData from './CategoriesData'
 import MainCategorySelect from './MainCategorySelect'
 import { TfiAngleRight } from 'react-icons/tfi'
 import SecondaryText from '../../components/SecondaryText'
 export default function Category(props) {
-  const {isOpen, onOpen, onClose } = useDisclosure()
-  const [subcategories, setSubCategories] = useState()
-  const [subSubCategories, setSubSubCategories] = useState()
-  const [mainCategory, setMainCategory] = useState()
-  const [subCategory, setSubCategory] = useState()
-  const [subSubCategory, setSubSubCategory] = useState()
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [mainCategoryImage, setMainCategoryImage] = useState()
   const [isMainCategory, setIsMainCategory] = useState()
 
@@ -18,6 +13,10 @@ export default function Category(props) {
   const [subCategoryName, setSubCategoryName] = useState();
   const [subSubCategoryName, setSubSubCategoryName] = useState();
 
+  const [categories, setCategories] = useState([]);
+  
+  const [subCategoriesMap, setSubCategoriesMap] = useState()
+  const [subSubCategoriesMap, setSubSubCategoriesMap] = useState()
 
   const closeModal = () => {
     setIsMainCategory(false)
@@ -26,48 +25,56 @@ export default function Category(props) {
 
   const handleSelectMainCategory = (categoryName) => {
     setIsMainCategory(true)
-    setMainCategory(categoryName)
-    setSubCategories(CategoriesData.find(o => o.name === categoryName).subcategories)
-    setSubSubCategories([])
-    setSubCategory()
-    setSubSubCategory()
+    setCategories([categoryName])
+    setSubCategoriesMap(CategoriesData.find(o => o.name === categoryName)?.subcategories)
+    setSubCategoryName('')
+    setSubSubCategoryName('')
+    setSubSubCategoriesMap([])
   }
 
   const handleSelectSubCategory = (subCategoryName) => {
-    setSubCategory(subCategoryName)
-    let subSubcategories = subcategories.find(o => o.name === subCategoryName).subsubcategories
-    setSubSubCategories(subSubcategories)
-    console.log(subcategories);
+    setCategories((prev)=>{
+      prev[1] = subCategoryName
+      return prev
+    })
+    let subSubcategories = subCategoriesMap.find(o => o.name === subCategoryName).subsubcategories
+    setSubSubCategoriesMap(subSubcategories)
+
     if (subSubcategories == undefined || subSubcategories.length === 0) {
-      setMainCategoryImage(CategoriesData.find(o => o.name === mainCategory).picture)
-      setMainCategoryName(mainCategory)
+      setMainCategoryImage(CategoriesData.find(o => o.name === categories[0])?.picture)
+      setMainCategoryName(categories[0])
       setSubCategoryName(subCategoryName)
-      setSubSubCategoryName(subSubCategory)
-      setSubSubCategoryName()
       closeModal()
     }
   }
+
+
   const handleSelectSubSubCategory = (subSubCategoryName) => {
-    setSubSubCategory(subSubCategoryName)
-    setMainCategoryImage(CategoriesData.find(o => o.name === mainCategory).picture)
-    setMainCategoryName(mainCategory)
-    setSubCategoryName(subCategory)
+    setCategories((prev)=>{
+      prev[2] = subSubCategoryName
+      return prev
+    })
+    setMainCategoryImage(CategoriesData.find(o => o.name === categories[0])?.picture)
+    setMainCategoryName(categories[0])
+    setSubCategoryName(categories[1])
     setSubSubCategoryName(subSubCategoryName)
     closeModal()
   }
 
-  useEffect(()=>{
-    if(mainCategoryName){
+  useEffect(() => {
+    if (mainCategoryName) {
       props.onChange([mainCategoryName, subCategoryName, subSubCategoryName])
     }
   }, [mainCategoryName, subCategoryName, subSubCategoryName])
 
-  useEffect(()=>{
+  useEffect(() => {
+    if(props.value) {
       let val = props.value.split('.');
       setMainCategoryName(val[0])
       setSubCategoryName(val[1])
       setSubSubCategoryName(val[2])
-      setMainCategoryImage(CategoriesData.find(o => o.name === val[0]).picture)
+      setMainCategoryImage(CategoriesData.find(o => o.name === val[0])?.picture)
+    }
   }, [props.value])
 
   return (
@@ -113,7 +120,7 @@ export default function Category(props) {
                 }}>
                   {
                     CategoriesData?.map((category, index) => {
-                      return <Flex shadow={'md'} onClick={() => handleSelectMainCategory(category.name)} cursor={'pointer'} mb={'10px'} key={category.name} justifyContent={'space-between'} alignItems={'center'} bg={category.name !== mainCategory ? 'gray.50' : 'gray.200'} padding={'20px'} borderRadius={'10px'}>
+                      return <Flex shadow={'md'} onClick={() => handleSelectMainCategory(category.name)} cursor={'pointer'} mb={'10px'} key={category.name} justifyContent={'space-between'} alignItems={'center'} bg={category.name !== categories[0] ? 'gray.50' : 'gray.200'} padding={'20px'} borderRadius={'10px'}>
                         <Text textTransform={'capitalize'}>{category.name}</Text>
                         <TfiAngleRight />
                       </Flex>
@@ -131,8 +138,8 @@ export default function Category(props) {
                   },
                 }}>
                   {
-                    subcategories?.map((subcategory) => {
-                      return <Flex shadow={'md'} cursor={'pointer'} mb={'10px'} key={subcategory.name} onClick={() => { handleSelectSubCategory(subcategory.name) }} justifyContent={'space-between'} alignItems={'center'} bg={subcategory.name !== subCategory ? 'gray.50' : 'gray.200'} padding={'20px'} borderRadius={'10px'}>
+                    subCategoriesMap?.map((subcategory) => {
+                      return <Flex shadow={'md'} cursor={'pointer'} mb={'10px'} key={subcategory.name} onClick={() => { handleSelectSubCategory(subcategory.name) }} justifyContent={'space-between'} alignItems={'center'} bg={subcategory.name !== categories[1] ? 'gray.50' : 'gray.200'} padding={'20px'} borderRadius={'10px'}>
                         <Text textTransform={'capitalize'}>{subcategory.name}</Text>
                         <TfiAngleRight />
                       </Flex>
@@ -150,8 +157,8 @@ export default function Category(props) {
                   },
                 }}>
                   {
-                    subSubCategories?.map((subsubcategory) => {
-                      return <Flex shadow={'md'} onClick={() => handleSelectSubSubCategory(subsubcategory)} cursor={'pointer'} mb={'10px'} key={subsubcategory} justifyContent={'space-between'} alignItems={'center'} bg={subsubcategory !== subSubCategory ? 'gray.50' : 'gray.200'} padding={'20px'} borderRadius={'10px'}>
+                    subSubCategoriesMap?.map((subsubcategory) => {
+                      return <Flex shadow={'md'} onClick={() => handleSelectSubSubCategory(subsubcategory)} cursor={'pointer'} mb={'10px'} key={subsubcategory} justifyContent={'space-between'} alignItems={'center'} bg={subsubcategory !== categories[2] ? 'gray.50' : 'gray.200'} padding={'20px'} borderRadius={'10px'}>
                         <Text textTransform={'capitalize'}>{subsubcategory}</Text>
                         <TfiAngleRight />
                       </Flex>
