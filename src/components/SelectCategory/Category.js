@@ -80,7 +80,7 @@ export default function Category(props) {
   return (
     <>
       <Button display={'inline-block'} onClick={onOpen} sx={{ 'width': 'calc(var(--chakra-sizes-container-sm)/2)', 'height': 'calc(var(--chakra-sizes-container-sm)/10)' }} mb={'30px'} variant={'solid'} colorScheme={'blue'}>
-        {subCategoryName ?
+        {mainCategoryName!=="undefined" && subCategoryName!=="undefined" && subSubCategoryName!=="undefined" ?
           <Flex alignItems={'center'} justifyContent={'space-around'} flexDirection={'row'}>
             <Box sx={{ 'width': 'calc(var(--chakra-sizes-container-sm)/10)', 'height': 'calc(var(--chakra-sizes-container-sm)/10)' }} borderRadius={'50%'}>
               <Image alt={''} src={mainCategoryImage}></Image>

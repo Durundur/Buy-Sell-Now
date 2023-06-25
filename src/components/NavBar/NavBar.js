@@ -5,7 +5,7 @@ import { IoAdd, IoPersonAddOutline } from "react-icons/io5";
 import Logo from '../Logo'
 
 function NavBar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     return (<><Box boxShadow={'sm'}>
         <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
@@ -20,45 +20,30 @@ function NavBar() {
                             <MenuList >
                                 <MenuGroup fontSize={'md'} title="Moje konto">
                                 <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/ogloszenia'}>
-                                        ogłoszenia
-                                    </Link>
+                                    <Link to={'/moje-konto/ogloszenia'}>ogłoszenia</Link>
                                 </MenuItem>
                                 <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/wiadomosci'}>
-                                    wiadomosci
-                                        </Link>
-                                    
+                                    <Link to={'/moje-konto/wiadomosci'}>wiadomosci</Link>
                                 </MenuItem >
                                 <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/oceny'}>
-                                    otrzymane oceny
-                                        </Link>
+                                    <Link to={'/moje-konto/oceny'}>otrzymane oceny</Link>
                                 </MenuItem>
                                 <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/przesylki'}>
-                                    przesyłki
-                                        </Link>
+                                    <Link to={'/moje-konto/przesylki'}>przesyłki</Link>
                                 </MenuItem>
                                 <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/ustawienia'}>
-                                    ustawienia
-                                        </Link>
+                                    <Link to={'/moje-konto/ustawienia'}>ustawienia</Link>
                                 </MenuItem>
                                 </MenuGroup>
                                 <MenuDivider></MenuDivider>
                                 <MenuGroup fontSize={'md'} title="Ogłoszenia">
                                     <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/obserwowane'}>
-                                    obserwowane
-                                        </Link>
+                                    <Link to={'/moje-konto/obserwowane'}>obserwowane</Link>
                                     </MenuItem>
                                 </MenuGroup>
                                 <MenuDivider></MenuDivider>
                                 <MenuItem fontSize={'md'} fontWeight={'600'} sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/wyloguj'}>
-                                    wyloguj
-                                        </Link>
+                                    <Link to={'/moje-konto/wyloguj'}>wyloguj</Link>
                                 </MenuItem>
                             </MenuList>
                         </Menu>

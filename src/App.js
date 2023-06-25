@@ -20,7 +20,6 @@ function App() {
   return (
     <Router>
       <Routes>
-      
         <Route path='/' element={[<NavBar />, <Footer />]}>
           <Route element={<SearchBar />}>
             <Route path='' element={[<CategoriesMainPage />, <PromotedAds />]}></Route>
@@ -30,7 +29,7 @@ function App() {
           <Route>
             <Route path='logowanie' element={<Login />}></Route>
             <Route path='rejestracja' element={<Register />}></Route>
-            <Route path='nowe' element={<NewAd />}></Route>
+            <Route path='nowe' element={<NewAd/>}></Route>
             <Route path='edycja/:id' element={<EditAd/>} />
             <Route path='moje-konto' element={<MyAccount  />}>
               <Route path='ogloszenia' element={<MyAds activeTab={0}/>}></Route>
