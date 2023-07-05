@@ -7,7 +7,7 @@ import useFetch from '../hooks/useFetch'
 import Pagination from '../components/Pagination';
 import LoadingSpinner from '../components/Spinner';
 function AdsList (props){
-    const {url, page} = usePagination("https://buy-sell-now.fly.dev/api/v1/ads/?p=")
+    const {url, page} = usePagination(process.env.REACT_APP_API_LOCAL + 'api/v1/ads/?p=')
     const {data, isLoading, error} = useFetch(url)  
     
     return (

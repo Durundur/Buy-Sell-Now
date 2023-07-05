@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Container, Flex, ButtonGroup, Button, Avatar, Divider, Box, Menu, MenuButton, MenuList, MenuItem, MenuGroup, MenuDivider } from '@chakra-ui/react'
 import { Link, Outlet } from "react-router-dom";
 import { IoAdd, IoPersonAddOutline } from "react-icons/io5";
 import Logo from '../Logo'
+import { useAuthContext } from "../../contexts";
 
 function NavBar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-
+    const {userInfo, logoutHandler} = useAuthContext();
     return (<><Box boxShadow={'sm'}>
         <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
             <Flex justifyContent={'space-between'} alignItems={'center'} py={'2'}>
                 <Logo fontSize={{ base: 'md', md: 'lg' }}></Logo>
-                {isLoggedIn ?
+                {userInfo?.userId ?
                     <Flex alignItems={'center'} gap={'6 '}>
                         <Menu sx>
                             <MenuButton>
@@ -42,8 +42,11 @@ function NavBar() {
                                     </MenuItem>
                                 </MenuGroup>
                                 <MenuDivider></MenuDivider>
-                                <MenuItem fontSize={'md'} fontWeight={'600'} sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/wyloguj'}>wyloguj</Link>
+                                <MenuItem onClick={()=>{
+                                    console.log('logout');
+                                    logoutHandler();
+                                }} fontSize={'md'} fontWeight={'600'} sx={{textTransform: "capitalize"}}>
+                                    wyloguj
                                 </MenuItem>
                             </MenuList>
                         </Menu>

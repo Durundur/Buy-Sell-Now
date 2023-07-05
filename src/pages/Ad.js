@@ -7,13 +7,11 @@ import Header from '../components/Header'
 import SecondaryText from '../components/SecondaryText'
 import { TfiHelpAlt, TfiAngleRight, TfiLocationPin, TfiMobile } from "react-icons/tfi";
 import useFetch from '../hooks/useFetch'
-
 function Ad() {
     const location = useLocation();
     const phoneNumber = useRef(null);
     const id = location.pathname.split("/")[2];
-    const {data, loading, error} = useFetch("https://buy-sell-now.fly.dev/api/v1/ads/" + id)
-    // const {data, loading, error} = useFetch('http://localhost:7000/api/v1/ads/' + id)
+    const {data, loading, error} = useFetch(process.env.REACT_APP_API_LOCAL + 'api/v1/ads/' + id)
     return (
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >

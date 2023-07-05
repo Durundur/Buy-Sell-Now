@@ -18,7 +18,7 @@ export default function EditAd(props) {
     const [callPost, setCallPost] = useState(false);
     const location = useLocation();
     const [data, setData] = useState();
-    const { response, isPosting, setIsPosting, postData } = usePost('https://buy-sell-now.fly.dev/api/v1/ads/', data, 'post')
+    const { response, isPosting, setIsPosting, postData } = usePost(process.env.REACT_APP_API_LOCAL + 'api/v1/ads/', data, 'post')
 
     const setCategoriesInAdData = () => {
         setData((prev) => {

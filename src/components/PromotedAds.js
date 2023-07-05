@@ -5,7 +5,7 @@ import Header from "./Header";
 import { useState } from "react";
 import useFetch from '../hooks/useFetch'
 function PromotedAds(){
-    const { data, loading, error } = useFetch("https://buy-sell-now.fly.dev/api/v1/ads");
+    const { data, loading, error } = useFetch(process.env.REACT_APP_API_LOCAL + 'api/v1/ads');
     return(
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
              <Container  maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}} >

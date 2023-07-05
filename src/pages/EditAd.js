@@ -18,8 +18,8 @@ export default function EditAd(props) {
     const [callPost, setCallPost] = useState(false);
     const location = useLocation();
     const id = location.pathname.split("/")[2] || null;
-    const {data, isLoading, error, setData} = useFetch("https://buy-sell-now.fly.dev/api/v1/ads/" + id)
-    const {response, isPosting, setIsPosting, postData} = usePost('https://buy-sell-now.fly.dev/api/v1/ads/' + id, data, 'put')
+    const {data, isLoading, error, setData} = useFetch(process.env.REACT_APP_API_LOCAL + 'api/v1/ads/' + id)
+    const {response, isPosting, setIsPosting, postData} = usePost(process.env.REACT_APP_API_LOCAL + 'api/v1/ads/' + id, data, 'put')
 
     const setCategoriesInAdData = () => {
         setData((prev) => {
