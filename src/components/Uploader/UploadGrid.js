@@ -83,9 +83,8 @@ const UploadGrid = forwardRef((props, ref) => {
 
 
 
-    // useEffect(() => {
-    //     console.log(files)
-    // }, [files])
+    useEffect(() => {
+    }, [files])
 
 
     const handleFilesChange = (event) => {
@@ -95,10 +94,10 @@ const UploadGrid = forwardRef((props, ref) => {
                 if (newFiles.length < 6)
                     newFiles.push(file)
             }
-            setFiles(newFiles)
+            setFiles(newFiles.reverse())
             return
         }
-        setFiles([...event.target.files])
+        setFiles([...event.target.files].reverse())
     }
     const handleDelete = async (index) => {
         let newFiles = [...files]

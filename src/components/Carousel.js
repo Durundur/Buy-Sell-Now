@@ -75,7 +75,7 @@ export default function Carousel(props) {
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {props.cards.map((url, index) => (
+        {props?.cards?.map((url, index) => (
           <Box
             key={index}
             height={'600px'}

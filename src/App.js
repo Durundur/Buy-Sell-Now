@@ -15,10 +15,12 @@ import TestCom from './components/TestCom';
 import { MyAccount, MyAds, MyRating, MySettings, MyShipments, ObservedAds, MyMessages } from './components/MyAccount';
 import ProtectedRoute from './utils/ProtectedRoute'
 import { AuthContextProvider } from './contexts';
+import ApiContextProvider from './contexts/ApiContext/ApiContextProvider';
 
 function App() {
   return (
     <AuthContextProvider>
+      <ApiContextProvider>
       <Router>
         <Routes>
           <Route path='/' element={[<NavBar />, <Footer />, ]}>
@@ -32,22 +34,25 @@ function App() {
               <Route path='rejestracja' element={<Register />}></Route>
               <Route path='nowe' element={<NewAd />}></Route>
               <Route path='edycja/:id' element={<EditAd />} />
+
               <Route path='moje-konto' element={
-              <ProtectedRoute redirect="logowanie">
-                <MyAccount />
-              </ProtectedRoute>}>
-                <Route path='ogloszenia' element={<MyAds activeTab={0} />}></Route>
-                <Route path='wiadomosci' element={<MyMessages activeTab={1} />}></Route>
-                <Route path='oceny' element={<MyRating activeTab={2} />}></Route>
-                <Route path='przesylki' element={<MyShipments activeTab={3} />}></Route>
-                <Route path='ustawienia' element={<MySettings activeTab={4} />}></Route>
-                <Route path='obserwowane' element={<ObservedAds activeTab={5} />}></Route>
+                    <ProtectedRoute redirect="logowanie">
+                      <MyAccount />
+                    </ProtectedRoute>}>
+                    <Route path='ogloszenia' element={<MyAds activeTab={0} />}></Route>
+                    <Route path='wiadomosci' element={<MyMessages activeTab={1} />}></Route>
+                    <Route path='oceny' element={<MyRating activeTab={2} />}></Route>
+                    <Route path='przesylki' element={<MyShipments activeTab={3} />}></Route>
+                    <Route path='ustawienia' element={<MySettings activeTab={4} />}></Route>
+                    <Route path='obserwowane' element={<ObservedAds activeTab={5} />}></Route>
               </Route>
+
             </Route>
             <Route path='test' element={<TestCom />}></Route>
           </Route>
         </Routes>
       </Router>
+      </ApiContextProvider>
       </AuthContextProvider>
   );
 }

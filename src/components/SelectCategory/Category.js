@@ -4,6 +4,7 @@ import CategoriesData from './CategoriesData'
 import MainCategorySelect from './MainCategorySelect'
 import { TfiAngleRight } from 'react-icons/tfi'
 import SecondaryText from '../../components/SecondaryText'
+
 export default function Category(props) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [mainCategoryImage, setMainCategoryImage] = useState()
@@ -67,16 +68,9 @@ export default function Category(props) {
     }
   }, [mainCategoryName, subCategoryName, subSubCategoryName])
 
-  useEffect(() => {
     if(props.value) {
       let val = props.value.split('.');
-      setMainCategoryName(val[0])
-      setSubCategoryName(val[1])
-      setSubSubCategoryName(val[2])
-      setMainCategoryImage(CategoriesData.find(o => o.name === val[0])?.picture)
-    }
-  }, [props.value])
-
+    }  
   return (
     <>
       <Button display={'inline-block'} onClick={onOpen} sx={{ 'width': 'calc(var(--chakra-sizes-container-sm)/2)', 'height': 'calc(var(--chakra-sizes-container-sm)/10)' }} mb={'30px'} variant={'solid'} colorScheme={'blue'}>

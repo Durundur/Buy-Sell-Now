@@ -4,14 +4,20 @@ import { Select, Button, Box, HStack, Modal, ModalBody, ModalCloseButton, ModalC
 import Success from './Alerts/Success';
 import useFetch from '../hooks/useFetch';
 import { AuthContextProvider } from '../contexts';
-
+import Category from './SelectCategory/Category';
 const TestCom = () => {
 
+    const [data, setData] = useState({
+        mainCategory: 'motoryzacja',
+        subCategory: 'samochody osobowe',
+        subSubCategory: 'audi'
+    })
+
     return (
-        <>
-        saddddasdasda
-            
-        </>
+        <Box py={10}>
+            <Category id={'category'} value={`${data?.mainCategory}.${data?.subCategory}.${data?.subSubCategory}`} onChange={(categories) => {}} />
+        </Box>
+
     );
 };
 

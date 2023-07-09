@@ -11,19 +11,16 @@ function Login() {
     const [show, setShow] = React.useState(false)
     const handleClick = () => setShow(!show)
     const [credentials, setCredentials] = useState({
-        username: '',
-        password: ''
+        username: 'admin',
+        password: 'admin'
     });
-    const { loginHandler, error, userInfo } = useAuthContext()
+    const { loginHandler, error, redirect } = useAuthContext()
 
     const handleSubmit = (e) => {
         e.preventDefault();
         loginHandler(credentials);
     }
-
-    if (userInfo?.userId !== undefined) {
-        navigate('/')
-    }
+    navigate(redirect);
 
     return (
         <Box bg={'gray.50'}>
@@ -32,43 +29,44 @@ function Login() {
                 <VStack gap={4}>
                     <Input onChange={(e) => {
                         setCredentials({
-                                ...credentials,
-                                username: e.target.value
+                            ...credentials,
+                            username: e.target.value
                         })
                     }} name={'username'} value={credentials.username} bg={'white'} placeholder='username' type={'string'}></Input>
-                <Box w={'100%'}>
-                    <InputGroup>
-                        <Input onChange={(e) => {
-                        setCredentials({
-                                ...credentials,
-                                password: e.target.value
-                        })
-                    }} value={credentials.password} name={'password'} bg={'white'} placeholder='hasło' type={show ? 'text' : 'password'}></Input>
-                        <InputRightElement width='4.5rem'>
-                            <Button h='1.75rem' size='sm' onClick={handleClick}>
-                                {show ? 'Pokaż' : 'Ukryj'}
-                            </Button>
-                        </InputRightElement>
+                    <Box w={'100%'}>
+                        <InputGroup>
+                            <Input onChange={(e) => {
+                                setCredentials({
+                                    ...credentials,
+                                    password: e.target.value
+                                })
+                            }} value={credentials.password} name={'password'} bg={'white'} placeholder='hasło' type={show ? 'text' : 'password'}></Input>
+                            <InputRightElement width='4.5rem'>
+                                <Button h='1.75rem' size='sm' onClick={handleClick}>
+                                    {show ? 'Pokaż' : 'Ukryj'}
+                                </Button>
+                            </InputRightElement>
 
-                    </InputGroup>
-                    <Link ><SecondaryText py={1}>Nie pamiętam hasła</SecondaryText></Link>
-                </Box>
-                <Box>
+                        </InputGroup>
+                        <Link ><SecondaryText py={1}>Nie pamiętam hasła</SecondaryText></Link>
+                    </Box>
+                    <Box>
 
-                    {error?.status === 401 && <Text>Nieprawidłowe dane logowania</Text>}
-                </Box>
-                <Button onClick={(e) => handleSubmit(e)} w={'50%'} colorScheme={'blue'} >Zaloguj się</Button>
-                <Button onClick={(e) => {
-                    setCredentials({username: 'admin', password: 'admin'})
-                    handleSubmit(e)}} w={'50%'} colorScheme={'blue'} >Zaloguj się jako Administrator</Button>
-                <SecondaryText align={'center'}>lub</SecondaryText>
-                <Button>
-                    <Link _hover={{ textDecoration: 'none' }} href='/rejestracja'>
-                        Zarejestruj się
-                    </Link>
-                </Button>
-            </VStack>
-        </Container>
+                        {error?.status === 401 && <Text>Nieprawidłowe dane logowania</Text>}
+                    </Box>
+                    <Button onClick={(e) => handleSubmit(e)} w={'50%'} colorScheme={'blue'} >Zaloguj się</Button>
+                    <Button onClick={(e) => {
+                        setCredentials({ username: 'admin', password: 'admin' })
+                        handleSubmit(e)
+                    }} w={'50%'} colorScheme={'blue'} >Zaloguj się jako Administrator</Button>
+                    <SecondaryText align={'center'}>lub</SecondaryText>
+                    <Button>
+                        <Link _hover={{ textDecoration: 'none' }} href='/rejestracja'>
+                            Zarejestruj się
+                        </Link>
+                    </Button>
+                </VStack>
+            </Container>
         </Box >
     )
 }

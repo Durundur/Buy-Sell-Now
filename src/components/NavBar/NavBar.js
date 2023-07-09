@@ -11,7 +11,7 @@ function NavBar() {
         <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
             <Flex justifyContent={'space-between'} alignItems={'center'} py={'2'}>
                 <Logo fontSize={{ base: 'md', md: 'lg' }}></Logo>
-                {userInfo?.userId ?
+                {userInfo ?
                     <Flex alignItems={'center'} gap={'6 '}>
                         <Menu sx>
                             <MenuButton>
@@ -43,7 +43,6 @@ function NavBar() {
                                 </MenuGroup>
                                 <MenuDivider></MenuDivider>
                                 <MenuItem onClick={()=>{
-                                    console.log('logout');
                                     logoutHandler();
                                 }} fontSize={'md'} fontWeight={'600'} sx={{textTransform: "capitalize"}}>
                                     wyloguj

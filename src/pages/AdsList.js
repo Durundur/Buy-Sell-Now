@@ -5,24 +5,40 @@ import AdPreviewListItem from '../components/AdPreview/AdPreviewListItem'
 import usePagination from '../hooks/usePagination';
 import useFetch from '../hooks/useFetch'
 import Pagination from '../components/Pagination';
-import LoadingSpinner from '../components/Spinner';
+import LoadingSpinner from '../components/LoadingSpinner';
+import Error from '../components/Error';
+import { useApiContext } from '../contexts';
 function AdsList (props){
     const {url, page} = usePagination(process.env.REACT_APP_API_LOCAL + 'api/v1/ads/?p=')
-    const {data, isLoading, error} = useFetch(url)  
-    
+    const [data, setData] = useState([]);
+    const { getAdsData, isLoading, error} = useApiContext()
+
+    useEffect(() => {
+        async function fetchData(){
+            const adsData = await getAdsData();
+            setData(adsData);
+        }   
+        let ignore = false;
+        if (!ignore) {
+            fetchData();
+        }
+        return () => {
+            ignore = true;
+        };
+    }, [])
     return (
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
-            <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >
-                {isLoading ? <LoadingSpinner/> : <VStack spacing={{base: 2, md: 4}}>
+            <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
+                {isLoading && <LoadingSpinner/>}
+                {(error?.response?.status >= 400) && <Error/>}
+                {!isLoading &&  (Object.keys(error).length === 0) && <VStack spacing={{base: 2, md: 4}}>
                     {data && data.map((ad)=>{
                         return <AdPreviewListItem key={ad._id} adData={ad}></AdPreviewListItem>
                     })}
-                </VStack> }
-                    
+                </VStack>}
                 <Pagination currentPage={page} startPage={1} endPage={4}></Pagination>
             </Container>   
-        </Box>
-        
+        </Box> 
     )
 }
 

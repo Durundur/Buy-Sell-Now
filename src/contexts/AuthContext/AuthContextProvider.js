@@ -5,7 +5,7 @@ export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
     const [error, setError] = useState({});
-
+    const [redirect, setRedirect] = useState('')
     const [userInfo, setUserInfo] = useState(
         localStorage.getItem("userInfo")
           ? JSON.parse(localStorage.getItem("userInfo"))
@@ -19,9 +19,10 @@ const AuthContextProvider = ({ children }) => {
             if (response?.status === 200 || response?.status === 201) {
                 localStorage.setItem(
                     "userInfo",
-                    JSON.stringify(response?.data?.user)
+                    JSON.stringify(response?.data?.userId)
                   );
-                  setUserInfo(response?.data?.user)
+                  setUserInfo(response?.data?.userId)
+                  setRedirect(response?.data?.redirect)
             }
         }catch (error) {
             setError(error.response)
@@ -41,7 +42,7 @@ const AuthContextProvider = ({ children }) => {
         }
     }
 
-    return (<AuthContext.Provider value={{ userInfo, loginHandler,logoutHandler, error }}>
+    return (<AuthContext.Provider value={{ userInfo, loginHandler, logoutHandler, error, redirect }}>
         {children}
     </AuthContext.Provider>)
 }

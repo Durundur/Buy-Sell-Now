@@ -6,7 +6,7 @@ import AdPreviewListItem from "../AdPreview/AdPreviewListItem";
 import useFetch from "../../hooks/useFetch";
 import Pagination from "../Pagination";
 import usePagination from "../../hooks/usePagination";
-import LoadingSpinner from "../Spinner";
+import LoadingSpinner from "../LoadingSpinner";
 
 function MyAds(props) {
     const [setActiveTab] = useOutletContext();
@@ -21,7 +21,7 @@ function MyAds(props) {
     return (
         <Box py={10} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >
-                {isLoading ? <LoadingSpinner/> : <VStack  refspacing={{ base: 2, md: 4 }}>
+                {isLoading ? <LoadingSpinner></LoadingSpinner> : <VStack  refspacing={{ base: 2, md: 4 }}>
                     {data && data.map((ad) => {
                         return <AdPreviewListItem type={'userAd'} key={ad._id} adData={ad}></AdPreviewListItem>
                     })}

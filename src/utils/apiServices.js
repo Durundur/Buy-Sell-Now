@@ -28,3 +28,16 @@ export const getAllAds = () => {
 export const getAd = (AdId) => {
     return axios({method: 'get', url: `${ADS_URL}/${AdId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' }})
 }
+
+export const postAd = (data) => {
+    return axios({method: 'post', url: ADS_URL, data: data, withCredentials: true, headers: { 'Content-Type': 'application/json' }})
+}
+
+export const updateAd = (data, AdId) => {
+    return axios({method: 'put', url: `${ADS_URL}/${AdId}`, data: data, withCredentials: true, headers: { 'Content-Type': 'application/json' }})
+}
+
+export const deleteAd = (AdId) => {
+    return axios({method: 'delete', url: `${ADS_URL}/${AdId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' }})
+}
+
