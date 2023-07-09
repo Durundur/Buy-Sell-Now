@@ -12,31 +12,20 @@ export default function NewAd(props) {
     const navigate = useNavigate();
     const uploaderRef = useRef()
     const [charCounter, setCharCounter] = useState(0)
-    const [categories, setCategories] = useState();
-    const [categoryFields, setCategoryFields] = useState()
-    const location = useLocation();
-    const { isLoading, error, postAdData } = useApiContext()
+    const {isLoading, error, postAdData } = useApiContext()
     const [data, setData] = useState({})
+    const [categoryFields, setCategoryFields] = useState([]);
 
 
-
-    const setCategoriesInAdData = () => {
-        setData((prev) => {
-            return { ...prev, 'mainCategory': categories[0], 'subCategory': categories[1], 'subSubCategory': categories[2] }
-        })
-    }
-
-
-    const handleSubmitButton = async () => {
-        setCategoriesInAdData();
+    const handleSubmitButton = async (e) => {
         try {
             let adImagesUrls = await uploaderRef.current.postFiles();
             setData((prev) => {
                 prev['images'] = adImagesUrls;
                 return prev;
             })
-            data['images'] = adImagesUrls;
-            const response = await postAdData(data)
+            data["images"] = adImagesUrls
+            const response = await postAdData(data);
             navigate(response.redirect)
         } catch (error) {
             console.log(error)
@@ -58,13 +47,15 @@ export default function NewAd(props) {
         setData(updatedData);
     };
 
-    useEffect(() => {
-        if (categories) {
-            if (categoriesFields) {
-                setCategoryFields(categoriesFields.find(o => o.subCategoryName.includes(categories[1]))?.fields)
-            }
+    const handleCategoryChange = (categoryData) => {
+        let categoryKeys = Object.keys(categoryData);
+        let updatedData = { ...data }
+        for(let categoryKey of categoryKeys){
+            updatedData[categoryKey] = categoryData[categoryKey];
         }
-    }, [categories])
+        if(categoryKeys.includes('subCategory')) setCategoryFields(categoriesFields.find(o => o.subCategoryName.includes(data.subCategory))?.fields)
+        setData(updatedData);
+    }
 
     const formatDescritpion = (text) => {
         return text?.replace(/<br\s*[\/]?>/gi, "\n")
@@ -78,7 +69,7 @@ export default function NewAd(props) {
                     {isLoading && <LoadingSpinner></LoadingSpinner>}
                     {(error?.response?.status >= 400) && <Error error={error}></Error>}
                     {!isLoading && (Object.keys(error).length === 0) && <>
-                        <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
+                        <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Dodaj ogłoszenie</Text>
                         <Flex gap={'20px'} flexDirection={'column'}>
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                 <Box maxW={'container.sm'}>
@@ -86,7 +77,7 @@ export default function NewAd(props) {
                                     <Text mb={'10px'}>Tytuł ogłoszenia</Text>
                                     <Input shadow={'md'} variant="filled" bg={'gray.50'} value={data?.tittle} onChange={(e) => handleInputChange(e)} name={'tittle'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                                     <Text mb={'10px'}>Kategoria</Text>
-                                    <Category id={'category'} value={`${data?.mainCategory}.${data?.subCategory}.${data?.subSubCategory}`} onChange={(categories) => { setCategories(categories) }} />
+                                    <Category id={'category'} mainCategory={data.mainCategory} subCategory={data.subCategory} subSubCategory={data.subSubCategory} onChange={(categoryData)=>{handleCategoryChange(categoryData)}} />
                                 </Box>
                             </Box>
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -107,7 +98,6 @@ export default function NewAd(props) {
                                     </Flex>
                                 </Box>
                             </Box>
-
                             {
                                 categoryFields &&
                                 <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>

@@ -13,9 +13,18 @@ const TestCom = () => {
         subSubCategory: 'audi'
     })
 
+    const handleCategoryChange = (categoryData) => {
+        let categoryKeys = Object.keys(categoryData);
+        let updatedData = { ...data }
+        for(let categoryKey of categoryKeys){
+            updatedData[categoryKey] = categoryData[categoryKey];
+        }
+        setData(updatedData);
+    }
+
     return (
         <Box py={10}>
-            <Category id={'category'} value={`${data?.mainCategory}.${data?.subCategory}.${data?.subSubCategory}`} onChange={(categories) => {}} />
+            <Category id={'category'} mainCategory={data.mainCategory} subCategory={data.subCategory} subSubCategory={data.subSubCategory} onChange={(categoryData)=>{handleCategoryChange(categoryData)}} />
         </Box>
 
     );

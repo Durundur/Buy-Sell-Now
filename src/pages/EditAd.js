@@ -8,22 +8,22 @@ import categoriesFields from "../components/categoriesFields";
 import LoadingSpinner from "../components/LoadingSpinner"
 import { useApiContext } from "../contexts";
 import Error from "../components/Error";
-export default function EditAd(props) {
 
+export default function EditAd(props) {
     const navigate = useNavigate();
     const uploaderRef = useRef()
     const [charCounter, setCharCounter] = useState(0)
-    const [categories, setCategories] = useState();
-    const [categoryFields, setCategoryFields] = useState()
     const location = useLocation();
     const id = location.pathname.split("/")[2] || null;
     const { getAdData, isLoading, error, updateAdData } = useApiContext()
     const [data, setData] = useState({})
-    
+    const [categoryFields, setCategoryFields] = useState([]);
+
     useEffect(() => {
         async function fetchData() {
             const adData = await getAdData(id);
             setData(adData);
+            setCategoryFields(categoriesFields.find(o => o.subCategoryName.includes(adData.subCategory))?.fields)
         }
         let ignore = false;
         if (!ignore) {
@@ -34,16 +34,7 @@ export default function EditAd(props) {
         };
     }, [])
 
-
-    const setCategoriesInAdData = () => {
-        setData((prev) => {
-            return { ...prev, 'mainCategory': categories[0], 'subCategory': categories[1], 'subSubCategory': categories[2] }
-        })
-    }
-
-
     const handleSubmitButton = async (e) => {
-        setCategoriesInAdData();
         try {
             let adImagesUrls = await uploaderRef.current.postFiles();
             setData((prev) => {
@@ -73,12 +64,15 @@ export default function EditAd(props) {
         setData(updatedData);
     };
 
-    if (categories) {
-        if (categoriesFields) {
-            setCategoryFields(categoriesFields.find(o => o.subCategoryName.includes(categories[1]))?.fields)
+    const handleCategoryChange = (categoryData) => {
+        let categoryKeys = Object.keys(categoryData);
+        let updatedData = { ...data }
+        for(let categoryKey of categoryKeys){
+            updatedData[categoryKey] = categoryData[categoryKey];
         }
+        if(categoryKeys.includes('subCategory')) setCategoryFields(categoriesFields.find(o => o.subCategoryName.includes(data.subCategory))?.fields)
+        setData(updatedData);
     }
-
 
     const formatDescritpion = (text) => {
         return text?.replace(/<br\s*[\/]?>/gi, "\n")
@@ -100,7 +94,7 @@ export default function EditAd(props) {
                                     <Text mb={'10px'}>Tytuł ogłoszenia</Text>
                                     <Input shadow={'md'} variant="filled" bg={'gray.50'} value={data?.tittle} onChange={(e) => handleInputChange(e)} name={'tittle'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                                     <Text mb={'10px'}>Kategoria</Text>
-                                    <Category id={'category'} value={`${data?.mainCategory}.${data?.subCategory}.${data?.subSubCategory}`} onChange={(categories) => { setCategories(categories) }} />
+                                    <Category id={'category'} mainCategory={data.mainCategory} subCategory={data.subCategory} subSubCategory={data.subSubCategory} onChange={(categoryData)=>{handleCategoryChange(categoryData)}} />
                                 </Box>
                             </Box>
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -121,7 +115,6 @@ export default function EditAd(props) {
                                     </Flex>
                                 </Box>
                             </Box>
-
                             {
                                 categoryFields &&
                                 <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
