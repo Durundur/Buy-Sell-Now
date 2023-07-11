@@ -11,12 +11,17 @@ import { useApiContext } from '../contexts';
 function AdsList (props){
     const {url, page} = usePagination(process.env.REACT_APP_API_LOCAL + 'api/v1/ads/?p=')
     const [data, setData] = useState([]);
-    const { getAdsData, isLoading, error} = useApiContext()
+    const [error, setError] = useState();
+    const { getAdsData, isLoading} = useApiContext()
 
     useEffect(() => {
         async function fetchData(){
-            const adsData = await getAdsData();
-            setData(adsData);
+            const response = await getAdsData();
+            if(response.status === 200){
+                setData(response.data);
+                return;
+            }
+            setError(response)
         }   
         let ignore = false;
         if (!ignore) {
@@ -30,8 +35,8 @@ function AdsList (props){
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
                 {isLoading && <LoadingSpinner/>}
-                {(error?.response?.status >= 400) && <Error/>}
-                {!isLoading &&  (Object.keys(error).length === 0) && <VStack spacing={{base: 2, md: 4}}>
+                {error && <Error/>}
+                {!isLoading && !error && <VStack spacing={{base: 2, md: 4}}>
                     {data && data.map((ad)=>{
                         return <AdPreviewListItem key={ad._id} adData={ad}></AdPreviewListItem>
                     })}

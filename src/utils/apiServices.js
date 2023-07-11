@@ -5,7 +5,7 @@ const baseURL = process.env.REACT_APP_API_LOCAL
 const LOGIN_URL = `${baseURL}api/v1/auth/login`
 const LOGOUT_URL = `${baseURL}api/v1/auth/logout`
 const SIGNUP_URL =  `${baseURL}api/v1/auth/register`
-const ADS_URL =  `${baseURL}api/v1/ads/`
+const ADS_URL =  `${baseURL}api/v1/ads`
 
 
 
@@ -27,6 +27,10 @@ export const getAllAds = () => {
 
 export const getAd = (AdId) => {
     return axios({method: 'get', url: `${ADS_URL}/${AdId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' }})
+}
+
+export const getUserAds = (userId) => {
+    return axios({method: 'get', url: `${ADS_URL}/user/${userId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' }})
 }
 
 export const postAd = (data) => {

@@ -8,55 +8,55 @@ const categoriesFields = [
             placeholder: 'zł'
         }, {
             label: "model",
-            name: "model",
+            name: "details.model",
             type: "text",
             placeholder: ""
         }, {
             label: "numer VIN",
-            name: "vinNumber",
+            name: "details.vinNumber",
             type: "text",
             placeholder: ""
         }, {
             label: "rok produkcji",
-            name: "productionYear",
+            name: "details.productionYear",
             type: "text",
             placeholder: ""
         }, {
             label: "moc silnika",
-            name: "enginePower",
+            name: "details.enginePower",
             type: "text",
             placeholder: "KM"
         }, {
             label: "poj. silnika",
-            name: "engineSize",
+            name: "details.engineSize",
             type: "text",
             placeholder: "cm3"
         }, {
             label: "paliwo",
-            name: "fuel",
+            name: "details.fuel",
             type: "select",
             values: ['diesel', 'benzyna', 'lpg', 'elektryczny', 'hybryda'],
             placeholder: "wybierz"
         }, {
             label: "przebieg",
-            name: "mileage",
+            name: "details.mileage",
             type: "text",
             placeholder: "km"
         }, {
             label: "stan techniczny",
-            name: "condition",
+            name: "details.condition",
             type: "select",
             values: ['nieuszkodzony', 'uszkodzony'],
             placeholder: "wybierz"
         }, {
             label: 'skrzynia biegów',
-            name: "transmission",
+            name: "details.transmission",
             type: "select",
             placeholder: "wybierz",
             values: ['automatyczna', 'manualna']
         }, {
             label: 'napęd',
-            name: "driveType",
+            name: "details.driveType",
             type: "select",
             placeholder: "wybierz",
             values: ['4x4', 'przód', 'tył']
@@ -71,27 +71,27 @@ const categoriesFields = [
             placeholder: 'zł'
         }, {
             label: "marka",
-            name: "brand",
+            name: "details.brand",
             type: "text",
             placeholder: ""
         }, {
             label: "poj. silnika",
-            name: "engineSize",
+            name: "details.engineSize",
             type: "text",
             placeholder: "cm3"
         }, {
             label: "stan techniczny",
-            name: "condition",
+            name: "details.condition",
             type: "select",
             values: ['nieuszkodzony', 'uszkodzony'],
             placeholder: "wybierz"
         }, {
             label: "rok produkcji",
-            name: "productionYear",
+            name: "details.productionYear",
             type: "text",
             placeholder: ""
         }, {
-            name: "enginePower",
+            name: "details.enginePower",
             type: "text",
             placeholder: "KM"
         }]
@@ -104,17 +104,17 @@ const categoriesFields = [
             placeholder: 'zł'
         }, {
             label: "rok produkcji",
-            name: "productionYear",
+            name: "details.productionYear",
             type: "text",
             placeholder: ""
         }, {
             label: "przebieg",
-            name: "mileage",
+            name: "details.mileage",
             type: "text",
             placeholder: "km"
         }, {
             label: "stan techniczny",
-            name: "condition",
+            name: "details.condition",
             type: "select",
             values: ['nieuszkodzony', 'uszkodzony'],
             placeholder: "wybierz"
@@ -128,7 +128,7 @@ const categoriesFields = [
             placeholder: 'zł'
         }, {
             label: "stan techniczny",
-            name: "condition",
+            name: "details.condition",
             type: "select",
             values: ['używany', 'nowy'],
             placeholder: "wybierz"
@@ -138,31 +138,31 @@ const categoriesFields = [
         fields: [
             {
                 label: 'poziom',
-                name: 'level',
+                name: 'details.level',
                 type: "select",
                 values: ['parter', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'powyżej 10', 'poddasze'],
                 placeholder: "wybierz"
             },
             {
                 label: 'rodzaj zabudowy',
-                name: 'buildingType',
+                name: 'details.buildingType',
                 placeholder: "wybierz",
                 type: "select",
                 values: ['blok', 'kamienica', 'apartamentowiec', 'pozostałe'],
             }, {
                 label: 'powierzchnia',
-                name: 'livingArea',
+                name: 'details.livingArea',
                 placeholder: 'm3',
                 type: 'text',
             }, {
                 label: 'liczba pokoi',
-                name: 'numberOfRooms',
+                name: 'details.numberOfRooms',
                 placeholder: 'wybierz',
                 type: 'select',
                 values: ['1', '2', '3', '4 i więcej']
             }, {
                 label: 'czynsz',
-                name: 'rent',
+                name: 'details.rent',
                 placeholder: 'zł',
                 type: 'text',
             }
@@ -172,24 +172,24 @@ const categoriesFields = [
         fields: [
             {
                 label: 'powierzchnia',
-                name: 'livingArea',
+                name: 'details.livingArea',
                 placeholder: 'm2',
                 type: 'text',
             }, {
                 label: 'powierzchnia działki',
-                name: 'plotArea',
+                name: 'details.plotArea',
                 placeholder: 'm2',
                 type: 'text',
             },
             {
                 label: 'rodzaj zabudowy',
-                name: 'buildingType',
+                name: 'details.buildingType',
                 placeholder: "wybierz",
                 type: "select",
                 values: ['wolnostojący', 'bliźniak', 'szeregowiec', 'gospodarstwo', 'pozostałe'],
             }, {
                 label: 'liczba pokoi',
-                name: 'numberOfRooms',
+                name: 'details.numberOfRooms',
                 placeholder: 'wybierz',
                 type: 'select',
                 values: ['1', '2', '3', '4 i więcej']
@@ -204,7 +204,7 @@ const categoriesFields = [
             placeholder: 'zł'
         }, {
             label: 'powierzchnia działki',
-            name: 'plotArea',
+            name: 'details.plotArea',
             placeholder: 'm2',
             type: 'text',
         },
@@ -218,7 +218,7 @@ const categoriesFields = [
             placeholder: 'zł'
         }, {
             label: 'powierzchnia',
-            name: 'livingArea',
+            name: 'details.livingArea',
             placeholder: 'm2',
             type: 'text',
         },

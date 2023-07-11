@@ -12,10 +12,16 @@ export default function NewAd(props) {
     const navigate = useNavigate();
     const uploaderRef = useRef()
     const [charCounter, setCharCounter] = useState(0)
-    const {isLoading, error, postAdData } = useApiContext()
-    const [data, setData] = useState({})
-    const [categoryFields, setCategoryFields] = useState([]);
+    const { isLoading, postAdData } = useApiContext()
+    const [data, setData] = useState({
 
+    })
+    const [categoryFields, setCategoryFields] = useState();
+    const [error, setError] = useState();
+
+    useEffect(() => {
+        console.log(data)
+    }, [data])
 
     const handleSubmitButton = async (e) => {
         try {
@@ -26,16 +32,18 @@ export default function NewAd(props) {
             })
             data["images"] = adImagesUrls
             const response = await postAdData(data);
-            navigate(response.redirect)
+            if (response.status === 200) {
+                navigate(response.redirect)
+            }
+
         } catch (error) {
-            console.log(error)
+            setError(error)
         }
     }
     const handleInputChange = (e) => {
         const value = e.target.value;
         const name = e.target.name.split(".");
         let updatedData = { ...data };
-
         let target = updatedData;
         for (const key of name.slice(0, -1)) {
             if (!target.hasOwnProperty(key)) {
@@ -50,11 +58,14 @@ export default function NewAd(props) {
     const handleCategoryChange = (categoryData) => {
         let categoryKeys = Object.keys(categoryData);
         let updatedData = { ...data }
-        for(let categoryKey of categoryKeys){
+        for (let categoryKey of categoryKeys) {
             updatedData[categoryKey] = categoryData[categoryKey];
         }
-        if(categoryKeys.includes('subCategory')) setCategoryFields(categoriesFields.find(o => o.subCategoryName.includes(data.subCategory))?.fields)
         setData(updatedData);
+        if (categoryKeys.includes('subCategory') && categoryData['subCategory'] !== null) {
+            setCategoryFields(categoriesFields.find(o => o.subCategoryName.includes(categoryData['subCategory']))?.fields)
+        }
+
     }
 
     const formatDescritpion = (text) => {
@@ -67,8 +78,8 @@ export default function NewAd(props) {
             <Box pt={'30px'} color={'blue.900'} bg={'gray.50'}>
                 <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >
                     {isLoading && <LoadingSpinner></LoadingSpinner>}
-                    {(error?.response?.status >= 400) && <Error error={error}></Error>}
-                    {!isLoading && (Object.keys(error).length === 0) && <>
+                    {error && <Error error={error}></Error>}
+                    {!isLoading && !error && <>
                         <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Dodaj ogłoszenie</Text>
                         <Flex gap={'20px'} flexDirection={'column'}>
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -77,7 +88,7 @@ export default function NewAd(props) {
                                     <Text mb={'10px'}>Tytuł ogłoszenia</Text>
                                     <Input shadow={'md'} variant="filled" bg={'gray.50'} value={data?.tittle} onChange={(e) => handleInputChange(e)} name={'tittle'} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                                     <Text mb={'10px'}>Kategoria</Text>
-                                    <Category id={'category'} mainCategory={data.mainCategory} subCategory={data.subCategory} subSubCategory={data.subSubCategory} onChange={(categoryData)=>{handleCategoryChange(categoryData)}} />
+                                    <Category id={'category'} mainCategory={data.mainCategory} subCategory={data.subCategory} subSubCategory={data.subSubCategory} onChange={(categoryData) => { handleCategoryChange(categoryData) }} />
                                 </Box>
                             </Box>
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -105,36 +116,32 @@ export default function NewAd(props) {
                                         <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dodatkowe informacje</Text>
                                         {
                                             categoryFields.map((field) => {
-                                                let fieldKeys = field.name?.split('.')
+                                                let fieldKeys = field?.name.split('.')
                                                 let refValue = data
-                                                for (let key of fieldKeys) {
-                                                    if (refValue.hasOwnProperty(key)) {
-                                                        refValue = refValue[key]
-                                                    }
+                                                for (let i = 0; i < fieldKeys.length - 1; i++) {
+                                                    refValue = refValue?.[fieldKeys[i]]
                                                 }
+                                                const fieldValue = refValue?.[fieldKeys[fieldKeys.length - 1]] || ''
                                                 return (
                                                     <Box key={field?.name + field?.type}>
                                                         <Text textTransform={'capitalize'} mb={'10px'}>{field?.label}</Text>
                                                         {
                                                             field?.type === 'select' ?
-                                                                <Select shadow={'sm'} variant="filled" bg={'gray.50'} textTransform={'capitalize'} onChange={(e) => handleInputChange(e)} name={field?.name} value={refValue} autoComplete={'off'} mb={'30px'} size={'md'}>
-                                                                    <option hidden disabled >{field.placeholder}</option>
-                                                                    {
-                                                                        field.values.map((option, index) => {
-                                                                            return (
-                                                                                <option key={field?.label + field?.name + index} value={option}>{option}</option>
-                                                                            )
-                                                                        })
-                                                                    }
+                                                                <Select shadow={'sm'} variant="filled" bg={'gray.50'} textTransform={'capitalize'} onChange={(e) => handleInputChange(e)} name={field?.name}  autoComplete={'off'} mb={'30px'} size={'md'}>
+                                                                    <option selected disabled hidden>{field.placeholder}</option>
+                                                                    {field.values.map((option, index) => {
+                                                                        return (
+                                                                            <option key={field?.label + field?.name + index} value={option}>{option}</option>
+                                                                        )
+                                                                    })}
                                                                 </Select>
-                                                                : <Input value={refValue} key={field?.label + field?.name} shadow={'sm'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} placeholder={field?.placeholder} type={field?.type} name={field?.name} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
+                                                                : <Input value={fieldValue} key={field?.label + field?.name} shadow={'sm'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} placeholder={field?.placeholder} type={field?.type} name={field?.name} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                                                         }
 
                                                     </Box>
                                                 )
                                             })
                                         }
-
                                     </Box>
                                 </Box>
                             }

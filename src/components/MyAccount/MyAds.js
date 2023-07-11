@@ -7,16 +7,39 @@ import useFetch from "../../hooks/useFetch";
 import Pagination from "../Pagination";
 import usePagination from "../../hooks/usePagination";
 import LoadingSpinner from "../LoadingSpinner";
+import {useApiContext} from "../../contexts"
+import { useAuthContext } from "../../contexts";
+import { redirect } from "react-router-dom";
+
+
 
 function MyAds(props) {
-    const [setActiveTab] = useOutletContext();
+    // const {url, page} = usePagination("https://buy-sell-now.fly.dev/api/v1/ads/?p=")
+    // const { data, isLoading, error } = useFetch(url)
+    const {userInfo} = useAuthContext();
+    const {isLoading, getUserAdsData } = useApiContext();
+    const [data, setData] = useState();
+    const [error, setError] = useState();
+    
+
     useEffect(() => {
-        setActiveTab(props.activeTab)
-    }, [props.activeTab])
-
-    const {url, page} = usePagination("https://buy-sell-now.fly.dev/api/v1/ads/?p=")
-    const { data, isLoading, error } = useFetch(url)
-
+        async function fetchData() {
+            const response = await getUserAdsData(userInfo);
+            if(response.status === 200){
+                setData(response.data);
+                return;
+            }
+            setError(response);
+            
+        }
+        let ignore = false;
+        if (!ignore) {
+            fetchData();
+        }
+        return () => {
+            ignore = true;
+        };
+    }, [])
 
     return (
         <Box py={10} color={'blue.900'} bg={'gray.50'}>
@@ -26,7 +49,7 @@ function MyAds(props) {
                         return <AdPreviewListItem type={'userAd'} key={ad._id} adData={ad}></AdPreviewListItem>
                     })}
                 </VStack> }
-                <Pagination currentPage={page} startPage={1} endPage={4}></Pagination>
+                {/* <Pagination currentPage={page} startPage={1} endPage={4}></Pagination> */}
             </Container>
         </Box>
     )

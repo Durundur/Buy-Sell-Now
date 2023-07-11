@@ -11,16 +11,16 @@ function Login() {
     const [show, setShow] = React.useState(false)
     const handleClick = () => setShow(!show)
     const [credentials, setCredentials] = useState({
-        username: 'admin',
-        password: 'admin'
+        username: 'user',
+        password: 'user'
     });
-    const { loginHandler, error, redirect } = useAuthContext()
+    const { loginHandler, error } = useAuthContext()
 
     const handleSubmit = (e) => {
         e.preventDefault();
         loginHandler(credentials);
     }
-    navigate(redirect);
+    // navigate(redirect);
 
     return (
         <Box bg={'gray.50'}>

@@ -13,12 +13,19 @@ function Ad() {
     const location = useLocation();
     const phoneNumber = useRef(null);
     const id = location.pathname.split("/")[2];
-    const { getAdData, isLoading, error } = useApiContext()
-    const [data, setData] = useState()
+    const { getAdData, isLoading} = useApiContext()
+
+    const [data, setData] = useState();
+    const [error, setError] = useState();
+
     useEffect(() => {
         async function fetchData(){
-            const adData = await getAdData(id);
-            setData(adData); 
+            const response = await getAdData(id);
+            if(response.status === 200){
+                setData(response.data);
+                return;
+            }
+            setError(response)
         }
         let ignore = false;
         if (!ignore) {
@@ -29,12 +36,14 @@ function Ad() {
         };
     }, [])
 
+
+
     return (
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >
                 {isLoading && <LoadingSpinner></LoadingSpinner>}
-                {(error?.response?.status >= 400) && <Error error = {error}></Error>}
-                {!isLoading &&  (Object.keys(error).length === 0) && <>
+                {error && <Error error = {error}></Error>}
+                {!isLoading && !error && <>
                     <Flex gap={'20px'} display={'flex'} flexDirection={'row'}>
                         <Flex gap={'20px'} width={'70%'} flexDirection={'column'}>
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>

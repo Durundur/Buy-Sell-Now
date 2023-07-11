@@ -15,15 +15,22 @@ export default function EditAd(props) {
     const [charCounter, setCharCounter] = useState(0)
     const location = useLocation();
     const id = location.pathname.split("/")[2] || null;
-    const { getAdData, isLoading, error, updateAdData } = useApiContext()
+    const { getAdData, isLoading, updateAdData } = useApiContext()
     const [data, setData] = useState({})
     const [categoryFields, setCategoryFields] = useState([]);
+    const [error, setError] = useState();
+
 
     useEffect(() => {
         async function fetchData() {
-            const adData = await getAdData(id);
-            setData(adData);
-            setCategoryFields(categoriesFields.find(o => o.subCategoryName.includes(adData.subCategory))?.fields)
+            const response = await getAdData(id);
+            if(response.status === 200){
+                setData(response.data);
+                setCategoryFields(categoriesFields.find(o => o.subCategoryName.includes(response.data.subCategory))?.fields)
+                return;
+            }
+            setError(response)
+
         }
         let ignore = false;
         if (!ignore) {
@@ -43,9 +50,9 @@ export default function EditAd(props) {
             })
             data["images"] = adImagesUrls
             const response = await updateAdData(data, id)
-            navigate(response.redirect)
+            navigate(response.data.redirect)
         } catch (error) {
-            console.log(error)
+            setError(error)
         }
     }
     const handleInputChange = (e) => {
@@ -84,8 +91,8 @@ export default function EditAd(props) {
             <Box pt={'30px'} color={'blue.900'} bg={'gray.50'}>
                 <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >
                     {isLoading && <LoadingSpinner></LoadingSpinner>}
-                    {(error?.response?.status >= 400) && <Error error={error}></Error>}
-                    {!isLoading && (Object.keys(error).length === 0) && <>
+                    {error && <Error error={error}></Error>}
+                    {!isLoading && !error && <>
                         <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
                         <Flex gap={'20px'} flexDirection={'column'}>
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -124,17 +131,16 @@ export default function EditAd(props) {
                                             categoryFields.map((field) => {
                                                 let fieldKeys = field.name?.split('.')
                                                 let refValue = data
-                                                for (let key of fieldKeys) {
-                                                    if (refValue.hasOwnProperty(key)) {
-                                                        refValue = refValue[key]
-                                                    }
+                                                for (let i = 0; i < fieldKeys.length - 1; i++) {
+                                                    refValue = refValue?.[fieldKeys[i]]
                                                 }
+                                                const fieldValue = refValue?.[fieldKeys[fieldKeys.length - 1]] || ''
                                                 return (
                                                     <Box key={field?.name + field?.type}>
                                                         <Text textTransform={'capitalize'} mb={'10px'}>{field?.label}</Text>
                                                         {
                                                             field?.type === 'select' ?
-                                                                <Select shadow={'sm'} variant="filled" bg={'gray.50'} textTransform={'capitalize'} onChange={(e) => handleInputChange(e)} name={field?.name} value={refValue} autoComplete={'off'} mb={'30px'} size={'md'}>
+                                                                <Select shadow={'sm'} variant="filled" bg={'gray.50'} textTransform={'capitalize'} onChange={(e) => handleInputChange(e)} name={field?.name} value={fieldValue} autoComplete={'off'} mb={'30px'} size={'md'}>
                                                                     <option hidden disabled >{field.placeholder}</option>
                                                                     {
                                                                         field.values.map((option, index) => {
@@ -144,14 +150,13 @@ export default function EditAd(props) {
                                                                         })
                                                                     }
                                                                 </Select>
-                                                                : <Input value={refValue} key={field?.label + field?.name} shadow={'sm'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} placeholder={field?.placeholder} type={field?.type} name={field?.name} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
+                                                                : <Input value={fieldValue} key={field?.label + field?.name} shadow={'sm'} variant="filled" bg={'gray.50'} onChange={(e) => handleInputChange(e)} placeholder={field?.placeholder} type={field?.type} name={field?.name} autoComplete={'off'} mb={'30px'} size={'md'}></Input>
                                                         }
 
                                                     </Box>
                                                 )
                                             })
                                         }
-
                                     </Box>
                                 </Box>
                             }

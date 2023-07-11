@@ -4,9 +4,21 @@ import { Link, Outlet } from "react-router-dom";
 import { IoAdd, IoPersonAddOutline } from "react-icons/io5";
 import Logo from '../Logo'
 import { useAuthContext } from "../../contexts";
+import axios from "axios";
 
 function NavBar() {
     const {userInfo, logoutHandler} = useAuthContext();
+
+    const test = async () => {
+        try{
+            const response = await axios.get(process.env.REACT_APP_API_LOCAL + 'api/v1/auth/auth')
+            console.log(response)
+        }
+        catch(eror){
+            console.log(eror)
+        }
+    }
+
     return (<><Box boxShadow={'sm'}>
         <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
             <Flex justifyContent={'space-between'} alignItems={'center'} py={'2'}>
@@ -37,7 +49,9 @@ function NavBar() {
                                 </MenuGroup>
                                 <MenuDivider></MenuDivider>
                                 <MenuGroup fontSize={'md'} title="Ogłoszenia">
-                                    <MenuItem sx={{textTransform: "capitalize"}}>
+                                    <MenuItem onClick={()=>{
+                                        test();
+                                    }} sx={{textTransform: "capitalize"}}>
                                     <Link to={'/moje-konto/obserwowane'}>obserwowane</Link>
                                     </MenuItem>
                                 </MenuGroup>
