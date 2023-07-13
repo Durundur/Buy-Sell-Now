@@ -2,15 +2,16 @@ import { Flex, VStack, Text, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 
-export default function Error({error}){
+export default function Error({error, variant="error"}){
     return(
         <VStack py="12">
-            <Text fontWeight={'bold'} fontSize={'3xl'}>Whoops, something went wrong.</Text>
-            <Text fontSize={'xl'}>{error.message}</Text>
-            <Text fontSize={'xl'}>{error.status}</Text>
+            { variant==='error' && <Text fontWeight={'bold'} fontSize={'2xl'}>Whoops, something went wrong.</Text>}
+            <Text fontSize={'lg'}>{error.data.message}</Text>
+            {variant==='error' && <Text fontSize={'lg'}>{error.status}</Text>}
+            { variant==='error' && <>
             <Link to={'/'}>
                 <Button size={{ base: 'sm', md: 'md' }} colorScheme={'blue'}>Strona główna</Button>
-            </Link>
+            </Link> </> }
         </VStack>
     )
 }

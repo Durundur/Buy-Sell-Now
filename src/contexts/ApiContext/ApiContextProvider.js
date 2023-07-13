@@ -7,10 +7,10 @@ const ApiContextProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false)
 
 
-    const getAdsData = async () => {
+    const getAdsData = async (page) => {
         setIsLoading(true);
         try{
-            const response = await getAllAds();
+            const response = await getAllAds(page);
             return response;
         } catch(error){
            return error.response;

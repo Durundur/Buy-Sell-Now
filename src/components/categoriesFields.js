@@ -114,7 +114,7 @@ const categoriesFields = [
             placeholder: "km"
         }, {
             label: "stan techniczny",
-            name: "details.condition",
+            name: "details.techCondition",
             type: "select",
             values: ['nieuszkodzony', 'uszkodzony'],
             placeholder: "wybierz"
@@ -257,6 +257,20 @@ const categoriesFields = [
             name: 'price.value',
             type: 'text',
             placeholder: 'zł'
+        },
+        {
+            label: "stan techniczny",
+            name: "details.techCondition",
+            type: "select",
+            values: ['nieuszkodzony', 'uszkodzony'],
+            placeholder: "wybierz"
+        },
+        {
+            label: "stan",
+            name: "details.condition",
+            type: "select",
+            values: ['używany', 'nowy'],
+            placeholder: "wybierz"
         }
         ]
     },{
@@ -266,6 +280,13 @@ const categoriesFields = [
             name: 'price.value',
             type: 'text',
             placeholder: 'zł'
+        },
+        {
+            label: "stan",
+            name: "details.condition",
+            type: "select",
+            values: ['używany', 'nowy'],
+            placeholder: "wybierz"
         }
         ]
     },{
@@ -275,7 +296,18 @@ const categoriesFields = [
             name: 'price.value',
             type: 'text',
             placeholder: 'zł'
-        }
+        },{
+            label: "stan",
+            name: "details.condition",
+            type: "select",
+            values: ['używany', 'nowy'],
+            placeholder: "wybierz"
+        },{
+            label: "rok produkcji",
+            name: "details.productionYear",
+            type: "text",
+            placeholder: ""
+        },
         ]
     },{
         subCategoryName: ['karma i przysmaki', 'psy', 'koty', 'ptaki','gryzonie i króliki','pozostałe w zwierzęta'],
@@ -315,12 +347,13 @@ const categoriesFields = [
         ]
     },{
         subCategoryName: ['usługi', 'wyposażenie firm', 'pozostałe w usługi'],
-        fields: [{
-            label: 'cena',
-            name: 'price.value',
-            type: 'text',
-            placeholder: 'zł'
-        }
+        fields: [
+        //     {
+        //     label: 'cena',
+        //     name: 'price.value',
+        //     type: 'text',
+        //     placeholder: 'zł'
+        // }
         ]
     }
 

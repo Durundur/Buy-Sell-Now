@@ -1,21 +1,47 @@
 import {Box, Button, Container, Input, InputGroup, VStack, Checkbox, InputRightElement, HStack } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from './Header'
 import SecondaryText from './SecondaryText'
-import React from 'react'
-
+import React, {useState} from 'react'
+import { useAuthContext } from '../contexts'
+import Error from './Error'
 function Register (){
     const [show, setShow] = React.useState(false)
     const handleClick = () => setShow(!show)
+    const [credentials, setCredentials] = useState();
+    const [error, setError] = useState();
+    const { registerHandler } = useAuthContext()
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await registerHandler(credentials);
+        if(response?.status === 201) {
+            navigate(response.data.redirect)
+            return
+        }
+        setError(response)
+    }
+
     return(
         <Box bg={'gray.50'}>
             <Container pb={10}  maxW={{base:'container.md'}} >
                 <Header>Rejestracja</Header>
                 <VStack gap={4}>
-                        <Input bg={'white'} placeholder='e-mail' type={'email'}></Input>
+                        <Input bg={'white'} placeholder='e-mail' type={'email'} onChange={(e) => {
+                                setCredentials({
+                                    ...credentials,
+                                    username: e.target.value
+                                })
+                            }} ></Input>
                         <Box w={'100%'}>
                             <InputGroup>
-                            <Input bg={'white'} placeholder='hasło' type={show ? 'text' : 'password'}></Input>
+                            <Input bg={'white'} placeholder='hasło' type={show ? 'text' : 'password'} onChange={(e) => {
+                                setCredentials({
+                                    ...credentials,
+                                    password: e.target.value
+                                })
+                            }} ></Input>
                             <InputRightElement width='4.5rem'>
                                 <Button h='1.75rem' size='sm' onClick={handleClick}>
                                 {show ? 'Pokaż' : 'Ukryj'}
@@ -29,8 +55,8 @@ function Register (){
                             <Checkbox p={3}  size={'lg'}></Checkbox>
                             <SecondaryText>Wyrażam zgodę na używanie przez Grupę BuySellNow sp. z o.o. środków komunikacji elektronicznej oraz telekomunikacyjnych urządzeń końcowych w celu przesyłania mi informacji handlowych oraz prowadzenia marketingu (np. newsletter, wiadomości SMS) przez Grupę BuySellNow sp. z o.o., podmioty powiązane i partnerów biznesowych. Moja zgoda obejmuje numery telefonów i adresy e-mail wykorzystywane podczas korzystania z usług Grupy BuySellNow Sp. z o.o. Wyrażoną zgodę można wycofać lub ograniczyć w dowolnej chwili za pomocą odpowiednich ustawień konta lub zgłaszając nam takie żądanie.</SecondaryText>
                         </HStack>
-
-                        <Button w={'50%'} colorScheme={'blue'} >Załóż konto</Button>
+                        {error && <Error error={error} variant={'info'}></Error>}
+                        <Button w={'50%'} onClick={(e) => handleSubmit(e)} colorScheme={'blue'} >Załóż konto</Button>
                         <SecondaryText  align={'center'}>lub</SecondaryText>
                         <Button>
                             <Link _hover={{textDecoration: 'none'}} href='/logowanie'>

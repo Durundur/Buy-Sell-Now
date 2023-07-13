@@ -2,6 +2,7 @@ import { Button, Flex, Icon, } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PagButton = (props) => {
     const activeStyle = {
@@ -10,7 +11,7 @@ const PagButton = (props) => {
     };
 
     return (
-        <Button mx={1} px={4} py={2} rounded="md" bg="gray.50" color="blue.900" opacity={props.disabled && 0.6}
+        <Button onClick={props.onClick} mx={1} px={4} py={2} rounded="md" bg="gray.50" color="blue.900" opacity={props.disabled && 0.6}
             _hover={!props.disabled && activeStyle} cursor={props.disabled && "not-allowed"} {...(props.active && activeStyle)}
             display={props.p && !props.active && { base: "none", sm: "block", }}>
             {props.children}
@@ -18,41 +19,30 @@ const PagButton = (props) => {
     );
 };
 
-function Pagination(props) {
-    const { startPage, endPage, currentPage } = props
-
-
-
-    const pagesButtons = (startPage, endPage) => {
-        // for(startPage; startPage<=endPage; startPage++){
-        //     return <Link to={'?page=' + startPage}><PagButton p>{startPage}</PagButton></Link>
-        // }
-    }
+function Pagination({ currentPage, isLoading }) {
+    const navigate = useNavigate();
 
     const handleArrowClick = (direction) => {
-        // setCurrentPage((prevState)=>{
-        //     return prevState + direction
-        // })
+        navigate(`?page=${currentPage + direction}`)
     }
-
 
 
     return (
         <Flex boxShadow={'md'} borderRadius={'20px'} bg="#fff" p={4} marginTop={'20px'} w="full" alignItems="center" justifyContent="center">
             <Flex>
-                    <Link to={`?page=${Number(currentPage) - 1}`}>
-                        <PagButton>
-                            <Icon onChange={() => handleArrowClick(-1)} as={IoIosArrowBack} color="blue.900" boxSize={4} />
-                        </PagButton>
-                    </Link>
+                <PagButton disabled={isLoading} onClick={() => { 
+                    handleArrowClick(-1);
+                 }} >
+                    <Icon as={IoIosArrowBack} color="blue.900" boxSize={4} />
+                </PagButton>
 
-                {pagesButtons()}
                 <PagButton>{currentPage}</PagButton>
-                <Link to={`?page=${Number(currentPage) + 1}`}>
-                    <PagButton>
-                        <Icon onChange={() => handleArrowClick(1)} as={IoIosArrowForward} color="blue.900" boxSize={4}></Icon>
-                    </PagButton>
-                </Link>
+
+                <PagButton disabled={isLoading} onClick={() => { 
+                    handleArrowClick(1);
+                 }}>
+                    <Icon as={IoIosArrowForward} color="blue.900" boxSize={4}></Icon>
+                </PagButton>
             </Flex>
         </Flex>
     )

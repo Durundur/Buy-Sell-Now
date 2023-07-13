@@ -19,9 +19,6 @@ export default function NewAd(props) {
     const [categoryFields, setCategoryFields] = useState();
     const [error, setError] = useState();
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
     const handleSubmitButton = async (e) => {
         try {
@@ -33,7 +30,8 @@ export default function NewAd(props) {
             data["images"] = adImagesUrls
             const response = await postAdData(data);
             if (response.status === 200) {
-                navigate(response.redirect)
+                console.log(response.data.redirect)
+                navigate(response.data.redirect)
             }
 
         } catch (error) {

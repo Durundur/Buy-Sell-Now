@@ -1,27 +1,28 @@
-import { Box, Container, Flex, HStack, Text, Stack, Divider, Avatar, VStack, Button } from "@chakra-ui/react";
+import { Box, Container, Flex, HStack, Text, Stack, Divider, Avatar, VStack, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import { React, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import GeneralSpec from "../components/GeneralSpec";
 import SecondaryText from '../components/SecondaryText'
-import { TfiHelpAlt, TfiAngleRight, TfiLocationPin, TfiMobile } from "react-icons/tfi";
+import { TfiHelpAlt, TfiAngleRight, TfiLocationPin, TfiMobile, TfiAngleLeft } from "react-icons/tfi";
 import { useApiContext } from "../contexts";
 import LoadingSpinner from "../components/LoadingSpinner"
 import Error from '../components/Error';
+import AdBadges from '../components/Badge/AdBadges'
 
 function Ad() {
     const location = useLocation();
     const phoneNumber = useRef(null);
     const id = location.pathname.split("/")[2];
-    const { getAdData, isLoading} = useApiContext()
+    const { getAdData, isLoading } = useApiContext()
 
     const [data, setData] = useState();
     const [error, setError] = useState();
 
     useEffect(() => {
-        async function fetchData(){
+        async function fetchData() {
             const response = await getAdData(id);
-            if(response.status === 200){
+            if (response.status === 200) {
                 setData(response.data);
                 return;
             }
@@ -42,8 +43,34 @@ function Ad() {
         <Box pb={10} color={'blue.900'} bg={'gray.50'}>
             <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }} >
                 {isLoading && <LoadingSpinner></LoadingSpinner>}
-                {error && <Error error = {error}></Error>}
+                {error && <Error error={error}></Error>}
                 {!isLoading && !error && <>
+                    <Flex justifyItems={'center'} alignItems={'center'} gap={10} direction={'row'} p={'6'}>
+                        <Link to={'/'}>
+                            <Flex justifyItems={'center'} alignItems={'center'} gap={'2'}>
+                                <TfiAngleLeft></TfiAngleLeft>
+                                <Text textTransform={'capitalize'}>wróc</Text>
+                            </Flex>
+                        </Link>
+                        
+                        <Breadcrumb fontSize={'sm'} spacing='8px' separator={<TfiAngleRight/>}>
+                            <BreadcrumbItem>
+                                <BreadcrumbLink href='#'>Strona główna</BreadcrumbLink>
+                            </BreadcrumbItem>
+
+                            <BreadcrumbItem>
+                                <BreadcrumbLink textTransform={'capitalize'}>{data?.mainCategory}</BreadcrumbLink>
+                            </BreadcrumbItem>
+
+                            <BreadcrumbItem isCurrentPage>
+                                <BreadcrumbLink textTransform={'capitalize'}>{data?.subCategory}</BreadcrumbLink>
+                            </BreadcrumbItem>
+
+                            <BreadcrumbItem isCurrentPage>
+                                <BreadcrumbLink textTransform={'capitalize'} href='#'>{data?.subSubCategory}</BreadcrumbLink>
+                            </BreadcrumbItem>
+                        </Breadcrumb>
+                    </Flex>
                     <Flex gap={'20px'} display={'flex'} flexDirection={'row'}>
                         <Flex gap={'20px'} width={'70%'} flexDirection={'column'}>
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -53,7 +80,7 @@ function Ad() {
                             <Stack boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                 <Text fontSize='2xl' fontWeight={'medium'}>{data?.tittle}</Text>
                                 <Text fontSize={'2xl'} fontWeight={'bold'} >{data?.price?.value + " zł"}</Text>
-                                <GeneralSpec></GeneralSpec>
+                                <AdBadges details={data?.details}></AdBadges>
                                 <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>opis</Text>
                                 <Text fontSize={'lg'} whiteSpace={'pre-line'} dangerouslySetInnerHTML={{ __html: data?.description }}></Text>
                                 <Divider></Divider>

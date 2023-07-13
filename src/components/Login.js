@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router";
 import { useAuthContext } from '../contexts'
+import Error from '../components/Error'
+
 
 function Login() {
     const navigate = useNavigate();
@@ -14,13 +16,16 @@ function Login() {
         username: 'user',
         password: 'user'
     });
-    const { loginHandler, error } = useAuthContext()
+    const { loginHandler } = useAuthContext()
+    const [error, setError] = useState();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        loginHandler(credentials);
+        const response = await loginHandler(credentials);
+        if(response?.status === 200) navigate(response.data.redirect)
+        setError(response)
     }
-    // navigate(redirect);
+
 
     return (
         <Box bg={'gray.50'}>
@@ -51,17 +56,15 @@ function Login() {
                         <Link ><SecondaryText py={1}>Nie pamiętam hasła</SecondaryText></Link>
                     </Box>
                     <Box>
-
-                        {error?.status === 401 && <Text>Nieprawidłowe dane logowania</Text>}
+                        {error && <Error variant={'info'} error={error}></Error>}
                     </Box>
                     <Button onClick={(e) => handleSubmit(e)} w={'50%'} colorScheme={'blue'} >Zaloguj się</Button>
                     <Button onClick={(e) => {
                         setCredentials({ username: 'admin', password: 'admin' })
-                        handleSubmit(e)
                     }} w={'50%'} colorScheme={'blue'} >Zaloguj się jako Administrator</Button>
                     <SecondaryText align={'center'}>lub</SecondaryText>
                     <Button>
-                        <Link _hover={{ textDecoration: 'none' }} href='/rejestracja'>
+                        <Link _hover={{ textDecoration: 'none' }} to='/rejestracja'>
                             Zarejestruj się
                         </Link>
                     </Button>

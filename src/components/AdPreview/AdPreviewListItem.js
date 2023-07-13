@@ -1,4 +1,4 @@
-import { Box, HStack, Text, AspectRatio, Image, VStack, Icon, Divider, Button } from "@chakra-ui/react"
+import { Box, HStack, Text, AspectRatio, Image, VStack, Icon, Divider, Button, Flex } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { TfiCalendar, TfiLocationPin } from "react-icons/tfi";
 import { FiPhone, FiHeart, FiEye } from "react-icons/fi";
@@ -6,30 +6,29 @@ import formatDate from "../../hooks/formatDate";
 import { GoPrimitiveDot } from 'react-icons/go'
 import { useApiContext } from "../../contexts";
 import { useNavigate } from "react-router-dom";
-
+import AdListBadges from "../Badge/AdListBadges";
 function AdPreviewListItem({ type, adData }) {
     const { mainCategory, subCategory, subSubCategory } = adData;
     const { deleteAdData } = useApiContext() 
     const navigate = useNavigate();
-    
+
     const handleAdDelete = async () => {
         const response = await deleteAdData(adData._id);
-        if(response.response.status === 401){
-            navigate(response.response.data.redirect)
-        } 
+        // navigate(response.response.data.redirect)
     }
     
     return (
         <Box borderRadius={'20px'} bg={'#fff'} alignItems={'stretch'} boxShadow={'md'} width={'100%'} p={{ base: 2, md: 3 }}>
             <VStack >
                 <HStack width={'100%'} alignItems={'stretch'}>
-                    <AspectRatio ratio={4 / 3} minWidth={'17%'}>
+                    <AspectRatio ratio={4/3} minWidth={'17%'}>
                         <Image objectFit={'contain'} src={adData?.images[0]}></Image>
                     </AspectRatio>
                     <VStack flexGrow={1} justifyContent={'space-between'} alignItems={'stretch'}>
                         <Link to={'/ogloszenie/' + adData?._id}>
                             <Text fontSize={'xl'}>{adData?.tittle}</Text>
                         </Link>
+                        <AdListBadges details={adData.details}></AdListBadges>
                         <VStack gap={'sm'} alignItems={'stretch'}>
                             {type === 'userAd' ?
                                 <>

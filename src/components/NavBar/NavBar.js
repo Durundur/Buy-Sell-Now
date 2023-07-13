@@ -7,73 +7,73 @@ import { useAuthContext } from "../../contexts";
 import axios from "axios";
 
 function NavBar() {
-    const {userInfo, logoutHandler} = useAuthContext();
+    const { userInfo, logoutHandler } = useAuthContext();
 
-    const test = async () => {
-        try{
-            const response = await axios.get(process.env.REACT_APP_API_LOCAL + 'api/v1/auth/auth')
-            console.log(response)
-        }
-        catch(eror){
-            console.log(eror)
-        }
-    }
+    // const test = async () => {
+    //     try {
+    //         const response = await axios.get(process.env.REACT_APP_API_LOCAL + 'api/v1/auth/ensure-auth', {withCredentials: true})
+    //         console.log(response)
+    //     }
+    //     catch (eror) {
+    //         console.log(eror)
+    //     }
+    // }
 
     return (<><Box boxShadow={'sm'}>
         <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
             <Flex justifyContent={'space-between'} alignItems={'center'} py={'2'}>
                 <Logo fontSize={{ base: 'md', md: 'lg' }}></Logo>
                 {userInfo ?
-                    <Flex alignItems={'center'} gap={'6 '}>
-                        <Menu sx>
+                    <Flex zIndex={10} alignItems={'center'} gap={'6 '}>
+                        <Menu >
                             <MenuButton>
                                 <Avatar size={{ base: 'sm' }}></Avatar>
                             </MenuButton>
                             <MenuList >
                                 <MenuGroup fontSize={'md'} title="Moje konto">
-                                <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/ogloszenia'}>ogłoszenia</Link>
-                                </MenuItem>
-                                <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/wiadomosci'}>wiadomosci</Link>
-                                </MenuItem >
-                                <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/oceny'}>otrzymane oceny</Link>
-                                </MenuItem>
-                                <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/przesylki'}>przesyłki</Link>
-                                </MenuItem>
-                                <MenuItem sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/ustawienia'}>ustawienia</Link>
-                                </MenuItem>
-                                </MenuGroup>
-                                <MenuDivider></MenuDivider>
-                                <MenuGroup fontSize={'md'} title="Ogłoszenia">
-                                    <MenuItem onClick={()=>{
-                                        test();
-                                    }} sx={{textTransform: "capitalize"}}>
-                                    <Link to={'/moje-konto/obserwowane'}>obserwowane</Link>
+                                    <MenuItem sx={{ textTransform: "capitalize" }}>
+                                        <Link to={'/moje-konto/ogloszenia'}>ogłoszenia</Link>
+                                    </MenuItem>
+                                    <MenuItem sx={{ textTransform: "capitalize" }}>
+                                        <Link to={'/moje-konto/wiadomosci'}>wiadomosci</Link>
+                                    </MenuItem >
+                                    <MenuItem sx={{ textTransform: "capitalize" }}>
+                                        <Link to={'/moje-konto/oceny'}>otrzymane oceny</Link>
+                                    </MenuItem>
+                                    <MenuItem sx={{ textTransform: "capitalize" }}>
+                                        <Link to={'/moje-konto/przesylki'}>przesyłki</Link>
+                                    </MenuItem>
+                                    <MenuItem sx={{ textTransform: "capitalize" }}>
+                                        <Link to={'/moje-konto/ustawienia'}>ustawienia</Link>
                                     </MenuItem>
                                 </MenuGroup>
                                 <MenuDivider></MenuDivider>
-                                <MenuItem onClick={()=>{
+                                <MenuGroup fontSize={'md'} title="Ogłoszenia">
+                                    <MenuItem onClick={() => {
+                                        // test();
+                                    }} sx={{ textTransform: "capitalize" }}>
+                                        <Link to={'/moje-konto/obserwowane'}>obserwowane</Link>
+                                    </MenuItem>
+                                </MenuGroup>
+                                <MenuDivider></MenuDivider>
+                                <MenuItem onClick={() => {
                                     logoutHandler();
-                                }} fontSize={'md'} fontWeight={'600'} sx={{textTransform: "capitalize"}}>
+                                }} fontSize={'md'} fontWeight={'600'} sx={{ textTransform: "capitalize" }}>
                                     wyloguj
                                 </MenuItem>
                             </MenuList>
                         </Menu>
-                       
+
                         <Link to={'/nowe'}>
                             <Button size={{ base: 'sm', md: 'md' }} leftIcon={<IoAdd />} colorScheme={'blue'}>Dodaj ogłoszenie</Button>
                         </Link>
                     </Flex>
                     :
                     <ButtonGroup size={{ base: 'sm', md: 'md' }}>
-                        <Link _hover={{textDecoration: 'none'}} to={'/logowanie'}>
+                        <Link _hover={{ textDecoration: 'none' }} to={'/logowanie'}>
                             <Button >Zaloguj się</Button>
                         </Link>
-                        <Link _hover={{textDecoration: 'none'}} to={'/rejestracja'}>
+                        <Link _hover={{ textDecoration: 'none' }} to={'/rejestracja'}>
                             <Button leftIcon={<IoPersonAddOutline />} variant={'solid'} colorScheme={'blue'}>Zarejestruj się</Button>
                         </Link>
                     </ButtonGroup>
@@ -82,7 +82,7 @@ function NavBar() {
         </Container>
         <Divider></Divider>
     </Box>
-    <Outlet></Outlet>
+        <Outlet></Outlet>
     </>
     )
 }
