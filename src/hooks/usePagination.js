@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const usePagination = (apiCall)=>{
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [data, setData] = useState([]);
     const [error, setError] = useState();
-    const pageParam = Number(searchParams.get('page')) || 1;
+    let pageParam = Number(searchParams.get('page'));
+    if(pageParam <= 0 || !pageParam){
+        pageParam = 1;
+        setSearchParams({page: 1})
+    } 
 
     async function fetchData(page){
         try{
