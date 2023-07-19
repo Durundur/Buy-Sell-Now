@@ -50,7 +50,6 @@ function NavBar() {
                                 <MenuDivider></MenuDivider>
                                 <MenuGroup fontSize={'md'} title="Ogłoszenia">
                                     <MenuItem onClick={() => {
-                                        // test();
                                     }} sx={{ textTransform: "capitalize" }}>
                                         <Link to={'/moje-konto/obserwowane'}>obserwowane</Link>
                                     </MenuItem>

@@ -15,19 +15,28 @@ import TestCom from './components/TestCom';
 import { MyAccount, MyAds, MyRating, MySettings, MyShipments, ObservedAds, MyMessages } from './components/MyAccount';
 import ProtectedRoute from './utils/ProtectedRoute'
 import { AuthContextProvider } from './contexts';
-import ApiContextProvider from './contexts/ApiContext/ApiContextProvider';
-
+import Chat from './components/MyAccount/Chat';
+import ContainerBox from './components/ContainerBox';
+import UserAds from './pages/UserAds'
 function App() {
   return (
     <AuthContextProvider>
-      <ApiContextProvider>
       <Router>
         <Routes>
-          <Route path='/' element={[<NavBar />, <Footer />, ]}>
+          <Route path='/' element={
+            <>
+              <NavBar />
+              <Footer />
+            </>}>
             <Route element={<SearchBar />}>
-              <Route path='' element={[<CategoriesMainPage />, <PromotedAds />]}></Route>
+              <Route path='' element={
+                <>
+                  <CategoriesMainPage />
+                  <PromotedAds />
+                </>}></Route>
               <Route path='ogloszenie/:id' element={<Ad />}></Route>
               <Route path='ogloszenia' element={<AdsList />}></Route>
+              <Route path='uzytkownik/:id' element={<UserAds />}></Route>
             </Route>
             <Route>
               <Route path='logowanie' element={<Login />}></Route>
@@ -36,15 +45,17 @@ function App() {
               <Route path='edycja/:id' element={<EditAd />} />
 
               <Route path='moje-konto' element={
-                    <ProtectedRoute redirect="logowanie">
-                      <MyAccount />
-                    </ProtectedRoute>}>
-                    <Route path='ogloszenia' element={<MyAds activeTab={0} />}></Route>
-                    <Route path='wiadomosci' element={<MyMessages activeTab={1} />}></Route>
-                    <Route path='oceny' element={<MyRating activeTab={2} />}></Route>
-                    <Route path='przesylki' element={<MyShipments activeTab={3} />}></Route>
-                    <Route path='ustawienia' element={<MySettings activeTab={4} />}></Route>
-                    <Route path='obserwowane' element={<ObservedAds activeTab={5} />}></Route>
+                <ProtectedRoute redirect="logowanie">
+                  <MyAccount />
+                </ProtectedRoute>}>
+                <Route path='ogloszenia' element={<MyAds activeTab={0} />}></Route>
+                <Route path='wiadomosci' element={<MyMessages activeTab={1} />}>
+                  <Route path=":id" element={<Chat></Chat>}></Route>
+                </Route>
+                <Route path='oceny' element={<MyRating activeTab={2} />}></Route>
+                <Route path='przesylki' element={<MyShipments activeTab={3} />}></Route>
+                <Route path='ustawienia' element={<MySettings activeTab={4} />}></Route>
+                <Route path='obserwowane' element={<ObservedAds activeTab={5} />}></Route>
               </Route>
 
             </Route>
@@ -52,8 +63,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
-      </ApiContextProvider>
-      </AuthContextProvider>
+    </AuthContextProvider>
   );
 }
 

@@ -5,29 +5,28 @@ import Success from './Alerts/Success';
 import useFetch from '../hooks/useFetch';
 import { AuthContextProvider } from '../contexts';
 import Category from './SelectCategory/Category';
+import useApi from '../hooks/useApi';
+import { useEffect } from 'react';
+import { getAd, getAllAds, postAd, updateAd, deleteAd, getUserAds, getAds } from "../utils/apiServices";
+
 const TestCom = () => {
+    const { response, isLoading, triggerApiCall } = useApi()
 
-    const [data, setData] = useState({
-        mainCategory: 'motoryzacja',
-        subCategory: 'samochody osobowe',
-        subSubCategory: 'audi'
-    })
+    // useEffect(() => {
+    //     triggerApiCall(getAd)
+    // }, [])
 
-    const handleCategoryChange = (categoryData) => {
-        let categoryKeys = Object.keys(categoryData);
-        let updatedData = { ...data }
-        for(let categoryKey of categoryKeys){
-            updatedData[categoryKey] = categoryData[categoryKey];
-        }
-        setData(updatedData);
-    }
+    useEffect(() => {
+        console.log(response, isLoading)
+    }, [response, isLoading])
+
 
     return (
         <Box py={10}>
-            <Category id={'category'} mainCategory={data.mainCategory} subCategory={data.subCategory} subSubCategory={data.subSubCategory} onChange={(categoryData)=>{handleCategoryChange(categoryData)}} />
+            <Button onClick={() => { }}></Button>
         </Box>
 
-    );
-};
+    )
+}
 
 export default TestCom;

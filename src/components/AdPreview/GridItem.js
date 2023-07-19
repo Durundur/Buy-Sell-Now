@@ -1,7 +1,7 @@
 import { Box, Image, Text, AspectRatio } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import SecondaryText from '../SecondaryText'
-function AdPreviewGridItem(props) {
+function GridItem(props) {
     return (
         <Box boxShadow={'md'} p={{base: 2, md:3}} bg={'white'} borderRadius={'20px'} w={{ base: '100%' }}>
             <AspectRatio mb={4} ratio={4 / 3}>
@@ -21,4 +21,4 @@ function AdPreviewGridItem(props) {
         </Box>
     )
 }
-export default AdPreviewGridItem
+export default GridItem

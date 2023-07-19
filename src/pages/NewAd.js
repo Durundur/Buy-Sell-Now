@@ -6,18 +6,17 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useLocation } from "react-router";
 import categoriesFields from "../components/categoriesFields";
 import LoadingSpinner from "../components/LoadingSpinner"
-import { useApiContext } from "../contexts";
 import Error from "../components/Error";
+import useApi from "../hooks/useApi";
+import { postAd } from "../utils/apiServices";
 export default function NewAd(props) {
     const navigate = useNavigate();
     const uploaderRef = useRef()
     const [charCounter, setCharCounter] = useState(0)
-    const { isLoading, postAdData } = useApiContext()
-    const [data, setData] = useState({
-
-    })
+    const { response, isLoading, triggerApiCall } = useApi()
+    const [data, setData] = useState({})
+    const [error, setError] = useState({})
     const [categoryFields, setCategoryFields] = useState();
-    const [error, setError] = useState();
 
 
     const handleSubmitButton = async (e) => {
@@ -28,7 +27,7 @@ export default function NewAd(props) {
                 return prev;
             })
             data["images"] = adImagesUrls
-            const response = await postAdData(data);
+            await triggerApiCall(postAd((data)));
             if (response.status === 200) {
                 console.log(response.data.redirect)
                 navigate(response.data.redirect)
@@ -125,7 +124,7 @@ export default function NewAd(props) {
                                                         <Text textTransform={'capitalize'} mb={'10px'}>{field?.label}</Text>
                                                         {
                                                             field?.type === 'select' ?
-                                                                <Select shadow={'sm'} variant="filled" bg={'gray.50'} textTransform={'capitalize'} onChange={(e) => handleInputChange(e)} name={field?.name}  autoComplete={'off'} mb={'30px'} size={'md'}>
+                                                                <Select shadow={'sm'} variant="filled" bg={'gray.50'} textTransform={'capitalize'} onChange={(e) => handleInputChange(e)} name={field?.name} autoComplete={'off'} mb={'30px'} size={'md'}>
                                                                     <option selected disabled hidden>{field.placeholder}</option>
                                                                     {field.values.map((option, index) => {
                                                                         return (

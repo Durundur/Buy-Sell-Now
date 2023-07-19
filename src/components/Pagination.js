@@ -1,7 +1,7 @@
 import { Button, Flex, Icon, } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const PagButton = (props) => {
