@@ -21,13 +21,7 @@ const useApi = () => {
     }, [])
 
 
-    const updateData = useCallback((newData) => {
-        setData(newData);
-    }, []);
-
-
-
-    return { data, error, isLoading, triggerApiCall, updateData }
+    return { data, error, isLoading, triggerApiCall, setData }
 }
 
 

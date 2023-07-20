@@ -6,6 +6,7 @@ import { FormControl, FormLabel, FormErrorMessage, FormHelperText, InputGroup, I
 import { TextInput } from "../Form/TextInput";
 import { Formik, Form, useField, Field } from 'formik';
 import * as Yup from 'yup';
+import AdvertiserInfo from "../Form/AdvertiserInfo";
 
 
 
@@ -23,24 +24,7 @@ function MySettings(props) {
             </AccordionButton>
           </h2>
           <AccordionPanel w={["90%", "80%", "65%", "50%"]} pb={4}>
-            <Formik initialValues={{
-              name: '',
-              localization: '',
-              phoneNumber: ''
-            }} validationSchema={Yup.object({
-              name: Yup.string()
-                .required('Pole obowiązkowe').trim(),
-              localization: Yup.string()
-                .min(2, 'Niepoprawna nazwa miejscowości').trim(),
-              phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/)
-                .max(13, 'Niepoprawny numer telefonu').trim()
-            })} >
-              <Form>
-                <TextInput label="Wyświetlana nazwa" name="name" type="text" placeholder="" />
-                <TextInput label="Lokalizacja" name="localization" type="text" placeholder="" />
-                <TextInput label="Numer telefonu" name="phoneNumber" type="text" placeholder="" />
-              </Form>
-            </Formik>
+            <AdvertiserInfo></AdvertiserInfo>
             <Button mt={4} variant={"solid"} colorScheme={"blue"}>
               Zapisz
             </Button>

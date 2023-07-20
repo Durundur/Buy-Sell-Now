@@ -44,7 +44,7 @@ const categoriesFields = [
             placeholder: "km"
         }, {
             label: "stan techniczny",
-            name: "details.condition",
+            name: "details.techCondition",
             type: "select",
             values: ['nieuszkodzony', 'uszkodzony'],
             placeholder: "wybierz"
@@ -210,7 +210,7 @@ const categoriesFields = [
         },
         ]
     }, {
-        subCategoryName: ['biura i lokale', 'garaże i parkingi', 'hale i magazyny','stancje i pokoje', 'pozostałe nieruchomości'],
+        subCategoryName: ['biura i lokale', 'garaże i parkingi', 'hale i magazyny', 'stancje i pokoje', 'pozostałe nieruchomości'],
         fields: [{
             label: 'cena',
             name: 'price.value',
@@ -223,8 +223,8 @@ const categoriesFields = [
             type: 'text',
         },
         ]
-    },{
-        subCategoryName: ['administracja biurowa','budowa, remonty','dostawca, kurier miejski','handel internetowy','finanse, księgowość','fryzjerstwo, kosmetyka','gastronomia','HR','IT','kierowca','logistyka, spedycja','mechanika','praca za granicą','pracownik sklepu','produkcja','pozostałe w praca'],
+    }, {
+        subCategoryName: ['administracja biurowa', 'budowa, remonty', 'dostawca, kurier miejski', 'handel internetowy', 'finanse, księgowość', 'fryzjerstwo, kosmetyka', 'gastronomia', 'HR', 'IT', 'kierowca', 'logistyka, spedycja', 'mechanika', 'praca za granicą', 'pracownik sklepu', 'produkcja', 'pozostałe w praca'],
         fields: [{
             label: 'wynagrodzenie',
             name: 'price.value',
@@ -232,8 +232,8 @@ const categoriesFields = [
             placeholder: 'zł/mies'
         }
         ]
-    },{
-        subCategoryName: ['antyki','kolekcje','sztuka','rękodzieło'],
+    }, {
+        subCategoryName: ['antyki', 'kolekcje', 'sztuka', 'rękodzieło'],
         fields: [{
             label: 'cena',
             name: 'price.value',
@@ -241,8 +241,8 @@ const categoriesFields = [
             placeholder: 'zł'
         }
         ]
-    },{
-        subCategoryName: ['budowa','instalacje','meble','ogród','narzędzia','ogrzewanie','oświetlenie','wykończenie wnętrz','pozostałe w dom i ogród',],
+    }, {
+        subCategoryName: ['budowa', 'instalacje', 'meble', 'ogród', 'narzędzia', 'ogrzewanie', 'oświetlenie', 'wykończenie wnętrz', 'pozostałe w dom i ogród',],
         fields: [{
             label: 'cena',
             name: 'price.value',
@@ -250,8 +250,8 @@ const categoriesFields = [
             placeholder: 'zł'
         }
         ]
-    },{
-        subCategoryName: ['fotografia','gry i konsole','komputery','komputery', 'smartwatche i opaski', 'sprzęt AGD','sprzęt audio','telefony', 'telewizory','pozostałe w elektronika'],
+    }, {
+        subCategoryName: ['fotografia', 'gry i konsole', 'komputery', 'komputery', 'smartwatche i opaski', 'sprzęt AGD', 'sprzęt audio', 'telefony', 'telewizory', 'pozostałe w elektronika'],
         fields: [{
             label: 'cena',
             name: 'price.value',
@@ -273,8 +273,8 @@ const categoriesFields = [
             placeholder: "wybierz"
         }
         ]
-    },{
-        subCategoryName: ['ubrania damskie', 'ubrania damskie','ubrania męskie','ubrania dziecięce','akcesoria','biżuteria','buty','pozostałe w moda'],
+    }, {
+        subCategoryName: ['ubrania damskie', 'ubrania damskie', 'ubrania męskie', 'ubrania dziecięce', 'akcesoria', 'biżuteria', 'buty', 'pozostałe w moda'],
         fields: [{
             label: 'cena',
             name: 'price.value',
@@ -289,28 +289,28 @@ const categoriesFields = [
             placeholder: "wybierz"
         }
         ]
-    },{
-        subCategoryName: ['ciągniki', 'ciągniki','maszyny rolnicze','przyczepy','opony','zwierzęta','pozostałe w rolnictwo'],
+    }, {
+        subCategoryName: ['ciągniki', 'ciągniki', 'maszyny rolnicze', 'przyczepy', 'opony', 'zwierzęta', 'pozostałe w rolnictwo'],
         fields: [{
             label: 'cena',
             name: 'price.value',
             type: 'text',
             placeholder: 'zł'
-        },{
+        }, {
             label: "stan",
             name: "details.condition",
             type: "select",
             values: ['używany', 'nowy'],
             placeholder: "wybierz"
-        },{
+        }, {
             label: "rok produkcji",
             name: "details.productionYear",
             type: "text",
             placeholder: ""
         },
         ]
-    },{
-        subCategoryName: ['karma i przysmaki', 'psy', 'koty', 'ptaki','gryzonie i króliki','pozostałe w zwierzęta'],
+    }, {
+        subCategoryName: ['karma i przysmaki', 'psy', 'koty', 'ptaki', 'gryzonie i króliki', 'pozostałe w zwierzęta'],
         fields: [{
             label: 'cena',
             name: 'price.value',
@@ -318,7 +318,7 @@ const categoriesFields = [
             placeholder: 'zł'
         }
         ]
-    },{
+    }, {
         subCategoryName: ['akcesoria dla niemowląt', 'buciki', 'foteliki i nosidełka', 'meble dla dzieci', 'odzież niemowlęca', 'wózki dziecięce', 'zabawki', 'pozostałe w dla dzieci'],
         fields: [{
             label: 'cena',
@@ -327,7 +327,7 @@ const categoriesFields = [
             placeholder: 'zł'
         }
         ]
-    },{
+    }, {
         subCategoryName: ['fitness', 'rowery', 'skating', 'sporty wodne', 'sporty zimowe', 'wędkarstwo', 'pozostałe w sport i hobby'],
         fields: [{
             label: 'cena',
@@ -336,7 +336,7 @@ const categoriesFields = [
             placeholder: 'zł'
         }
         ]
-    },{
+    }, {
         subCategoryName: ['książki', 'muzyka', 'filmy', 'pozostałe w edukacja'],
         fields: [{
             label: 'cena',
@@ -345,15 +345,15 @@ const categoriesFields = [
             placeholder: 'zł'
         }
         ]
-    },{
+    }, {
         subCategoryName: ['usługi', 'wyposażenie firm', 'pozostałe w usługi'],
         fields: [
-        //     {
-        //     label: 'cena',
-        //     name: 'price.value',
-        //     type: 'text',
-        //     placeholder: 'zł'
-        // }
+            //     {
+            //     label: 'cena',
+            //     name: 'price.value',
+            //     type: 'text',
+            //     placeholder: 'zł'
+            // }
         ]
     }
 
