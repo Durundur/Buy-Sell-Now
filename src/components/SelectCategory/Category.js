@@ -5,33 +5,32 @@ import MainCategorySelect from './MainCategorySelect'
 import { TfiAngleRight } from 'react-icons/tfi'
 import SecondaryText from '../../components/SecondaryText'
 
-export default function Category({mainCategory, subCategory, subSubCategory, onChange}) {
+export default function Category({ mainCategory, subCategory, subSubCategory, onChange }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [mainCategoryImage, setMainCategoryImage] = useState(CategoriesData.find(o => o.name === mainCategory)?.picture)
   const [subCategoriesMap, setSubCategoriesMap] = useState()
   const [subSubCategoriesMap, setSubSubCategoriesMap] = useState()
-
   const closeModal = () => {
     onClose()
   }
 
   const handleSelectMainCategory = (categoryName) => {
-    onChange({mainCategory: categoryName, subCategory: null, subSubCategory: null})
+    onChange({ mainCategory: categoryName, subCategory: null, subSubCategory: null })
     setSubCategoriesMap(CategoriesData.find(o => o.name === categoryName)?.subcategories)
     setSubSubCategoriesMap([])
   }
   const handleSelectSubCategory = (subCategoryName) => {
-    onChange({subCategory: subCategoryName})
+    onChange({ subCategory: subCategoryName })
     let subSubcategories = subCategoriesMap.find(o => o.name === subCategoryName).subsubcategories
     setSubSubCategoriesMap(subSubcategories)
     if (subSubcategories === undefined || subSubcategories.length === 0) {
       setMainCategoryImage(CategoriesData.find(o => o.name === mainCategory)?.picture)
-      onChange({subCategory: subCategoryName, subSubCategory: null})
+      onChange({ subCategory: subCategoryName, subSubCategory: null })
       closeModal()
     }
   }
   const handleSelectSubSubCategory = (subSubCategoryName) => {
-    onChange({subSubCategory: subSubCategoryName})
+    onChange({ subSubCategory: subSubCategoryName })
     setMainCategoryImage(CategoriesData.find(o => o.name === mainCategory)?.picture)
     closeModal()
   }

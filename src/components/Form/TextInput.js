@@ -2,8 +2,11 @@
 import { FormLabel, Input, Box, FormHelperText, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { useField } from "formik";
 
-export const TextInput = (props) => {
+export const TextInput = ({ error, ...props }) => {
   const [field, meta] = useField(props);
+  if (error) {
+
+  }
   return (
     <FormControl my={'15px'} isInvalid={meta?.error && meta?.touched}>
       <FormLabel textTransform={'capitalize'} fontWeight={400}>{props?.label}</FormLabel>

@@ -12,11 +12,9 @@ import NewAd from './pages/NewAd';
 import AdsList from './pages/AdsList';
 import EditAd from './pages/EditAd';
 import TestCom from './components/TestCom';
-import { MyAccount, MyAds, MyRating, MySettings, MyShipments, ObservedAds, MyMessages } from './components/MyAccount';
+import { MyAccount, MyAds, MyRating, MySettings, MyShipments, ObservedAds, MyMessages, Chat } from './components/MyAccount';
 import ProtectedRoute from './utils/ProtectedRoute'
 import { AuthContextProvider } from './contexts';
-import Chat from './components/MyAccount/Chat';
-import ContainerBox from './components/ContainerBox';
 import UserAds from './pages/UserAds'
 function App() {
   return (

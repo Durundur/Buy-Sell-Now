@@ -1,12 +1,11 @@
 import { io } from 'socket.io-client';
 import { useState, useEffect } from 'react';
 
-const useSocket = () => {
+const useSocket = (conversationId, updateState) => {
     const socket = io('http://localhost:7000');
     const [isConnected, setIsConnected] = useState(socket.connected);
-    const [chatData, setChatData] = useState({});
 
-    function joinConversation(conversationId){
+    function joinConversation(conversationId) {
         socket.emit('join conversation', conversationId)
     }
 
@@ -21,8 +20,7 @@ const useSocket = () => {
 
 
         function onChatMessageEvent(message) {
-            console.log(message)
-            setChatData((prevChatData)=>{
+            updateState((prevChatData) => {
                 return {
                     ...prevChatData,
                     messages: [...prevChatData.messages, message]
@@ -30,10 +28,13 @@ const useSocket = () => {
             })
         }
 
-       
+
         socket.on('connect', onConnect);
         socket.on('disconnect', onDisconnect);
         socket.on('chat message', onChatMessageEvent);
+        if (conversationId) {
+            joinConversation(conversationId)
+        }
 
         return () => {
             socket.off('connect', onConnect);
@@ -43,7 +44,7 @@ const useSocket = () => {
     }, []);
 
 
-    return {socket, isConnected, chatData, setChatData, joinConversation}
+    return { socket, isConnected, joinConversation }
 }
 
 export default useSocket

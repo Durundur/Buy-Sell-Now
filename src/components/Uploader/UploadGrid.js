@@ -21,7 +21,7 @@ const isValidUrl = (string) => {
 const ImageSquare = (props) => {
 
     const ReturnImageOrIcon = () => {
-        if (props.image == null || props.image == undefined) {
+        if (props.image == null || props.image === undefined) {
             if (props.id === 0) return <Text className='uploader__text'>Dodaj zdjęcie</Text>
             return <FiCamera className='uploader__icon' />
         }
@@ -101,7 +101,7 @@ const UploadGrid = forwardRef((props, ref) => {
     }
     const handleDelete = async (index) => {
         let newFiles = [...files]
-        if(isValidUrl(newFiles[index])){
+        if (isValidUrl(newFiles[index])) {
             // const res = await axios.post('https://api.cloudinary.com/v1_1/dj16gqjts/image/destroy', {"public_id": newFiles[index].split('/').slice(-1), "api_key": "886367423267998"})
             // console.log(res);
         }

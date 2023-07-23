@@ -8,6 +8,7 @@ const SIGNUP_URL = `${baseURL}api/v1/auth/register`
 const ADS_URL = `${baseURL}api/v1/ads`
 const ENSUREAUTH_URL = `${baseURL}api/v1/auth/ensure-auth`
 const CONVERSATIONS_URL = `${baseURL}api/v1/conversations`
+const SETTINGS_URL = `${baseURL}api/v1/settings`
 
 
 export const loginUser = (data) => {
@@ -38,8 +39,8 @@ export const getAd = (adId) => {
     return axios({ method: 'get', url: `${ADS_URL}/${adId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
-export const getUserAds = () => {
-    return axios({ method: 'get', url: `${ADS_URL}/user`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+export const getUserAds = (page) => {
+    return axios({ method: 'get', url: `${ADS_URL}/user?page=${page}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
 export const getUsersAds = (userId) => {
@@ -65,4 +66,18 @@ export const getUserConversations = () => {
 export const getConversationChat = (conversationId) => {
     return axios({ method: 'get', url: `${CONVERSATIONS_URL}/${conversationId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
+
+
+export const getUserInfo = () => {
+    return axios({ method: 'get', url: `${SETTINGS_URL}/general-info`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+}
+
+export const updateUserInfo = (data) => {
+    return axios({ method: 'put', url: `${SETTINGS_URL}/general-info`, data: data, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+}
+
+export const updateUserPass = (data) => {
+    return axios({ method: 'put', url: `${SETTINGS_URL}/change-password`, data: data, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+}
+
 

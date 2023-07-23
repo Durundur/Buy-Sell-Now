@@ -8,7 +8,6 @@ import Category from './SelectCategory/Category';
 import useApi from '../hooks/useApi';
 import { useEffect } from 'react';
 import { getAd, getAllAds, postAd, updateAd, deleteAd, getUserAds, getAds } from "../utils/apiServices";
-
 const TestCom = () => {
     const { response, isLoading, triggerApiCall } = useApi()
 
@@ -16,14 +15,11 @@ const TestCom = () => {
     //     triggerApiCall(getAd)
     // }, [])
 
-    useEffect(() => {
-        console.log(response, isLoading)
-    }, [response, isLoading])
+
 
 
     return (
         <Box py={10}>
-            <Button onClick={() => { }}></Button>
         </Box>
 
     )
