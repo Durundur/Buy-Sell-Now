@@ -3,13 +3,10 @@ import { Formik, Form } from "formik"
 import { Text } from '@chakra-ui/react'
 import * as Yup from 'yup';
 import { Button } from '@chakra-ui/react'
-import { TextInput } from "../../Form/TextInput";
-import useApi from "../../../hooks/useApi";
-import { updateUserInfo, getUserInfo, updateUserPass } from "../../../utils/apiServices";
+import { updateUserInfo } from "../../../utils/apiServices";
 import LoadingSpinner from '../../LoadingSpinner'
 import { Box } from "@chakra-ui/react";
 import AdvertiserInfo from "../../Form/AdvertiserInfo"
-import { useEffect, useState } from "react";
 import { handleInputChange } from "../../../utils/utils";
 
 export default function ChangeGeneralInfo({ data, setData, error, isLoading, triggerApiCall }) {

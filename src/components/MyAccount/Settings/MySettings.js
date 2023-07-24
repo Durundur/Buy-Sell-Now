@@ -1,13 +1,7 @@
-import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router";
+import { useEffect } from "react";
 import ContainerBox from "../../ContainerBox";
-import { Accordion, AccordionButton, AccordionIcon, Box, AccordionPanel, AccordionItem, Input, Button, } from "@chakra-ui/react";
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
-import { TextInput } from "../../Form/TextInput";
-import { Formik, Form, useField, Field } from 'formik';
-import * as Yup from 'yup';
-import AdvertiserInfo from "../../Form/AdvertiserInfo";
-import { updateUserInfo, getUserInfo, updateUserPass } from "../../../utils/apiServices";
+import { Accordion, AccordionButton, AccordionIcon, Box, AccordionPanel, AccordionItem } from "@chakra-ui/react";
+import { getUserInfo } from "../../../utils/apiServices";
 import useApi from "../../../hooks/useApi";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
@@ -22,7 +16,6 @@ function MySettings(props) {
   useEffect(() => {
     triggerApiCall(getUserInfo())
   }, [])
-
   return (
     <ContainerBox>
       <Accordion allowMultiple gap={2}>

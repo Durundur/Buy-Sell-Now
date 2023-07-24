@@ -1,5 +1,5 @@
 import AvatarFallback from "./AvatarFallback";
-import { Image, Box, AspectRatio } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 
 export default function Avatar({ children, src, ...props }) {
     return (

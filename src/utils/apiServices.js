@@ -67,7 +67,6 @@ export const getConversationChat = (conversationId) => {
     return axios({ method: 'get', url: `${CONVERSATIONS_URL}/${conversationId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
-
 export const getUserInfo = () => {
     return axios({ method: 'get', url: `${SETTINGS_URL}/general-info`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
@@ -78,6 +77,14 @@ export const updateUserInfo = (data) => {
 
 export const updateUserPass = (data) => {
     return axios({ method: 'put', url: `${SETTINGS_URL}/change-password`, data: data, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+}
+
+export const changeUserEmail = (data) => {
+    return axios({ method: 'put', url: `${SETTINGS_URL}/change-email`, data: data, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+}
+
+export const updateUserImages = (data) => {
+    return axios({ method: 'post', url: `${SETTINGS_URL}/change-images`, data: data, withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } })
 }
 
 
