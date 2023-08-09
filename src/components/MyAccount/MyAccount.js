@@ -6,7 +6,6 @@ import { useState, useEffect, useRef } from "react";
 function MyAccount(props) {
     const [activeTab, setActiveTab] = useState(0);
 
-
     return (<>
         <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
             <Box py={10}>
@@ -22,7 +21,6 @@ function MyAccount(props) {
                     <Link to={'obserwowane'}><Tab>Obserwowane</Tab></Link>
                 </TabList>
                 <TabIndicator mt="-1.5px" height="2px" bg="blue.500" borderRadius="1px" />
-
             </Tabs>
         </Container>
         <Box bg={'gray.50'}>

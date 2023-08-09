@@ -4,9 +4,9 @@ import { FaTrash } from 'react-icons/fa';
 import Photo from '../../Photo/Photo'
 
 export default function ChangeBanner({ banner, setData }) {
-    const [bannerSrc, setBannerSrc] = useState(typeof banner === 'object' ? URL.createObjectURL(banner) : (banner || undefined))
     const [isHovered, setIsHovered] = useState(false);
-    const handleAvatarChange = (e) => {
+
+    const handleBannerChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setData((prevData) => {
@@ -15,7 +15,7 @@ export default function ChangeBanner({ banner, setData }) {
         };
     }
 
-    const handleAvatarRemove = (e) => {
+    const handleBannerRemove = (e) => {
         e.preventDefault()
         setData((prevData) => {
             return { ...prevData, banner: undefined }
@@ -24,17 +24,15 @@ export default function ChangeBanner({ banner, setData }) {
     };
 
     return (
-        <FormControl width={['90%', '70%', '60%', '40%']} >
-            <FormLabel display={'block'} margin={0} cursor={'pointer'} >
-                <Photo height={'150px'} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} src={bannerSrc}>
-                    {isHovered && banner && (
-                        <Box position={'absolute'}>
-                            <IconButton onClick={(e) => handleAvatarRemove(e)} bg={'gray.200'} color={'blue.900'} icon={<FaTrash />} />
-                        </Box>
-                    )}
-                </Photo>
-            </FormLabel>
-            <Input value={''} onChange={(e) => handleAvatarChange(e)} accept={'image/*'} display={'none'} type={'file'} />
-        </FormControl >
+        <Box onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} display={'flex'} justifyContent={'center'} alignItems={'center'} position={'relative'} width={['100%', '60vw', '50vw', '35vw']} height={'160px'}>
+            <Photo src={banner} position={'absolute'} width={'100%'} height={'100%'}></Photo>
+            {isHovered && banner && (
+                <Box zindex={101} position={'absolute'}>
+                    <IconButton onClick={(e) => handleBannerRemove(e)} bg={'gray.200'} color={'blue.900'} icon={<FaTrash />} />
+                </Box>
+            )}
+            <label zindex={100} style={{ cursor: 'pointer', position: 'absolute', width: '100%', height: '100%' }} htmlFor="fileinputbanner"></label>
+            <Input id="fileinputbanner" value={''} onChange={(e) => handleBannerChange(e)} accept={'image/*'} display={'none'} type={'file'} />
+        </Box>
     )
 }

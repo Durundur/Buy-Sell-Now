@@ -1,12 +1,10 @@
 import ImageFallback from "./PhotoFallback"
-import { Box } from "@chakra-ui/react"
+import { Box, AspectRatio, Image } from "@chakra-ui/react"
 
-export default function Photo({ children, src, ...props }) {
+export default function Photo({ src, ...props }) {
     return (
-        <Box {...props} display={'flex'} justifyContent={'center'} alignItems={'center'} bgColor={'gray.100'} borderRadius={"xl"} shadow={'md'}
-            bgSize={'cover'} bgImage={src || null} bgRepeat={'no-repeat'} bgPosition={'center'}>
-            {!src && <ImageFallback></ImageFallback>}
-            {children}
+        <Box {...props} bgColor={'gray.50'} shadow={'md'}>
+            {src !== undefined ? <Image borderRadius={'xl'} objectFit={'cover'} width={'100%'} height={'100%'} src={typeof src === 'object' ? URL.createObjectURL(src) : src}></Image> : <ImageFallback></ImageFallback>}
         </Box>
     )
 } 

@@ -43,8 +43,12 @@ export const getUserAds = (page) => {
     return axios({ method: 'get', url: `${ADS_URL}/user?page=${page}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
-export const getUsersAds = (userId) => {
-    return axios({ method: 'get', url: `${ADS_URL}/user/${userId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+export const getUsersAds = (page, userId) => {
+    return axios({ method: 'get', url: `${ADS_URL}/user/${userId}?page=${page}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+}
+
+export const getUsersAdsStats = (userId) => {
+    return axios({ method: 'get', url: `${ADS_URL}/user/${userId}/stats`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
 export const postAd = (data) => {
@@ -84,7 +88,7 @@ export const changeUserEmail = (data) => {
 }
 
 export const updateUserImages = (data) => {
-    return axios({ method: 'post', url: `${SETTINGS_URL}/change-images`, data: data, withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } })
+    return axios({ method: 'post', url: `${SETTINGS_URL}/change-images`, data: data, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
 

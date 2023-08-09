@@ -70,7 +70,7 @@ export default function EditAd() {
 
 
     return (
-        <ContainerBox>
+        <ContainerBox bgColor1={'gray.50'}>
             {isLoading && <LoadingSpinner></LoadingSpinner>}
             {error && <Error error={error}></Error>}
             {!isLoading && !error && <>

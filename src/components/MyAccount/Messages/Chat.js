@@ -10,14 +10,16 @@ import { getConversationChat } from "../../../utils/apiServices";
 import useApi from "../../../hooks/useApi";
 import LoadingSpinner from '../../LoadingSpinner'
 import useSocket from '../../../hooks/useSocket'
+import { useOutletContext } from "react-router"
 
 
-export default function Chat() {
+export default function Chat(props) {
     const chatRef = useRef(0);
     const { id } = useParams();
     const { userInfo } = useAuthContext();
     const { data, error, isLoading, triggerApiCall, setData } = useApi()
     const { socket, isConnected, chatData, setChatData } = useSocket(id, setData);
+
 
     useEffect(() => {
         chatRef.current.scrollTop = chatRef.current.scrollHeight;

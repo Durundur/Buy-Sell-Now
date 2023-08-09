@@ -11,30 +11,30 @@ import Ad from './pages/Ad';
 import NewAd from './pages/NewAd';
 import AdsList from './pages/AdsList';
 import EditAd from './pages/EditAd';
+import AboutUser from './components/AboutUser'
 import TestCom from './components/TestCom';
 import { MyAccount, MyAds, MyRating, MySettings, MyShipments, ObservedAds, MyMessages, Chat } from './components/MyAccount';
 import ProtectedRoute from './utils/ProtectedRoute'
 import { AuthContextProvider } from './contexts';
-import UserAds from './pages/UserAds'
+import User from './components/User/User';
+import UserAds from './components/User/UserAds';
+import UserContact from './components/User/UserContact';
+import UserInfo from './components/User/UserInfo';
 function App() {
   return (
     <AuthContextProvider>
       <Router>
         <Routes>
-          <Route path='/' element={
-            <>
-              <NavBar />
-              <Footer />
-            </>}>
+          <Route path='/' element={<><NavBar /><Footer /></>}>
             <Route element={<SearchBar />}>
-              <Route path='' element={
-                <>
-                  <CategoriesMainPage />
-                  <PromotedAds />
-                </>}></Route>
+              <Route path='' element={<><CategoriesMainPage /><PromotedAds /></>}></Route>
               <Route path='ogloszenie/:id' element={<Ad />}></Route>
               <Route path='ogloszenia' element={<AdsList />}></Route>
-              <Route path='uzytkownik/:id' element={<UserAds />}></Route>
+            </Route>
+            <Route path='uzytkownik/:id' element={<User />}>
+              <Route path='' element={<UserAds activeTab={0} />}></Route>
+              <Route path='informacje' element={<UserInfo activeTab={1} />}></Route>
+              <Route path='kontakt' element={<UserContact activeTab={2} />}></Route>
             </Route>
             <Route>
               <Route path='logowanie' element={<Login />}></Route>

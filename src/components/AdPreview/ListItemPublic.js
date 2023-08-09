@@ -10,7 +10,7 @@ import { deleteAd } from "../../utils/apiServices";
 import useApi from "../../hooks/useApi";
 
 
-function ListItemPublic({ adData }) {
+function ListItemPublic({ adData, ...props }) {
     const { response, isLoading, triggerApiCall } = useApi();
     const navigate = useNavigate();
 
@@ -18,7 +18,6 @@ function ListItemPublic({ adData }) {
         await triggerApiCall(deleteAd(adData._id));
         // navigate(response.response.data.redirect)
     }
-
     return (
         <Box borderRadius={'20px'} bg={'#fff'} alignItems={'stretch'} boxShadow={'md'} width={'100%'} p={{ base: 2, md: 3 }}>
             <HStack as={Link} to={'/ogloszenie/' + adData?._id} width={'100%'} alignItems={'stretch'}>

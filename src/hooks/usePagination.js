@@ -5,7 +5,7 @@ import useApi from "../hooks/useApi";
 import { getAds, getUserAds } from "../utils/apiServices";
 
 
-const usePagination = (apiService) => {
+function usePagination(apiService, ...args) {
     const [searchParams, setSearchParams] = useSearchParams();
     const { data, error, isLoading, triggerApiCall } = useApi()
 
@@ -15,8 +15,9 @@ const usePagination = (apiService) => {
         setSearchParams({ page: 1 })
     }
 
+
     useEffect(() => {
-        triggerApiCall(apiService(pageParam))
+        triggerApiCall(apiService(pageParam, ...args))
         window.scroll(0, 0)
     }, [pageParam])
 

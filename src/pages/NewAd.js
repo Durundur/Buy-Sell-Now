@@ -65,7 +65,7 @@ export default function NewAd() {
 
 
     return (
-        <ContainerBox>
+        <ContainerBox bgColor1={'gray.50'}>
             {isLoading && <LoadingSpinner></LoadingSpinner>}
             {error && <Error error={error}></Error>}
             {!isLoading && !error && <>

@@ -14,8 +14,14 @@ import Error from "../../Error";
 
 
 
-function MyAds({ props }) {
+function MyAds({ ...props }) {
     const { data, error, pageParam, isLoading } = usePagination(getUserAds)
+
+    const [setActiveTab] = useOutletContext();
+    useEffect(() => {
+        setActiveTab(props.activeTab)
+    }, [props.activeTab])
+
 
     if (isLoading) return <ContainerBox><LoadingSpinner></LoadingSpinner></ContainerBox>
     else if (!isLoading && error) return <ContainerBox><Error variant="error" error={error}></Error></ContainerBox>

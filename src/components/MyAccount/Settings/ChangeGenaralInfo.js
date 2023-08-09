@@ -14,7 +14,7 @@ export default function ChangeGeneralInfo({ data, setData, error, isLoading, tri
     if (isLoading) return <LoadingSpinner></LoadingSpinner>
     return (
         <Box w={['100%', '80%', '65%', '40%']}>
-            <Formik enableReinitialize initialValues={{ ...data }} validationSchema={Yup.object().shape({
+            <Formik enableReinitialize initialValues={{ advertiser: data.advertiser, localization: data.localization }} validationSchema={Yup.object().shape({
                 advertiser: Yup.object().shape({
                     name: Yup.string().required('Pole obowiązkowe'),
                     phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/).max(13, 'Niepoprawny numer telefonu').required('Pole obowiązkowe').trim()
@@ -22,8 +22,8 @@ export default function ChangeGeneralInfo({ data, setData, error, isLoading, tri
                 localization: Yup.object().shape({
                     place: Yup.string().min(2, 'Niepoprawna nazwa miejscowości').required('Pole obowiązkowe'),
                 })
-            })} onSubmit={(e) => {
-                triggerApiCall(updateUserInfo(data))
+            })} onSubmit={(values) => {
+                triggerApiCall(updateUserInfo(values))
             }}>
                 <Form>
                     <AdvertiserInfo onInputChange={(e) => handleInputChange(e, data, setData)}></AdvertiserInfo>

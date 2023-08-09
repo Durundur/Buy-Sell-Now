@@ -7,15 +7,20 @@ import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
 import ChangeGeneralInfo from "./ChangeGenaralInfo";
 import ChangeUserImages from "./ChangeUserImages";
+import { useOutletContext } from "react-router"
 
 
 function MySettings(props) {
   const { data, error, setData, isLoading, triggerApiCall } = useApi()
-
+  const [setActiveTab] = useOutletContext();
+  useEffect(() => {
+    setActiveTab(props.activeTab)
+  }, [props.activeTab])
 
   useEffect(() => {
     triggerApiCall(getUserInfo())
   }, [])
+
   return (
     <ContainerBox>
       <Accordion allowMultiple gap={2}>
@@ -29,7 +34,7 @@ function MySettings(props) {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <ChangeGeneralInfo data={{ advertiser: data?.advertiser, localization: data?.localization }} error={error} setData={setData} isLoading={isLoading} triggerApiCall={triggerApiCall}></ChangeGeneralInfo>
+            <ChangeGeneralInfo data={{ ...data }} error={error} setData={setData} isLoading={isLoading} triggerApiCall={triggerApiCall}></ChangeGeneralInfo>
             {/* naprawic zeby nie dalo sie wywylac pustych */}
           </AccordionPanel>
         </AccordionItem>

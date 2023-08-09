@@ -12,7 +12,6 @@ import { getAds } from '../utils/apiServices';
 
 
 export default function AdsList() {
-
     const { data, error, pageParam, isLoading } = usePagination(getAds)
 
     if (isLoading) return <ContainerBox><LoadingSpinner></LoadingSpinner></ContainerBox>

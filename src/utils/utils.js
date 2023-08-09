@@ -25,6 +25,9 @@ export const handleInputChange = (e, data, setData) => {
         if (!target.hasOwnProperty(key)) {
             target[key] = {};
         }
+        if (target[key] === undefined) {
+            target[key] = {};
+        }
         target = target[key];
     }
     target[name[name.length - 1]] = value;

@@ -6,13 +6,20 @@ import { Outlet } from "react-router";
 import { getUserConversations } from "../../../utils/apiServices";
 import useApi from "../../../hooks/useApi";
 import ContainerBox from '../../ContainerBox'
+import { useOutletContext } from "react-router"
 
-function MyMessages() {
+
+function MyMessages(props) {
     const { data, error, isLoading, triggerApiCall, setData } = useApi()
+    const [setActiveTab] = useOutletContext();
+    useEffect(() => {
+        setActiveTab(props.activeTab)
+    }, [props.activeTab])
 
     useEffect(() => {
         triggerApiCall(getUserConversations());
     }, [])
+
 
 
     return (

@@ -5,6 +5,7 @@ import { useField } from "formik";
 
 export const SelectInput = (props) => {
     const [field, meta] = useField(props);
+
     return (
         <FormControl my={'15px'} isInvalid={meta?.error && meta?.touched}>
             <FormLabel textTransform={'capitalize'} fontWeight={400}>{props?.label}</FormLabel>

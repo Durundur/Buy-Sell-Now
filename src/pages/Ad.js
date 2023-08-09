@@ -22,10 +22,10 @@ function Ad() {
     }, [])
 
 
-    if (isLoading) return <ContainerBox><LoadingSpinner></LoadingSpinner></ContainerBox>
-    else if (!isLoading && error) return <ContainerBox><Error variant="error" error={error}></Error></ContainerBox>
+    if (isLoading) return <ContainerBox bgColor1={'gray.50'}><LoadingSpinner></LoadingSpinner></ContainerBox>
+    else if (!isLoading && error) return <ContainerBox bgColor1={'gray.50'}><Error variant="error" error={error}></Error></ContainerBox>
     return (
-        <ContainerBox>
+        <ContainerBox bgColor1={'gray.50'}>
             <Flex justifyItems={'center'} alignItems={'center'} gap={10} direction={'row'} p={'6'}>
                 <Link to={'/'}>
                     <Flex justifyItems={'center'} alignItems={'center'} gap={'2'}>
@@ -99,7 +99,7 @@ function Ad() {
                         </VStack>
                         <Link>
                             <HStack m={'20px'} justifyContent={'center'} alignItems={'center'}>
-                                <SecondaryText>Więcej od tego ogłoszeniodawcy</SecondaryText>
+                                <Link to={`../uzytkownik/${data?.advertiser?.id}`}><SecondaryText>Więcej od tego ogłoszeniodawcy</SecondaryText></Link>
                                 <TfiAngleRight />
                             </HStack>
                         </Link>

@@ -49,7 +49,7 @@ export default function ChangeUserImages({ avatar, banner, setData, error, isLoa
 
     if (isLoading) return <LoadingSpinner></LoadingSpinner>
     return (
-        <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} gap={8}>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} gap={4}>
             <ChangeAvatar avatar={avatar} setData={setData}></ChangeAvatar>
             <ChangeBanner banner={banner} setData={setData}></ChangeBanner>
             <Button variant={'solid'} onClick={() => handleSubmit()} colorScheme={'blue'}>Zapisz</Button>

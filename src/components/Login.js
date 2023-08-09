@@ -22,7 +22,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await loginHandler(credentials);
-        if(response?.status === 200) navigate(response.data.redirect)
+        if (response?.status === 200) navigate(response.data.redirect)
         setError(response)
     }
 
