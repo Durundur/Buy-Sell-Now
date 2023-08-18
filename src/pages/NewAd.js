@@ -6,23 +6,31 @@ import { useEffect, useRef, useState } from 'react'
 import LoadingSpinner from "../components/LoadingSpinner"
 import Error from "../components/Error";
 import useApi from "../hooks/useApi";
-import { updateAd, getAd, postAd } from "../utils/apiServices";
-import { useParams } from 'react-router-dom'
+import { postAd } from "../utils/apiServices";
 import ContainerBox from "../components/ContainerBox";
 import AdDetailsInputs from "../components/Form/AdDetailsInputs";
-import AdvertiserInfo from "../components/Form/AdvertiserInfo";
 import { TextInput } from "../components/Form/TextInput";
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { formatDescritpion } from '../utils/utils'
-
-
+import AdvertiserInfoInputs from './../components/Form/AdvertiserInfoInputs';
+import { handleInputChange } from "../utils/utils";
+import { getUserInfo } from "../utils/apiServices";
 
 export default function NewAd() {
     const uploaderRef = useRef()
     const [charCounter, setCharCounter] = useState(0)
     const { data, error, setData, isLoading, triggerApiCall } = useApi()
 
+    useEffect(() => {
+        triggerApiCall(getUserInfo())
+            .then(() => {
+                setData((prevData) => {
+                    const { address, ...restAdvertiser } = prevData.advertiser;
+                    return { address, advertiser: restAdvertiser }
+                })
+            })
+    }, [])
 
 
     const handleSubmitButton = async (e) => {
@@ -34,23 +42,7 @@ export default function NewAd() {
             console.log(error)
         }
     }
-    /**
-    * function to convert value from input with name consists of dots to nested object
-    */
-    const handleInputChange = (e) => {
-        const value = e.target.value;
-        const name = e.target.name.split(".");
-        let updatedData = { ...data };
-        let target = updatedData;
-        for (const key of name.slice(0, -1)) {
-            if (!target.hasOwnProperty(key)) {
-                target[key] = {};
-            }
-            target = target[key];
-        }
-        target[name[name.length - 1]] = value;
-        setData(updatedData);
-    };
+
 
     const handleCategoryChange = (categoryData) => {
         let categoryKeys = Object.keys(categoryData);
@@ -84,7 +76,7 @@ export default function NewAd() {
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                 <Box maxW={'container.sm'}>
                                     <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Im więcej szczegółów, tym lepiej!</Text>
-                                    <TextInput label={'Tytuł ogłoszenia'} onChange={(e) => handleInputChange(e)} name='tittle'></TextInput>
+                                    <TextInput label={'Tytuł ogłoszenia'} onChange={(e) => handleInputChange(e, data, setData)} name='tittle'></TextInput>
                                     <Text mb={'10px'}>Kategoria</Text>
                                     <Category mainCategory={data?.mainCategory} subCategory={data?.subCategory} subSubCategory={data?.subSubCategory} onChange={(categoryData) => { handleCategoryChange(categoryData) }} />
                                 </Box>
@@ -99,7 +91,7 @@ export default function NewAd() {
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                 <Box maxW={'container.sm'}><Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Opis</Text>
                                     <Textarea onChange={(e) => {
-                                        handleInputChange(e)
+                                        handleInputChange(e, data, setData)
                                         setCharCounter(e.target.value.length)
                                     }} name="description" value={formatDescritpion(data?.description)} autoComplete={'off'} mb={'10px'} rows={'11'} shadow={'sm'} variant="filled" bg={'gray.50'} resize={'none'} placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></Textarea>
                                     <Flex mb={'30px'} justifyContent={'space-between'}>
@@ -114,7 +106,7 @@ export default function NewAd() {
                                 <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                     <Box maxW={'30%'}>
                                         <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dodatkowe informacje</Text>
-                                        <AdDetailsInputs onInputChange={(e) => handleInputChange(e)} data={data}></AdDetailsInputs>
+                                        <AdDetailsInputs onInputChange={(e) => handleInputChange(e, data, setData)} data={data}></AdDetailsInputs>
                                     </Box >
                                 </Box >
                             }
@@ -122,7 +114,7 @@ export default function NewAd() {
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                 <Box maxW={'30%'}>
                                     <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dane kontaktowe</Text>
-                                    <AdvertiserInfo onInputChange={(e) => handleInputChange(e)} data={data}></AdvertiserInfo>
+                                    <AdvertiserInfoInputs localizationInputName={'address'} onInputChange={(e) => handleInputChange(e, data, setData)} ></AdvertiserInfoInputs>
                                 </Box>
                             </Box>
 

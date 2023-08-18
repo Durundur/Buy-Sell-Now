@@ -11,7 +11,6 @@ import Ad from './pages/Ad';
 import NewAd from './pages/NewAd';
 import AdsList from './pages/AdsList';
 import EditAd from './pages/EditAd';
-import AboutUser from './components/AboutUser'
 import TestCom from './components/TestCom';
 import { MyAccount, MyAds, MyRating, MySettings, MyShipments, ObservedAds, MyMessages, Chat } from './components/MyAccount';
 import ProtectedRoute from './utils/ProtectedRoute'
@@ -35,6 +34,9 @@ function App() {
               <Route path='' element={<UserAds activeTab={0} />}></Route>
               <Route path='informacje' element={<UserInfo activeTab={1} />}></Route>
               <Route path='kontakt' element={<UserContact activeTab={2} />}></Route>
+              <Route path=':mainCatParam' element={<UserAds activeTab={0} />}></Route>
+              <Route path=':mainCatParam/:subCatParam' element={<UserAds activeTab={0} />}></Route>
+              <Route path=':mainCatParam/:subCatParam/:subSubCatParam' element={<UserAds activeTab={0} />}></Route>
             </Route>
             <Route>
               <Route path='logowanie' element={<Login />}></Route>

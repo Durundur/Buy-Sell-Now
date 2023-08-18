@@ -1,8 +1,6 @@
 
-
 import { FormLabel, Input, Box, FormHelperText, FormControl, FormErrorMessage, Select } from "@chakra-ui/react";
 import { useField } from "formik";
-
 export const SelectInput = (props) => {
     const [field, meta] = useField(props);
 

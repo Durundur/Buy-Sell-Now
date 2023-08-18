@@ -4,6 +4,11 @@ export const formatDescritpion = (text) => {
     return text?.replace(/<br\s*[\/]?>/gi, "\n")
 }
 
+export const formatDate = (dateString, formatName) => {
+    let date = new Date(dateString);
+    return date.toLocaleDateString('pl-PL', { dateStyle: formatName });
+}
+
 
 export const convertNameToRef = (data, name) => {
     let fieldKeys = name.split('.');
@@ -15,7 +20,9 @@ export const convertNameToRef = (data, name) => {
     return fieldValue
 }
 
-
+/**
+    * function to convert value from input with name consists of dots to state with nested object 
+*/
 export const handleInputChange = (e, data, setData) => {
     const value = e.target.value;
     const name = e.target.name.split(".");

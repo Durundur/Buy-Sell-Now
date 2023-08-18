@@ -2,16 +2,15 @@ import { Box, Container, Flex, HStack, Text, Stack, Divider, Avatar, VStack, But
 import { React, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Carousel from "../components/Carousel";
-import GeneralSpec from "../components/GeneralSpec";
 import SecondaryText from '../components/SecondaryText'
 import { TfiHelpAlt, TfiAngleRight, TfiLocationPin, TfiMobile, TfiAngleLeft } from "react-icons/tfi";
-import { useApiContext } from "../contexts";
 import LoadingSpinner from "../components/LoadingSpinner"
 import Error from '../components/Error';
 import AdBadges from '../components/Badge/AdBadges'
 import useApi from "../hooks/useApi";
 import { getAd } from "../utils/apiServices";
 import ContainerBox from '../components/ContainerBox'
+import { formatDate } from "../utils/utils";
 function Ad() {
     const { id } = useParams();
     const phoneNumber = useRef(null);
@@ -74,12 +73,12 @@ function Ad() {
                 </Flex>
                 <Flex width={'30%'} gap={'20px'} flexDirection={'column'}>
                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
-                        <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>osoba prywatna</Text>
+                        <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>{data?.advertiser?.advertiser?.isCompanyAcc ? 'przedsiębiorca' : 'osoba prywatna'}</Text>
                         <Flex mt={'20px'} gap={'20px'} alignItems={'center'}>
-                            <Avatar></Avatar>
+                            <Avatar src={data?.advertiser?.advertiser?.avatar}></Avatar>
                             <Flex flexDirection={'column'} alignItems={'flex-start'}>
                                 <Text mb={'5px'} fontWeight={'medium'} fontSize={'lg'}>{data?.advertiser?.name}</Text>
-                                <SecondaryText fontWeight={'light'}>Na OLX od grudzień 2022</SecondaryText>
+                                <SecondaryText fontWeight={'light'}>Na OLX od {formatDate(data?.advertiser?.advertiser?.createdAt, 'long')}</SecondaryText>
                                 <SecondaryText fontWeight={'light'}>Ostatnio online dziś o 13:36</SecondaryText>
                             </Flex>
                         </Flex>
@@ -93,13 +92,13 @@ function Ad() {
                             <Button w={'100%'} variant={'solid'} colorScheme={'blue'}>Wyślij wiadomość</Button>
                             <HStack justifyContent={'center'} alignItems={'center'}>
                                 <TfiMobile fontSize={'24px'} />
-                                <Text fontSize={'24px'}>xxx xxx xxx</Text>
+                                <Text ref={phoneNumber} fontSize={'24px'}>xxx xxx xxx</Text>
                             </HStack>
-                            <Button variant={'solid'} colorScheme={'blue'} w={'100%'} onClick={(e) => { phoneNumber.current.textContent = data?.advertiser?.phoneNumber }}>Zadzwoń</Button>
+                            <Button variant={'solid'} colorScheme={'blue'} w={'100%'} onClick={(e) => { phoneNumber.current.textContent = data?.advertiser?.advertiser?.phoneNumber }}>Zadzwoń</Button>
                         </VStack>
-                        <Link>
+                        <Link to={`../uzytkownik/${data?.advertiser?.advertiser?.id}`}>
                             <HStack m={'20px'} justifyContent={'center'} alignItems={'center'}>
-                                <Link to={`../uzytkownik/${data?.advertiser?.id}`}><SecondaryText>Więcej od tego ogłoszeniodawcy</SecondaryText></Link>
+                                <SecondaryText>Więcej od tego ogłoszeniodawcy</SecondaryText>
                                 <TfiAngleRight />
                             </HStack>
                         </Link>
@@ -110,16 +109,37 @@ function Ad() {
                         <HStack my={'20px'} justifyContent={'center'} alignItems={'center'}>
                             <TfiLocationPin fontSize={'32px'} />
                             <Flex flexDirection={'column'}>
-                                <Text fontWeight={'bold'}>{data?.localization?.place}</Text>
-                                <SecondaryText fontSize={'sm'}>Mazowieckie</SecondaryText>
+                                <Text fontWeight={'bold'}>{data?.address?.city}</Text>
+                                <SecondaryText fontSize={'sm'}>{data?.address?.state}</SecondaryText>
                                 <SecondaryText fontSize={'sm'} fontWeight={'light'}>143 km od Ciebie</SecondaryText>
                             </Flex>
                         </HStack>
                         <Box >
-                            <iframe src="https://maps.google.com/maps?q=Warszawa%20Mokot%C3%B3w+(My%20Business%20Name)&amp;t=&amp;z=12&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
-                            </iframe>
+                            <img width="600" height="400" src={`https://maps.geoapify.com/v1/staticmap?style=osm-liberty&width=300&height=200&center=lonlat:${data?.address?.lon},${data?.address?.lat}&zoom=10.2989&apiKey=48c7df543ab243d5bb855a75817032ff`}></img>
                         </Box>
                     </VStack>
+                    {data?.advertiser?.advertiser?.isCompanyAcc ?
+                        <VStack fontSize={'sm'} boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} width={'100%'} padding={'20px'} alignItems={'stretch'}>
+                            <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>dane firmy</Text>
+                            <Text maxH={'14rem'} sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '4px',
+                                    borderRadius: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: `blue.500`,
+                                    borderRadius: '8px',
+                                },
+                            }} overflowY={'scroll'}>{data?.advertiser?.id?.advertiser?.aboutCompany}</Text>
+                            <VStack justifyContent={'flex-start'} alignItems={'flex-start'}>
+                                <Text><span style={{ fontWeight: '500' }}>Nazwa firmy:</span> {data?.advertiser?.advertiser?.name}</Text>
+                                <Text><span style={{ fontWeight: '500' }}>NIP:</span> {data?.advertiser?.advertiser?.nip}</Text>
+                                <Text><span style={{ fontWeight: '500' }}>Numer telefonu:</span> {data?.advertiser?.advertiser?.phoneNumber}</Text>
+                                <Text><span style={{ fontWeight: '500' }}>E-mail:</span> {data?.advertiser?.advertiser?.email}</Text>
+                                <Text><span style={{ fontWeight: '500' }}>Adres:</span> {data?.advertiser?.advertiser?.address?.street} {data?.advertiser?.advertiser?.address?.buildingNumber}</Text>
+                                <Text>{data?.advertiser?.advertiser?.address?.postalCode} {data?.advertiser?.advertiser?.address?.city}</Text>
+                            </VStack>
+                        </VStack> : null}
                 </Flex>
             </Flex>
             <Box boxShadow={'md'} mt={'20px'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>

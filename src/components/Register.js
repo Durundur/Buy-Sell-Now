@@ -20,7 +20,7 @@ function Register() {
             navigate(response.data.redirect)
             return
         }
-        setError(response)
+        setError(response?.data)
     }
 
     return (

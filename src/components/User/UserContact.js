@@ -4,7 +4,7 @@ import ContainerBox from './../ContainerBox';
 import { Box, Text, Image } from '@chakra-ui/react'
 import { Flex } from '@chakra-ui/react';
 export default function UserContact(props) {
-    const [setActiveTab] = useOutletContext();
+    const [setActiveTab, data] = useOutletContext();
     useEffect(() => {
         setActiveTab(props.activeTab)
     }, [props.activeTab])
@@ -17,23 +17,15 @@ export default function UserContact(props) {
                     <Flex direction={'column'} gap={4}>
                         <Text fontWeight={500} fontSize={'lg'}>Adres</Text>
                         <Box>
-                            <Text>STANISZEWSCY BETON</Text>
-                            <Text>ul. Sprzętowa 8</Text>
-                            <Text>10-467 Olsztyn</Text>
+                            <Text>{data?.advertiser?.name}</Text>
+                            <Text>ul. {data?.advertiser.address?.street} {data?.advertiser.address?.buildingNumber}</Text>
+                            <Text>{data?.advertiser.address?.postalCode} {data?.advertiser.address?.city}</Text>
                         </Box>
                     </Flex>
                     <Flex wrap={'wrap'} gap={8} justifyContent={'flex-start'} alignItems={'flex-start'} direction={'row'}>
                         <Box>
                             <Text fontSize={'sm'}>Numer telefonu</Text>
-                            <Text>512322984</Text>
-                        </Box>
-                        <Box>
-                            <Text fontSize={'sm'}>Numer telefonu</Text>
-                            <Text>512322984</Text>
-                        </Box>
-                        <Box>
-                            <Text fontSize={'sm'}>Numer telefonu</Text>
-                            <Text>512322984</Text>
+                            <Text>{data?.advertiser?.phoneNumber}</Text>
                         </Box>
                     </Flex>
                 </Flex>

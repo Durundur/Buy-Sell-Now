@@ -15,6 +15,7 @@ import { TextInput } from "../components/Form/TextInput";
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { formatDescritpion } from '../utils/utils'
+import AdvertiserInfoInputs from './../components/Form/AdvertiserInfoInputs';
 
 
 
@@ -80,9 +81,6 @@ export default function EditAd() {
                         name: Yup.string().required('Pole obowiązkowe'),
                         phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/).max(13, 'Niepoprawny numer telefonu').required('Pole obowiązkowe').trim()
                     }),
-                    localization: Yup.object().shape({
-                        place: Yup.string().min(2, 'Niepoprawna nazwa miejscowości').required('Pole obowiązkowe'),
-                    })
                 })}>
                     <Form>
                         <Flex gap={'20px'} flexDirection={'column'}>
@@ -124,7 +122,7 @@ export default function EditAd() {
                             <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                 <Box maxW={'30%'}>
                                     <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dane kontaktowe</Text>
-                                    <AdvertiserInfo onInputChange={(e) => handleInputChange(e)} data={data}></AdvertiserInfo>
+                                    <AdvertiserInfoInputs localizationInputName={'address'} onInputChange={(e) => handleInputChange(e, data, setData)} ></AdvertiserInfoInputs>
                                 </Box>
                             </Box>
 

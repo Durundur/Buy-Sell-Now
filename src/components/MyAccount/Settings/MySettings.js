@@ -23,7 +23,7 @@ function MySettings(props) {
 
   return (
     <ContainerBox>
-      <Accordion allowMultiple gap={2}>
+      <Accordion overflow={'visible'} allowMultiple gap={2}>
         <AccordionItem shadow={"md"} marginBottom={4} border={"none"} borderRadius={"20px"} bg={"#fff"}>
           <h2>
             <AccordionButton _hover={{ bg: "inherit" }}>
@@ -81,8 +81,10 @@ function MySettings(props) {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-    </ContainerBox>
+    </ContainerBox >
   );
 }
 
 export default MySettings;
+
+

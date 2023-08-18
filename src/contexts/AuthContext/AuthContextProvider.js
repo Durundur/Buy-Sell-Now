@@ -4,19 +4,15 @@ import { loginUser, logoutUser, signupUser, ensureAuth } from "../../utils/apiSe
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
-    const [error, setError] = useState({});
-    const [redirect, setRedirect] = useState('')
-    const [userInfo, setUserInfo] = useState(
-        localStorage.getItem("userInfo")
-            ? JSON.parse(localStorage.getItem("userInfo"))
-            : null
-    );
+    const [userInfo, setUserInfo] = useState({
+        userId: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : null,
+        userAvatar: localStorage.getItem("userAvatar") ? JSON.parse(localStorage.getItem("userAvatar")) : null,
+    });
 
 
-
-    useEffect(()=>{
+    useEffect(() => {
         checkAuthentication()
-    },[])
+    }, [])
 
 
     const checkAuthentication = async () => {
@@ -27,13 +23,14 @@ const AuthContextProvider = ({ children }) => {
                     "userInfo",
                     JSON.stringify(response?.data?.userId)
                 );
-                setUserInfo(response?.data?.userId)
+                setUserInfo({ ...userInfo, userId: response?.data?.userId })
             }
             return response
         } catch (error) {
-            if(error?.response?.status === 401){
-                setUserInfo(null)
+            if (error?.response?.status === 401) {
+                setUserInfo({})
                 localStorage.setItem("userInfo", null)
+                localStorage.setItem("userAvatar", null)
             }
             return error.response
         }
@@ -50,8 +47,11 @@ const AuthContextProvider = ({ children }) => {
                     "userInfo",
                     JSON.stringify(response?.data?.userId)
                 );
-                setUserInfo(response?.data?.userId)
-                setRedirect(response?.data?.redirect)
+                localStorage.setItem(
+                    "userAvatar",
+                    JSON.stringify(response?.data?.avatar || null)
+                );
+                setUserInfo({ userId: response?.data?.userId, userAvatar: response?.data?.avatar })
             }
             return response
         } catch (error) {
@@ -67,8 +67,11 @@ const AuthContextProvider = ({ children }) => {
                     "userInfo",
                     JSON.stringify(response?.data?.userId)
                 );
-                setUserInfo(response?.data?.userId)
-                setRedirect(response?.data?.redirect)
+                localStorage.setItem(
+                    "userAvatar",
+                    JSON.stringify(response?.data?.avatar || null)
+                );
+                setUserInfo({ userId: response?.data?.userId, userAvatar: response?.data?.avatar })
             }
             return response
         } catch (error) {
@@ -82,14 +85,15 @@ const AuthContextProvider = ({ children }) => {
             const response = await logoutUser()
             if (response?.status === 200 || response?.status === 201) {
                 localStorage.removeItem("userInfo");
-                setUserInfo(null)
+                localStorage.removeItem("userAvatar");
+                setUserInfo({})
             }
         } catch (error) {
             console.log(error)
         }
     }
 
-    return (<AuthContext.Provider value={{ userInfo, loginHandler, registerHandler, logoutHandler, error, redirect }}>
+    return (<AuthContext.Provider value={{ userInfo, loginHandler, registerHandler, logoutHandler }}>
         {children}
     </AuthContext.Provider>)
 }

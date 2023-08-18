@@ -2,7 +2,7 @@ import { Box, HStack, Text, AspectRatio, Image, VStack, Button } from "@chakra-u
 import { Link } from "react-router-dom"
 import { TfiCalendar, TfiLocationPin } from "react-icons/tfi";
 import { FiPhone, FiHeart, FiEye } from "react-icons/fi";
-import formatDate from "../../hooks/formatDate";
+import { formatDate } from "../../utils/utils";
 import { GoPrimitiveDot } from 'react-icons/go'
 import { useNavigate } from "react-router-dom";
 import { BsCardImage } from 'react-icons/bs'

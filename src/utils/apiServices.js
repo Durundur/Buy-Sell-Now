@@ -43,12 +43,28 @@ export const getUserAds = (page) => {
     return axios({ method: 'get', url: `${ADS_URL}/user?page=${page}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
-export const getUsersAds = (page, userId) => {
-    return axios({ method: 'get', url: `${ADS_URL}/user/${userId}?page=${page}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+export const getUsersAds = (page, userId, mainCatParam, subCatParam, subSubCatParam, sort, order) => {
+    let categoryParamPath = '';
+    if (mainCatParam) {
+        categoryParamPath = categoryParamPath + mainCatParam;
+        if (subCatParam) {
+            categoryParamPath = categoryParamPath + '/' + subCatParam;
+            if (subSubCatParam) categoryParamPath = categoryParamPath + '/' + subSubCatParam;
+        }
+    }
+    let queryParams = '';
+    if (sort) {
+        queryParams = `&sort=${sort}&order=${order}`
+    }
+    return axios({ method: 'get', url: `${ADS_URL}/user/${userId}/${categoryParamPath}?page=${page}${queryParams}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
 export const getUsersAdsStats = (userId) => {
     return axios({ method: 'get', url: `${ADS_URL}/user/${userId}/stats`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+}
+
+export const getUsersInfo = (userId) => {
+    return axios({ method: 'get', url: `${ADS_URL}/user/${userId}/info`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
 export const postAd = (data) => {

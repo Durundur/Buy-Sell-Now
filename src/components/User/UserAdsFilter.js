@@ -1,14 +1,12 @@
 import { Box, Flex, VStack, Text, InputGroup, Input, InputLeftElement, Select, FormLabel, FormControl, Grid, GridItem } from '@chakra-ui/react';
-import Badge from './../Badge/Badge';
 import { CategoryBadge } from './CategoryBadge';
 import { getUsersAdsStats } from '../../utils/apiServices';
 import useApi from '../../hooks/useApi';
 import LoadingSpinner from './../LoadingSpinner'
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom'
-import { CatBadge } from './CatBadge'
+import { CategoryFilterItem } from './CategoryFilterItem'
 
-export function UserAdsFilter({ userId }) {
+export function UserAdsFilter({ userId, mainCatParam, subCatParam, subSubCatParam }) {
     const { triggerApiCall, isLoading, data } = useApi();
     useEffect(() => {
         triggerApiCall(getUsersAdsStats(userId))
@@ -19,20 +17,19 @@ export function UserAdsFilter({ userId }) {
         <Flex shadow={'md'} padding={'20px'} direction={'column'} gap={4} bg={'#fff'} borderRadius={'20px'}>
             <Box>
                 <Text fontWeight={600} fontSize={'lg'}>Filtruj ogłoszenia</Text>
-                <Text fontSize={'sm'}>Znaleźliśmy 200 ogłoszeń</Text>
+                <Text fontSize={'sm'}>Znaleźliśmy {data?.totalCount} ogłoszeń</Text>
             </Box>
             <Box fontSize={'sm'}>
-                <Text mb={2} >Kategorie</Text>
-                <CategoryBadge state={'active'} categoryName={'Wszystkie ogłoszenia'} badgeText={10}></CategoryBadge>
+                <Text mb={2}>Kategorie</Text>
+                <CategoryBadge ahref={`/uzytkownik/${userId}`} disableLeftIcon={true} state={(mainCatParam === undefined && subCatParam === undefined && subSubCatParam === undefined) ? 'active' : null} categoryName={'wszystkie ogłoszenia'} badgeText={data?.totalCount}></CategoryBadge>
                 {
                     data?.stats.map((category, i) => {
                         return (
-                            <CatBadge key={i} categoriesObj={category} ></CatBadge>
+                            <CategoryFilterItem userId={userId} mainCatParam={mainCatParam} subCatParam={subCatParam} subSubCatParam={subSubCatParam} key={i} categoriesObj={category} ></CategoryFilterItem>
                         )
                     })
                 }
             </Box>
-
         </Flex>
     )
 }

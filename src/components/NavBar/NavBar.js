@@ -1,33 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
 import { Container, Flex, ButtonGroup, Button, Avatar, Divider, Box, Menu, MenuButton, MenuList, MenuItem, MenuGroup, MenuDivider } from '@chakra-ui/react'
 import { Link, Outlet } from "react-router-dom";
 import { IoAdd, IoPersonAddOutline } from "react-icons/io5";
 import Logo from '../Logo'
 import { useAuthContext } from "../../contexts";
-import axios from "axios";
 
 function NavBar() {
     const { userInfo, logoutHandler } = useAuthContext();
-
-    // const test = async () => {
-    //     try {
-    //         const response = await axios.get(process.env.REACT_APP_API_LOCAL + 'api/v1/auth/ensure-auth', {withCredentials: true})
-    //         console.log(response)
-    //     }
-    //     catch (eror) {
-    //         console.log(eror)
-    //     }
-    // }
 
     return (<><Box boxShadow={'sm'}>
         <Container maxW={{ md: 'container.md', lg: 'container.lg', xl: 'container.xl' }}>
             <Flex justifyContent={'space-between'} alignItems={'center'} py={'2'}>
                 <Logo fontSize={{ base: 'md', md: 'lg' }}></Logo>
-                {userInfo ?
+                {userInfo?.userId ?
                     <Flex zIndex={10} alignItems={'center'} gap={'6 '}>
                         <Menu >
                             <MenuButton>
-                                <Avatar size={{ base: 'sm' }}></Avatar>
+                                <Avatar src={userInfo?.userAvatar} size={{ base: 'sm' }}></Avatar>
                             </MenuButton>
                             <MenuList >
                                 <MenuGroup fontSize={'md'} title="Moje konto">

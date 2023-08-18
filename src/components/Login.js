@@ -1,7 +1,7 @@
 import { Box, Button, Container, Input, InputGroup, VStack, Divider, InputRightElement, Text } from '@chakra-ui/react'
 import Header from './Header'
 import SecondaryText from './SecondaryText'
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router";
 import { useAuthContext } from '../contexts'
@@ -10,20 +10,20 @@ import Error from '../components/Error'
 
 function Login() {
     const navigate = useNavigate();
-    const [show, setShow] = React.useState(false)
+    const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
     const [credentials, setCredentials] = useState({
         username: 'user',
         password: 'user'
     });
     const { loginHandler } = useAuthContext()
-    const [error, setError] = useState();
+    const [error, setError] = useState({});
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await loginHandler(credentials);
         if (response?.status === 200) navigate(response.data.redirect)
-        setError(response)
+        setError(response?.data)
     }
 
 

@@ -1,26 +1,33 @@
-import { createRef, useEffect, useState } from "react"
-import { useOutletContext } from "react-router"
+import { useEffect } from "react"
+import { useOutletContext, useNavigate } from "react-router"
 import { Box, Flex, VStack, Text, InputGroup, Input, InputLeftElement, Select, FormLabel, FormControl, Grid, GridItem } from '@chakra-ui/react';
 import ContainerBox from './../ContainerBox';
 import ListItemPublic from '../../components/AdPreview/ListItemPublic';
 import Pagination from '../../components/Pagination';
 import { getUsersAds } from '../../utils/apiServices';
 import usePagination from '../../hooks/usePagination';
-import { IoLocationOutline, IoSearchOutline } from 'react-icons/io5'
+import { IoSearchOutline } from 'react-icons/io5'
 import { useParams } from 'react-router-dom'
-import usePageQuery from '../../hooks/usePageQuery'
-import Badge from './../Badge/Badge';
 import { UserAdsFilter } from "./UserAdsFilter";
+import LoadingSpinner from "../LoadingSpinner";
+
 export default function UserAds(props) {
     const [setActiveTab] = useOutletContext();
     useEffect(() => {
         setActiveTab(props.activeTab)
     }, [props.activeTab])
-    const { id } = useParams();
 
-    const { data, error, pageParam, isLoading } = usePagination(getUsersAds, id)
+    const navigate = useNavigate()
+    const { id, mainCatParam, subCatParam, subSubCatParam } = useParams();
+    const { data, setData, error, pageParam, isLoading } = usePagination(getUsersAds, id, mainCatParam, subCatParam, subSubCatParam)
 
-
+    function handleSortChange(e) {
+        const value = e.target.value.split('/');
+        const key = value[0];
+        const order = value[1]
+        if (key && order) navigate(`?sort=${key}&order=${order}`)
+        else navigate()
+    }
 
     return (
         <ContainerBox >
@@ -37,18 +44,20 @@ export default function UserAds(props) {
                 <GridItem>
                     <FormControl >
                         <FormLabel textTransform={'capitalize'} fontWeight={400}>Sortuj</FormLabel>
-                        <Select textTransform={'capitalize'} shadow={'sm'} bg={'#fff'} autoComplete={'off'}>
-                            <option>Cena: najtańsze</option>
-                            <option>Cena: najdroższe</option>
-                            <option>Czas: najnowsze</option>
-                            <option>Wybrane dla Ciebie</option>
+                        <Select onChange={(e) => handleSortChange(e)} textTransform={'capitalize'} shadow={'sm'} bg={'#fff'} autoComplete={'off'}>
+                            <option value={'price/asc'}>Cena: od najtańszych</option>
+                            <option value={'price/desc'}>Cena: od najdroższych</option>
+                            <option value={'createdAt/desc'}>Czas: od najnowszych</option>
+                            <option value={'createdAt/asc'}>Czas: od najstarszych</option>
+                            <option selected value={''}>Wybrane dla Ciebie</option>
                         </Select>
                     </FormControl>
                 </GridItem>
                 <GridItem colSpan={1} colStart={1}>
-                    <UserAdsFilter userId={id}></UserAdsFilter>
+                    <UserAdsFilter mainCatParam={mainCatParam} subCatParam={subCatParam} subSubCatParam={subSubCatParam} userId={id}></UserAdsFilter>
                 </GridItem>
                 <GridItem colSpan={3}>
+                    {isLoading && <LoadingSpinner></LoadingSpinner>}
                     <Flex gap={2} direction={'column'} borderRadius={'20px'}>
                         {data && data.map((ad) => {
                             return <ListItemPublic key={ad._id} adData={ad}></ListItemPublic>
@@ -58,52 +67,6 @@ export default function UserAds(props) {
                 </GridItem>
 
             </Grid>
-
-
-
-
-
-
-
-            {/* 
-            <Flex gap={4} direction={'column'}>
-                <Flex gap={8} direction={'row'}>
-                    <FormControl >
-                        <FormLabel fontWeight={400}>Znajdz na stronie</FormLabel>
-                        <InputGroup >
-                            <InputLeftElement children={<IoSearchOutline />} />
-                            <Input bg={"#fff"} />
-                        </InputGroup>
-                    </FormControl>
-                    <FormControl >
-                        <FormLabel textTransform={'capitalize'} fontWeight={400}>Sortuj</FormLabel>
-                        <Select textTransform={'capitalize'} shadow={'sm'} variant="filled" bg={'#fff'} autoComplete={'off'}>
-                            <option>Cena: najtańsze</option>
-                            <option>Cena: najdroższe</option>
-                            <option>Czas: najnowsze</option>
-                            <option>Wybrane dla Ciebie</option>
-                        </Select>
-                    </FormControl>
-                </Flex>
-                <Flex gap={4} alignItems={'flex-start'} direction={'row'}>
-                    <Flex basis={'25%'} shadow={'md'} padding={'20px'} direction={'column'} gap={8} bg={'#fff'} borderRadius={'20px'}>
-                        <Box>
-                            <Text fontWeight={600} fontSize={'lg'}>Filtruj ogłoszenia</Text>
-                            <Text fontSize={'sm'}>Znaleźliśmy 200 ogłoszeń</Text>
-                        </Box>
-                        <Box>
-                            <Text fontSize={'sm'}>Kategorie</Text>
-                            <Text>Wszystkie ogłoszenia 200</Text>
-                        </Box>
-                    </Flex>
-                    <Flex basis={'100%'} gap={2} direction={'column'} borderRadius={'20px'}>
-                        {data && data.map((ad) => {
-                            return <ListItemPublic key={ad._id} adData={ad}></ListItemPublic>
-                        })}
-                        <Pagination isLoading={isLoading} currentPage={pageParam}></Pagination>
-                    </Flex>
-                </Flex>
-            </Flex> */}
         </ContainerBox>
     )
 }

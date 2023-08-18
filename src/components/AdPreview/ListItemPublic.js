@@ -1,11 +1,10 @@
 import { Box, HStack, Text, AspectRatio, Image, VStack, } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { TfiCalendar, TfiLocationPin } from "react-icons/tfi";
-import formatDate from "../../hooks/formatDate";
+import { formatDate } from "../../utils/utils";
 import { useApiContext } from "../../contexts";
 import { useNavigate } from "react-router-dom";
 import AdListBadges from "../Badge/AdListBadges";
-
 import { deleteAd } from "../../utils/apiServices";
 import useApi from "../../hooks/useApi";
 
