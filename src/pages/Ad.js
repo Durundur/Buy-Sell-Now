@@ -78,7 +78,7 @@ function Ad() {
                             <Avatar src={data?.advertiser?.advertiser?.avatar}></Avatar>
                             <Flex flexDirection={'column'} alignItems={'flex-start'}>
                                 <Text mb={'5px'} fontWeight={'medium'} fontSize={'lg'}>{data?.advertiser?.name}</Text>
-                                <SecondaryText fontWeight={'light'}>Na OLX od {formatDate(data?.advertiser?.advertiser?.createdAt, 'long')}</SecondaryText>
+                                <SecondaryText fontWeight={'light'}>Na BSN od {formatDate(data?.advertiser?.advertiser?.createdAt, 'long')}</SecondaryText>
                                 <SecondaryText fontWeight={'light'}>Ostatnio online dziś o 13:36</SecondaryText>
                             </Flex>
                         </Flex>
@@ -130,14 +130,14 @@ function Ad() {
                                     backgroundColor: `blue.500`,
                                     borderRadius: '8px',
                                 },
-                            }} overflowY={'scroll'}>{data?.advertiser?.id?.advertiser?.aboutCompany}</Text>
+                            }} overflowY={'scroll'}>{data?.advertiser?.advertiser?.aboutCompany}</Text>
                             <VStack justifyContent={'flex-start'} alignItems={'flex-start'}>
                                 <Text><span style={{ fontWeight: '500' }}>Nazwa firmy:</span> {data?.advertiser?.advertiser?.name}</Text>
                                 <Text><span style={{ fontWeight: '500' }}>NIP:</span> {data?.advertiser?.advertiser?.nip}</Text>
                                 <Text><span style={{ fontWeight: '500' }}>Numer telefonu:</span> {data?.advertiser?.advertiser?.phoneNumber}</Text>
                                 <Text><span style={{ fontWeight: '500' }}>E-mail:</span> {data?.advertiser?.advertiser?.email}</Text>
                                 <Text><span style={{ fontWeight: '500' }}>Adres:</span> {data?.advertiser?.advertiser?.address?.street} {data?.advertiser?.advertiser?.address?.buildingNumber}</Text>
-                                <Text>{data?.advertiser?.advertiser?.address?.postalCode} {data?.advertiser?.advertiser?.address?.city}</Text>
+                                <Text>{data?.advertiser?.advertiser?.address?.postcode} {data?.advertiser?.advertiser?.address?.city}</Text>
                             </VStack>
                         </VStack> : null}
                 </Flex>

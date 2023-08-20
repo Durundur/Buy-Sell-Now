@@ -9,10 +9,11 @@ import usePagination from '../hooks/usePagination';
 import ListItemPublic from '../components/AdPreview/ListItemPublic';
 import ContainerBox from '../components/ContainerBox';
 import { getAds } from '../utils/apiServices';
-
+import useApi from '../hooks/useApi';
 
 export default function AdsList() {
     const { data, error, pageParam, isLoading } = usePagination(getAds)
+
 
     if (isLoading) return <ContainerBox><LoadingSpinner></LoadingSpinner></ContainerBox>
     else if (!isLoading && error) return <ContainerBox><Error variant="error" error={error}></Error></ContainerBox>

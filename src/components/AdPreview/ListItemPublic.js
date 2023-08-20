@@ -1,22 +1,10 @@
 import { Box, HStack, Text, AspectRatio, Image, VStack, } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
-import { TfiCalendar, TfiLocationPin } from "react-icons/tfi";
+import { TfiLocationPin } from "react-icons/tfi";
 import { formatDate } from "../../utils/utils";
-import { useApiContext } from "../../contexts";
-import { useNavigate } from "react-router-dom";
 import AdListBadges from "../Badge/AdListBadges";
-import { deleteAd } from "../../utils/apiServices";
-import useApi from "../../hooks/useApi";
-
 
 function ListItemPublic({ adData, ...props }) {
-    const { response, isLoading, triggerApiCall } = useApi();
-    const navigate = useNavigate();
-
-    const handleAdDelete = async () => {
-        await triggerApiCall(deleteAd(adData._id));
-        // navigate(response.response.data.redirect)
-    }
     return (
         <Box borderRadius={'20px'} bg={'#fff'} alignItems={'stretch'} boxShadow={'md'} width={'100%'} p={{ base: 2, md: 3 }}>
             <HStack as={Link} to={'/ogloszenie/' + adData?._id} width={'100%'} alignItems={'stretch'}>
@@ -29,7 +17,7 @@ function ListItemPublic({ adData, ...props }) {
                     <VStack gap={'sm'} alignItems={'stretch'}>
                         <HStack >
                             <TfiLocationPin></TfiLocationPin>
-                            <Text fontSize={'sm'}>{adData?.localization?.place + ' - ' + formatDate(adData?.createdAt, 'full')}</Text>
+                            <Text fontSize={'sm'}>{adData?.address?.city} - {formatDate(adData?.createdAt, 'full')}</Text>
                         </HStack>
                     </VStack>
                 </VStack>

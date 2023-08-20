@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavBar from './components/NavBar/NavBar';
-import SearchBar from './components/SearchBar.js'
+import SearchBar from './components/Searchbar/SearchBar.js'
 import CategoriesMainPage from './components/SelectCategory/CategoriesMainPage';
 import PromotedAds from './components/PromotedAds'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"

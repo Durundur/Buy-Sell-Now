@@ -24,7 +24,9 @@ export default function User(props) {
             <ContainerBox mt={!data?.advertiser?.isCompanyAcc ? '20px' : '0px'} width={'100%'} style={{ padding: '0', backgroundColor: '#fff' }}>
                 <HStack width={'100%'} bg={'#fff'} justifyContent={'space-between'}>
                     <HStack>
-                        <Box position={'relative'}><Avatar size={'xl'}></Avatar></Box>
+                        <Box position={'relative'}>
+                            <Avatar src={data?.avatar} size={'xl'}></Avatar>
+                        </Box>
                         <VStack alignItems={'flex-start'}>
                             <Text>{data?.advertiser?.name}</Text>
                             <Text fontSize={'xs'}>Ostatnio online: 25 lip 2023, 15:17 Na Buy Sell Now od: {formatDate(data?.createdAt, 'long')}</Text>

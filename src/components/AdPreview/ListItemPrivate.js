@@ -6,20 +6,17 @@ import { formatDate } from "../../utils/utils";
 import { GoPrimitiveDot } from 'react-icons/go'
 import { useNavigate } from "react-router-dom";
 import { BsCardImage } from 'react-icons/bs'
-
 import { deleteAd } from "../../utils/apiServices";
 import useApi from "../../hooks/useApi";
 
 
 function ListItemPrivate({ adData }) {
-    const navigate = useNavigate();
     const { mainCategory, subCategory, subSubCategory } = adData;
     const { response, isLoading, triggerApiCall } = useApi();
 
 
     const handleAdDelete = async () => {
         await triggerApiCall(deleteAd(adData._id));
-        // navigate(response.response.data.redirect)
     }
 
     return (
@@ -45,7 +42,7 @@ function ListItemPrivate({ adData }) {
                             </HStack>
                             <HStack >
                                 <TfiLocationPin></TfiLocationPin>
-                                <Text>{adData?.localization?.place}</Text>
+                                <Text>{adData?.address?.city}</Text>
                             </HStack>
                             <HStack alignItems={'stretch'} justifyContent={'space-between'}>
                                 <HStack>

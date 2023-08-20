@@ -19,7 +19,9 @@ export default function UserContact(props) {
                         <Box>
                             <Text>{data?.advertiser?.name}</Text>
                             <Text>ul. {data?.advertiser.address?.street} {data?.advertiser.address?.buildingNumber}</Text>
-                            <Text>{data?.advertiser.address?.postalCode} {data?.advertiser.address?.city}</Text>
+                            <Text>{data?.advertiser.address?.postcode} {data?.advertiser.address?.city}</Text>
+                            <Text>NIP: {data?.advertiser.nip}</Text>
+                            <Text>email: {data?.advertiser.email}</Text>
                         </Box>
                     </Flex>
                     <Flex wrap={'wrap'} gap={8} justifyContent={'flex-start'} alignItems={'flex-start'} direction={'row'}>

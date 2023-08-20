@@ -23,24 +23,26 @@ function Pagination({ currentPage, isLoading }) {
     const navigate = useNavigate();
 
     const handleArrowClick = (direction) => {
-        navigate(`?page=${currentPage + direction}`)
+        let nextPage = currentPage + direction;
+        if (nextPage <= 0) nextPage = currentPage
+        navigate(`?page=${nextPage}`)
     }
 
 
     return (
         <Flex boxShadow={'md'} borderRadius={'20px'} bg="#fff" p={4} marginTop={'20px'} w="full" alignItems="center" justifyContent="center">
             <Flex>
-                <PagButton disabled={isLoading} onClick={() => { 
+                <PagButton disabled={isLoading} onClick={() => {
                     handleArrowClick(-1);
-                 }} >
+                }} >
                     <Icon as={IoIosArrowBack} color="blue.900" boxSize={4} />
                 </PagButton>
 
                 <PagButton>{currentPage}</PagButton>
 
-                <PagButton disabled={isLoading} onClick={() => { 
+                <PagButton disabled={isLoading} onClick={() => {
                     handleArrowClick(1);
-                 }}>
+                }}>
                     <Icon as={IoIosArrowForward} color="blue.900" boxSize={4}></Icon>
                 </PagButton>
             </Flex>

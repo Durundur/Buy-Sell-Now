@@ -31,7 +31,7 @@ export const getAllAds = () => {
     return axios({ method: 'get', url: ADS_URL, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
-export const getAds = (page) => {
+export const getAds = (page, mainCatParam, subCatParam, subSubCatParam, tittle, city, county, state,) => {
     return axios({ method: 'get', url: `${ADS_URL}?page=${page}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
