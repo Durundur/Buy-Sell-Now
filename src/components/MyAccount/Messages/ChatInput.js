@@ -3,12 +3,12 @@ import { useState } from "react";
 import { Textarea, Icon, Box, } from "@chakra-ui/react";
 import { AiOutlineSend } from 'react-icons/ai'
 
-export default function ChatInput({ socket, conversationId, userInfo }) {
+export default function ChatInput({ sendRoomMessage, conversationId, userInfo }) {
     const [message, setMessage] = useState('');
 
     const handleSendMessage = () => {
         if (message) {
-            socket.emit('chat message', { message: message, author: userInfo, conversationId: conversationId })
+            sendRoomMessage({ message: message, author: userInfo, conversationId: conversationId })
             setMessage("")
         }
     }

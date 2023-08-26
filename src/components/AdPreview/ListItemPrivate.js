@@ -1,14 +1,13 @@
-import { Box, HStack, Text, AspectRatio, Image, VStack, Button } from "@chakra-ui/react"
+import { Box, HStack, Text, AspectRatio, VStack, Button } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { TfiCalendar, TfiLocationPin } from "react-icons/tfi";
 import { FiPhone, FiHeart, FiEye } from "react-icons/fi";
 import { formatDate } from "../../utils/utils";
 import { GoPrimitiveDot } from 'react-icons/go'
-import { useNavigate } from "react-router-dom";
 import { BsCardImage } from 'react-icons/bs'
 import { deleteAd } from "../../utils/apiServices";
 import useApi from "../../hooks/useApi";
-
+import { Image } from "../Image"
 
 function ListItemPrivate({ adData }) {
     const { mainCategory, subCategory, subSubCategory } = adData;
@@ -24,7 +23,7 @@ function ListItemPrivate({ adData }) {
             <VStack >
                 <HStack width={'100%'} alignItems={'stretch'}>
                     <AspectRatio ratio={4 / 3} minWidth={{ base: "25%", md: "17%" }}>
-                        <Image objectFit={'contain'} src={adData?.images[0] || BsCardImage}></Image>
+                        <Image src={adData?.images[0]}></Image>
                     </AspectRatio>
                     <VStack flexGrow={1} justifyContent={'space-between'} alignItems={'stretch'}>
                         <Link as={'box'} height={'60px'} to={'/ogloszenie/' + adData?._id}>

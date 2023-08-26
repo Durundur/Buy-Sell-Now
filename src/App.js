@@ -28,7 +28,11 @@ function App() {
             <Route element={<SearchBar />}>
               <Route path='' element={<><CategoriesMainPage /><PromotedAds /></>}></Route>
               <Route path='ogloszenie/:id' element={<Ad />}></Route>
-              <Route path='ogloszenia' element={<AdsList />}></Route>
+              <Route path='ogloszenia' element={<AdsList />}>
+                <Route path=':mainCatParam' element={<></>}></Route>
+                <Route path=':mainCatParam/:subCatParam' element={<></>}></Route>
+                <Route path=':mainCatParam/:subCatParam/:subSubCatParam' element={<></>}></Route>
+              </Route>
             </Route>
             <Route path='uzytkownik/:id' element={<User />}>
               <Route path='' element={<UserAds activeTab={0} />}></Route>
@@ -50,7 +54,7 @@ function App() {
                 </ProtectedRoute>}>
                 <Route path='ogloszenia' element={<MyAds activeTab={0} />}></Route>
                 <Route path='wiadomosci' element={<MyMessages activeTab={1} />}>
-                  <Route path=":id" element={<Chat></Chat>}></Route>
+                  <Route path=":id" element={<Chat />}></Route>
                 </Route>
                 <Route path='oceny' element={<MyRating activeTab={2} />}></Route>
                 <Route path='przesylki' element={<MyShipments activeTab={3} />}></Route>
@@ -63,7 +67,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </AuthContextProvider>
+    </AuthContextProvider >
   );
 }
 

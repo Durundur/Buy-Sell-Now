@@ -1,7 +1,7 @@
-import { Container, HStack, Text, Box, Tabs, Tab, TabList, TabPanel, TabPanels, TabIndicator } from "@chakra-ui/react"
+import { Container, Text, Box, Tabs, Tab, TabList, TabIndicator } from "@chakra-ui/react"
 import { Outlet } from "react-router";
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 
 function MyAccount(props) {
     const [activeTab, setActiveTab] = useState(0);

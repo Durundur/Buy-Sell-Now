@@ -56,7 +56,11 @@ export function LocalizationSuggestionInput({ field, value, onInputChange, name,
                     suggestions.map((suggestion, i) => {
                         if (suggestion.datasource.sourcename === 'openstreetmap') {
                             if (suggestion.city) {
-                                const { city, state, county, lat, lon } = suggestion;
+                                let { city, state, county, lat, lon } = suggestion;
+                                if (county) {
+                                    if (county.split(' ')[0] === 'powiat') county = county.split(' ')[1] || '';
+                                }
+                                if (state.split(' ')[0] === 'województwo') state = state.split(' ')[1];
                                 return <Box onClick={() => {
                                     onInputChange({
                                         target: {

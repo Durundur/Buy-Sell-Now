@@ -4,9 +4,8 @@ import axios from 'axios';
 import { useState } from 'react';
 
 
-export function LocalizationInput({ searchParams, updateSearchParams, ...props }) {
+export function LocalizationInput({ inputsValue, updateInputsValue, ...props }) {
     const [suggestions, setSuggestions] = useState([]);
-
     async function triggerSuggestApiCall(place) {
         if (place) {
             try {
@@ -22,21 +21,28 @@ export function LocalizationInput({ searchParams, updateSearchParams, ...props }
         <Box flexGrow={1}>
             <Input {...props} onChange={(e) => {
                 triggerSuggestApiCall(e.target.value);
-                let newLocalizationSearchParams = {};
+                let newInputsValue = { localizationLabel: e.target.value, };
                 if (e.target.value === '') {
-                    newLocalizationSearchParams = { city: '', county: '', state: '', lat: 0, lon: 0 }
+                    newInputsValue = { ...newInputsValue, city: '', state: '', county: '' };
                 }
-                updateSearchParams({ ...searchParams, localization: e.target.value, ...newLocalizationSearchParams });
-
-            }} autoComplete={'off'} value={searchParams.localization}></Input>
+                updateInputsValue((prevInputsValue) => {
+                    return { ...prevInputsValue, ...newInputsValue }
+                })
+            }} autoComplete={'off'} value={inputsValue.localizationLabel}></Input>
             <Box shadow={'md'} bg={'#fff'} width={'100%'} position={'absolute'} zIndex={5}>
                 {
                     suggestions.map((suggestion, i) => {
                         if (suggestion.datasource.sourcename === 'openstreetmap') {
                             if (suggestion.city) {
-                                const { city, state, county, lat, lon } = suggestion;
+                                let { city, state, county, lat, lon } = suggestion;
+                                if (county) {
+                                    if (county.split(' ')[0] === 'powiat') county = county.split(' ')[1] || '';
+                                }
+                                if (state.split(' ')[0] === 'województwo') state = state.split(' ')[1];
                                 return <Box onClick={() => {
-                                    updateSearchParams({ city, state, county, lat, lon, localization: createSuggestionLabel(suggestion) });
+                                    updateInputsValue((prevInputsValue) => {
+                                        return { ...prevInputsValue, city, state, county, localizationLabel: createSuggestionLabel(suggestion) }
+                                    })
                                     setSuggestions([]);
                                 }} key={`${city}-container-${i}`} borderBottom={'gray.50'} borderWidth={'1px'} pl={4} py={'2'} _hover={{ backgroundColor: 'gray.100', cursor: 'pointer' }} >
                                     <Text key={`${city}-label-${i}`}>{createSuggestionLabel(suggestion)}</Text>

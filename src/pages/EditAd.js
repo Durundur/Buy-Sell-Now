@@ -10,7 +10,6 @@ import { updateAd, getAd } from "../utils/apiServices";
 import { useParams } from 'react-router-dom'
 import ContainerBox from "../components/ContainerBox";
 import AdDetailsInputs from "../components/Form/AdDetailsInputs";
-import AdvertiserInfo from "../components/Form/AdvertiserInfo";
 import { TextInput } from "../components/Form/TextInput";
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';

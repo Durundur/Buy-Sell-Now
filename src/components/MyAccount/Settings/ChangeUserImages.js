@@ -30,7 +30,6 @@ export default function ChangeUserImages({ avatar, banner, setData, error, isLoa
 
     const handleSubmit = async () => {
         const filesUrls = await postFiles();
-        console.log(filesUrls)
         let urls = {};
         if (avatar && filesUrls?.length > 0) {
             urls.avatar = filesUrls[0];

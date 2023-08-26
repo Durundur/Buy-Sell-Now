@@ -10,15 +10,6 @@ const theme = extendTheme({
     global: {
       color: 'blue.900'
     }
-  },
-  components: {
-    AccordionPanel: {
-      variants: {
-        'with-overflow': {
-          overflow: 'visible',
-        },
-      }
-    }
   }
 })
 
@@ -26,10 +17,10 @@ const theme = extendTheme({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <App />
-    </ChakraProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <ChakraProvider theme={theme}>
+    <App />
+  </ChakraProvider>
+  // </React.StrictMode>
 
 );

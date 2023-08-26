@@ -19,7 +19,7 @@ export default function ChangeAvatar({ avatar, setData }) {
     const handleAvatarRemove = (e) => {
         e.preventDefault()
         setData((prevData) => {
-            return { ...prevData, avatar: undefined }
+            return { ...prevData, avatar: null }
         });
     };
 

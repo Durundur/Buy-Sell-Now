@@ -1,21 +1,22 @@
-import { createRef, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useOutletContext } from "react-router"
-import { useSearchParams } from "react-router-dom";
-import { Box, Container, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import ListItemPrivate from "../../AdPreview/ListItemPrivate";
-import useFetch from "../../../hooks/useFetch";
 import Pagination from "../../Pagination";
-import usePagination from "../../../hooks/usePagination";
 import LoadingSpinner from "../../LoadingSpinner";
-import { redirect } from "react-router-dom";
 import { getUserAds } from "../../../utils/apiServices";
 import ContainerBox from '../../ContainerBox';
 import Error from "../../Error";
-
-
+import { useLocation } from 'react-router-dom'
+import useApi from "../../../hooks/useApi";
 
 function MyAds({ ...props }) {
-    const { data, error, pageParam, isLoading } = usePagination(getUserAds)
+    const { data, error, isLoading, triggerApiCall, setData } = useApi();
+    const location = useLocation()
+
+    useEffect(() => {
+        triggerApiCall(getUserAds(location.search))
+    }, [location])
 
     const [setActiveTab] = useOutletContext();
     useEffect(() => {
@@ -32,7 +33,7 @@ function MyAds({ ...props }) {
                     return <ListItemPrivate type={'userAd'} key={ad._id} adData={ad}></ListItemPrivate>
                 })}
             </VStack>}
-            <Pagination isLoading={isLoading} currentPage={pageParam}></Pagination>
+            <Pagination isLoading={isLoading} pathParams={location.pathname} queryParams={location.search}></Pagination>
         </ContainerBox>
     )
 }

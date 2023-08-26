@@ -31,17 +31,21 @@ export const getAllAds = () => {
     return axios({ method: 'get', url: ADS_URL, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
-export const getAds = (page, mainCatParam, subCatParam, subSubCatParam, tittle, city, county, state,) => {
-    return axios({ method: 'get', url: `${ADS_URL}?page=${page}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+export const getAds = (params) => {
+    params = params.replace('ogloszenia', 'search')
+    console.log(params)
+    return axios({ method: 'get', url: `${ADS_URL}${params}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
+
 
 export const getAd = (adId) => {
     return axios({ method: 'get', url: `${ADS_URL}/${adId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
-export const getUserAds = (page) => {
-    return axios({ method: 'get', url: `${ADS_URL}/user?page=${page}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+export const getUserAds = (queryParams) => {
+    return axios({ method: 'get', url: `${ADS_URL}/user${queryParams}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
+
 
 export const getUsersAds = (page, userId, mainCatParam, subCatParam, subSubCatParam, sort, order) => {
     let categoryParamPath = '';
@@ -85,6 +89,10 @@ export const getUserConversations = () => {
 
 export const getConversationChat = (conversationId) => {
     return axios({ method: 'get', url: `${CONVERSATIONS_URL}/${conversationId}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+}
+
+export const createNewConversation = (data) => {
+    return axios({ method: 'post', url: `${CONVERSATIONS_URL}/new-conversation`, data: data, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
 export const getUserInfo = () => {

@@ -1,35 +1,42 @@
-import { Container, Input, HStack, InputGroup, InputLeftElement, InputRightElement, Button, Box } from "@chakra-ui/react";
+import { Container, Input, HStack, InputGroup, InputLeftElement, Button, Box } from "@chakra-ui/react";
 import { IoLocationOutline, IoSearchOutline } from 'react-icons/io5'
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { LocalizationInput } from './LocalizationInput';
 import { useState } from "react";
+import { useLocation } from 'react-router-dom';
+
+
 function SearchBar() {
-    const [searchParams, setSearchParams] = useState({ localization: '', city: '', county: '', state: '', tittle: '' })
     const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const tittle = searchParams.get('tittle') || '';
+    const city = searchParams.get('city') || '';
+    const county = searchParams.get('county') || '';
+    const state = searchParams.get('state') || '';
 
-    const handleSearchButton = () => {
-        const { city, county, state, tittle } = searchParams;
-        let params = new URLSearchParams();
-        if (city) params.append('city', city);
-        if (county) {
-            const countyParts = county.split(' ');
-            if (countyParts[0] === 'powiat') {
-                params.append('county', countyParts[1]);
+    const localizationLabel = () => {
+        if (city && state) {
+            if (county) {
+                return `${city}, ${county}, ${state}`;
             }
-            else params.append('county', county);
-
+            return `${city}, ${state}`;
         }
-        if (state) {
-            const stateParts = state.split(' ');
-            if (stateParts[0] === 'województwo') {
-                params.append('state', stateParts[1]);
-            }
-            else params.append('state', state);
-        }
-        if (tittle) params.append('tittle', tittle);
-
-        navigate(`/ogloszenia?${params}`)
+        return ''
     }
+
+    const [inputsValue, setInputsValue] = useState({ tittle, city, county, state, localizationLabel: localizationLabel() });
+
+    const deleteNullFields = (object) => {
+        const newObject = { ...object };
+        Object.keys(newObject).forEach(key => {
+            if (newObject[key] === '' || key === 'localizationLabel' || newObject[key] === undefined) {
+                delete newObject[key];
+            }
+        });
+        return newObject;
+    }
+
     return (
         <>
             <Box bg={'gray.50'}>
@@ -38,13 +45,13 @@ function SearchBar() {
                         <InputGroup size={'md'} bg={'#fff'}>
                             <InputGroup flexBasis={'150%'}>
                                 <InputLeftElement children={<IoSearchOutline />} />
-                                <Input value={searchParams.tittle} onChange={(e) => setSearchParams({ ...searchParams, tittle: e.target.value })} sx={{ borderRightRadius: '0' }} placeholder="Wyszukaj" />
+                                <Input value={inputsValue.tittle} onChange={(e) => { setInputsValue({ ...inputsValue, tittle: e.target.value }) }} sx={{ borderRightRadius: '0' }} placeholder="Wyszukaj" />
                             </InputGroup>
                             <InputGroup >
                                 <InputLeftElement children={<IoLocationOutline />} />
-                                <LocalizationInput searchParams={searchParams} updateSearchParams={(localizationParams) => setSearchParams({ ...searchParams, ...localizationParams })} pl={10} bg={'#fff'} sx={{ borderRadius: 0 }} variant={'outline'} placeholder="Lokalizacja"></LocalizationInput>
+                                <LocalizationInput updateInputsValue={(newInputsValue) => setInputsValue(newInputsValue)} inputsValue={inputsValue} pl={10} bg={'#fff'} sx={{ borderRadius: 0 }} variant={'outline'} placeholder="Lokalizacja"></LocalizationInput>
                             </InputGroup>
-                            <Button px={10} sx={{ borderLeftRadius: '0' }} variant={'solid'} colorScheme={'blue'} onClick={() => { handleSearchButton() }} rightIcon={<IoSearchOutline />}>Szukaj</Button>
+                            <Button onClick={() => navigate("/ogloszenia?" + new URLSearchParams(deleteNullFields(inputsValue)).toString())} px={10} sx={{ borderLeftRadius: '0' }} variant={'solid'} colorScheme={'blue'} rightIcon={<IoSearchOutline />}>Szukaj</Button>
                         </InputGroup>
                     </HStack>
                 </Container>
@@ -55,3 +62,4 @@ function SearchBar() {
 }
 
 export default SearchBar
+

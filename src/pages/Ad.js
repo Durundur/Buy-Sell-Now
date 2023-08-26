@@ -11,14 +11,25 @@ import useApi from "../hooks/useApi";
 import { getAd } from "../utils/apiServices";
 import ContainerBox from '../components/ContainerBox'
 import { formatDate } from "../utils/utils";
+import { createNewConversation } from './../utils/apiServices';
+
+
 function Ad() {
     const { id } = useParams();
     const phoneNumber = useRef(null);
     const { data, error, isLoading, triggerApiCall } = useApi()
 
+
     useEffect(() => {
         triggerApiCall(getAd(id));
     }, [])
+
+
+    async function handleCreateNewConversation(e) {
+        e.preventDefault();
+        const newConversationData = { adId: id };
+        await triggerApiCall(createNewConversation(newConversationData));
+    }
 
 
     if (isLoading) return <ContainerBox bgColor1={'gray.50'}><LoadingSpinner></LoadingSpinner></ContainerBox>
@@ -26,35 +37,35 @@ function Ad() {
     return (
         <ContainerBox bgColor1={'gray.50'}>
             <Flex justifyItems={'center'} alignItems={'center'} gap={10} direction={'row'} p={'6'}>
-                <Link to={'/'}>
+                <Link to={-1}>
                     <Flex justifyItems={'center'} alignItems={'center'} gap={'2'}>
                         <TfiAngleLeft></TfiAngleLeft>
                         <Text textTransform={'capitalize'}>wróc</Text>
                     </Flex>
                 </Link>
 
-                <Breadcrumb fontSize={'sm'} spacing='8px' separator={<TfiAngleRight />}>
+                <Breadcrumb fontSize={'sm'} spacing='8px' textTransform={'capitalize'} separator={<TfiAngleRight />}>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href='#'>Strona główna</BreadcrumbLink>
+                        <Link to={'/'}>Strona główna</Link>
                     </BreadcrumbItem>
 
-                    <BreadcrumbItem>
-                        <BreadcrumbLink textTransform={'capitalize'}>{data?.mainCategory}</BreadcrumbLink>
+                    <BreadcrumbItem >
+                        <Link to={`/ogloszenia/${data?.mainCategory}`} >{data?.mainCategory}</Link>
                     </BreadcrumbItem>
 
-                    <BreadcrumbItem isCurrentPage>
-                        <BreadcrumbLink textTransform={'capitalize'}>{data?.subCategory}</BreadcrumbLink>
+                    <BreadcrumbItem >
+                        <Link to={`/ogloszenia/${data?.mainCategory}/${data?.subCategory}`} >{data?.subCategory}</Link>
                     </BreadcrumbItem>
 
-                    <BreadcrumbItem isCurrentPage>
-                        <BreadcrumbLink textTransform={'capitalize'} href='#'>{data?.subSubCategory}</BreadcrumbLink>
+                    <BreadcrumbItem >
+                        <Link to={`/ogloszenia/${data?.mainCategory}/${data?.subCategory}/${data?.subSubCategory}`}>{data?.subSubCategory}</Link>
                     </BreadcrumbItem>
                 </Breadcrumb>
             </Flex>
             <Flex gap={'20px'} display={'flex'} flexDirection={'row'}>
                 <Flex gap={'20px'} width={'70%'} flexDirection={'column'}>
                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
-                        <Carousel cards={data?.images || []}></Carousel>
+                        <Carousel cards={data?.images}></Carousel>
                     </Box>
 
                     <Stack boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -73,12 +84,12 @@ function Ad() {
                 </Flex>
                 <Flex width={'30%'} gap={'20px'} flexDirection={'column'}>
                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
-                        <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>{data?.advertiser?.advertiser?.isCompanyAcc ? 'przedsiębiorca' : 'osoba prywatna'}</Text>
+                        <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>{data?.advertiser?.details?.isCompanyAcc ? 'przedsiębiorca' : 'osoba prywatna'}</Text>
                         <Flex mt={'20px'} gap={'20px'} alignItems={'center'}>
-                            <Avatar src={data?.advertiser?.advertiser?.avatar}></Avatar>
+                            <Avatar src={data?.advertiser?.details?.avatar}></Avatar>
                             <Flex flexDirection={'column'} alignItems={'flex-start'}>
                                 <Text mb={'5px'} fontWeight={'medium'} fontSize={'lg'}>{data?.advertiser?.name}</Text>
-                                <SecondaryText fontWeight={'light'}>Na BSN od {formatDate(data?.advertiser?.advertiser?.createdAt, 'long')}</SecondaryText>
+                                <SecondaryText fontWeight={'light'}>Na BSN od {formatDate(data?.advertiser?.details?.createdAt, 'long')}</SecondaryText>
                                 <SecondaryText fontWeight={'light'}>Ostatnio online dziś o 13:36</SecondaryText>
                             </Flex>
                         </Flex>
@@ -89,14 +100,14 @@ function Ad() {
                             </Flex>
                         </Box>
                         <VStack gap={'10px'}>
-                            <Button w={'100%'} variant={'solid'} colorScheme={'blue'}>Wyślij wiadomość</Button>
+                            <Button onClick={(e) => handleCreateNewConversation(e)} w={'100%'} variant={'solid'} colorScheme={'blue'}>Wyślij wiadomość</Button>
                             <HStack justifyContent={'center'} alignItems={'center'}>
                                 <TfiMobile fontSize={'24px'} />
                                 <Text ref={phoneNumber} fontSize={'24px'}>xxx xxx xxx</Text>
                             </HStack>
-                            <Button variant={'solid'} colorScheme={'blue'} w={'100%'} onClick={(e) => { phoneNumber.current.textContent = data?.advertiser?.advertiser?.phoneNumber }}>Zadzwoń</Button>
+                            <Button variant={'solid'} colorScheme={'blue'} w={'100%'} onClick={(e) => { phoneNumber.current.textContent = data?.advertiser?.details?.phoneNumber }}>Zadzwoń</Button>
                         </VStack>
-                        <Link to={`../uzytkownik/${data?.advertiser?.advertiser?.id}`}>
+                        <Link to={`../uzytkownik/${data?.advertiser?._id}`}>
                             <HStack m={'20px'} justifyContent={'center'} alignItems={'center'}>
                                 <SecondaryText>Więcej od tego ogłoszeniodawcy</SecondaryText>
                                 <TfiAngleRight />
@@ -118,7 +129,7 @@ function Ad() {
                             <img width="600" height="400" src={`https://maps.geoapify.com/v1/staticmap?style=osm-liberty&width=300&height=200&center=lonlat:${data?.address?.lon},${data?.address?.lat}&zoom=10.2989&apiKey=48c7df543ab243d5bb855a75817032ff`}></img>
                         </Box>
                     </VStack>
-                    {data?.advertiser?.advertiser?.isCompanyAcc ?
+                    {data?.advertiser?.details?.isCompanyAcc ?
                         <VStack fontSize={'sm'} boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} width={'100%'} padding={'20px'} alignItems={'stretch'}>
                             <Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>dane firmy</Text>
                             <Text maxH={'14rem'} sx={{
@@ -130,14 +141,14 @@ function Ad() {
                                     backgroundColor: `blue.500`,
                                     borderRadius: '8px',
                                 },
-                            }} overflowY={'scroll'}>{data?.advertiser?.advertiser?.aboutCompany}</Text>
+                            }} overflowY={'scroll'}>{data?.advertiser?.details?.aboutCompany}</Text>
                             <VStack justifyContent={'flex-start'} alignItems={'flex-start'}>
-                                <Text><span style={{ fontWeight: '500' }}>Nazwa firmy:</span> {data?.advertiser?.advertiser?.name}</Text>
-                                <Text><span style={{ fontWeight: '500' }}>NIP:</span> {data?.advertiser?.advertiser?.nip}</Text>
-                                <Text><span style={{ fontWeight: '500' }}>Numer telefonu:</span> {data?.advertiser?.advertiser?.phoneNumber}</Text>
-                                <Text><span style={{ fontWeight: '500' }}>E-mail:</span> {data?.advertiser?.advertiser?.email}</Text>
-                                <Text><span style={{ fontWeight: '500' }}>Adres:</span> {data?.advertiser?.advertiser?.address?.street} {data?.advertiser?.advertiser?.address?.buildingNumber}</Text>
-                                <Text>{data?.advertiser?.advertiser?.address?.postcode} {data?.advertiser?.advertiser?.address?.city}</Text>
+                                <Text><span style={{ fontWeight: '500' }}>Nazwa firmy:</span> {data?.advertiser?.details?.name}</Text>
+                                <Text><span style={{ fontWeight: '500' }}>NIP:</span> {data?.advertiser?.details?.nip}</Text>
+                                <Text><span style={{ fontWeight: '500' }}>Numer telefonu:</span> {data?.advertiser?.details?.phoneNumber}</Text>
+                                <Text><span style={{ fontWeight: '500' }}>E-mail:</span> {data?.advertiser?.details?.email}</Text>
+                                <Text><span style={{ fontWeight: '500' }}>Adres:</span> {data?.advertiser?.details?.address?.street} {data?.advertiser?.details?.address?.buildingNumber}</Text>
+                                <Text>{data?.advertiser?.details?.address?.postcode} {data?.advertiser?.details?.address?.city}</Text>
                             </VStack>
                         </VStack> : null}
                 </Flex>

@@ -1,50 +1,51 @@
 import { io } from 'socket.io-client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-const useSocket = (conversationId, updateState) => {
-    const socket = io('http://localhost:7000');
-    const [isConnected, setIsConnected] = useState(socket.connected);
+const useSocket = (updateConversation) => {
+    const ws = useRef(null);
+    const [isConnectionAlive, setIsConnectionAlive] = useState(false);
 
-    function joinConversation(conversationId) {
-        socket.emit('join conversation', conversationId)
+    function joinRoom(roomId) {
+        ws.current.emit('join room', roomId, (response) => {
+            if (response.status === 'ok') setIsConnectionAlive(true)
+        });
+    }
+
+    function sendRoomMessage(message) {
+        ws.current.emit('room message', message)
     }
 
     useEffect(() => {
         function onConnect() {
-            setIsConnected(true);
+            setIsConnectionAlive(true);
         }
 
         function onDisconnect() {
-            setIsConnected(false);
+            setIsConnectionAlive(false);
         }
 
-
         function onChatMessageEvent(message) {
-            updateState((prevChatData) => {
-                return {
-                    ...prevChatData,
-                    messages: [...prevChatData.messages, message]
-                }
+            console.log('new room msg', message)
+            updateConversation((prevConversation) => {
+                return { ...prevConversation, messages: [...prevConversation.messages, message] }
             })
         }
 
-
+        const socket = io('http://localhost:7000');
         socket.on('connect', onConnect);
         socket.on('disconnect', onDisconnect);
-        socket.on('chat message', onChatMessageEvent);
-        if (conversationId) {
-            joinConversation(conversationId)
-        }
+        socket.on('room message', onChatMessageEvent);
+        ws.current = socket;
 
         return () => {
             socket.off('connect', onConnect);
             socket.off('disconnect', onDisconnect);
-            socket.off('chat message', onChatMessageEvent);
+            socket.off('room message', onChatMessageEvent);
         };
     }, []);
 
 
-    return { socket, isConnected, joinConversation }
+    return { isConnectionAlive, joinRoom, sendRoomMessage }
 }
 
 export default useSocket

@@ -1,6 +1,5 @@
-import { Flex, Avatar, Icon, Text, Box, Image, AspectRatio, Link } from "@chakra-ui/react";
+import { Flex, Icon, Text, Box, AspectRatio } from "@chakra-ui/react";
 import { AiOutlineDelete, AiOutlineFlag, AiOutlineStop, AiOutlineBook } from 'react-icons/ai'
-import AdPreviev from '../../../components/AdPreview/adPreview.png'
 import { useAuthContext } from "../../../contexts";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
@@ -10,40 +9,38 @@ import { getConversationChat } from "../../../utils/apiServices";
 import useApi from "../../../hooks/useApi";
 import LoadingSpinner from '../../LoadingSpinner'
 import useSocket from '../../../hooks/useSocket'
-import { useOutletContext } from "react-router"
+import { Link } from "react-router-dom";
+import { Image } from "../../Image";
 
-
-export default function Chat(props) {
-    const chatRef = useRef(0);
+export default function Chat() {
+    const scrollRef = useRef(null);
     const { id } = useParams();
     const { userInfo } = useAuthContext();
     const { data, error, isLoading, triggerApiCall, setData } = useApi()
-    const { socket, isConnected, chatData, setChatData } = useSocket(id, setData);
+    const { isConnectionAlive, joinRoom, sendRoomMessage } = useSocket(setData);
 
 
     useEffect(() => {
-        chatRef.current.scrollTop = chatRef.current.scrollHeight;
-    }, [data])
-
+        const scrollHeight = scrollRef.current?.scrollHeight;
+        scrollRef.current?.scrollTo({ top: scrollHeight, behavior: 'smooth' })
+    }, [data]);
 
     useEffect(() => {
-        triggerApiCall(getConversationChat(id))
-    }, [])
+        triggerApiCall(getConversationChat(id));
+        joinRoom(id);
+    }, [id])
 
 
-    if (isLoading) return <LoadingSpinner></LoadingSpinner>
+    if (isLoading || !isConnectionAlive) return <LoadingSpinner></LoadingSpinner>
     return (
         <Flex flexBasis={'100%'} direction={'column'}>
             <Box display={'flex'} p={2} borderBottom={'1px'} borderColor={'gray.200'} justifyContent={'space-between'} alignItems={'center'} direction={'row'}>
-                <Link>
-                    <Flex gap={4} flexGrow={5} alignItems={'center'}>
-                        <Avatar size={'sm'}></Avatar>
-                        <Box fontSize={'sm'}>
-                            <Text fontWeight={'bold'}>{data?.conversation?.ad?.advertiser?.name}</Text>
-                            <Text>Ostatnio online dziś o 14:42</Text>
-                        </Box>
-                    </Flex>
-                </Link>
+                <Flex direction={'column'} fontSize={'sm'} gap={1} alignItems={'flex-start'}>
+                    <Link to={`/uzytkownik/${data?.conversation?.ad?.advertiser?._id}`}>
+                        <Text fontWeight={500}>{data?.conversation?.ad?.advertiser?.name}</Text>
+                    </Link>
+                    <Text>Ostatnio online dziś o 14:42</Text>
+                </Flex>
 
                 <Flex fontSize={'xl'} gap={2} direction={'row'} alignItems={'center'}>
                     <Icon as={AiOutlineDelete}></Icon>
@@ -51,16 +48,19 @@ export default function Chat(props) {
                     <Icon as={AiOutlineStop}></Icon>
                     <Icon as={AiOutlineBook}></Icon>
                 </Flex>
-            </Box>
-            <Flex gap={2} p={1} fontSize={'sm'} borderBottom={'1px'} borderColor={'gray.200'} alignItems={'center'} direction={'row'}>
-                <AspectRatio minW={['30%', '20%', '15%']} ratio={4 / 3}>
-                    <Image src={data?.conversation?.ad?.images[0] || AdPreviev}></Image>
-                </AspectRatio>
-                <Flex direction={'column'}>
-                    <Text>{data?.conversation?.ad?.tittle}</Text>
-                    <Text fontWeight={'bold'}>{data?.conversation?.ad?.price?.value}</Text>
+            </Box >
+            <Link to={`/ogloszenie/${data?.conversation?.ad?._id}`}>
+                <Flex gap={2} p={1} fontSize={'sm'} borderBottom={'1px'} borderColor={'gray.200'} alignItems={'center'} direction={'row'}>
+                    <AspectRatio minW={['30%', '20%', '15%']} ratio={4 / 3}>
+                        <Image src={data?.conversation?.ad?.images[0]}></Image>
+                    </AspectRatio>
+                    <Flex direction={'column'}>
+                        <Text>{data?.conversation?.ad?.tittle}</Text>
+                        <Text fontWeight={'bold'}>{data?.conversation?.ad?.price?.value}</Text>
+                    </Flex>
                 </Flex>
-            </Flex>
+            </Link>
+
             <Box sx={{
                 '&::-webkit-scrollbar': {
                     width: '4px',
@@ -70,18 +70,18 @@ export default function Chat(props) {
                     backgroundColor: `blue.500`,
                     borderRadius: '8px',
                 },
-            }} ref={chatRef} height={'100%'} overflowY={'scroll'} scrollSnapAlign={'end'}>
+            }} ref={scrollRef} height={'100%'} overflowY={'scroll'} >
                 {
                     data?.messages?.map((message, index) => {
                         return (
-                            <Message key={index} userId={userInfo} message={message}></Message>
+                            <Message key={index} userId={userInfo.userId} message={message}></Message>
                         )
                     })
                 }
             </Box>
             <Box display={'flex'} alignItems={'center'} gap={2} direction={'row'} justifyContent={'space-between'} p={2}>
-                <ChatInput socket={socket} userInfo={userInfo} conversationId={id}></ChatInput>
+                <ChatInput sendRoomMessage={sendRoomMessage} userInfo={userInfo.userId} conversationId={id}></ChatInput>
             </Box>
-        </Flex>
+        </Flex >
     )
 }

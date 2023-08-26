@@ -44,12 +44,12 @@ export default function UserAds(props) {
                 <GridItem>
                     <FormControl >
                         <FormLabel textTransform={'capitalize'} fontWeight={400}>Sortuj</FormLabel>
-                        <Select onChange={(e) => handleSortChange(e)} textTransform={'capitalize'} shadow={'sm'} bg={'#fff'} autoComplete={'off'}>
+                        <Select defaultValue={'featured'} onChange={(e) => handleSortChange(e)} textTransform={'capitalize'} shadow={'sm'} bg={'#fff'} autoComplete={'off'}>
                             <option value={'price/asc'}>Cena: od najtańszych</option>
                             <option value={'price/desc'}>Cena: od najdroższych</option>
                             <option value={'createdAt/desc'}>Czas: od najnowszych</option>
                             <option value={'createdAt/asc'}>Czas: od najstarszych</option>
-                            <option selected value={''}>Wybrane dla Ciebie</option>
+                            <option value={'featured'} >Wybrane dla Ciebie</option>
                         </Select>
                     </FormControl>
                 </GridItem>

@@ -1,8 +1,7 @@
 import { Button, Flex, Icon, } from "@chakra-ui/react";
-import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Link, redirect } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 
 const PagButton = (props) => {
     const activeStyle = {
@@ -19,13 +18,16 @@ const PagButton = (props) => {
     );
 };
 
-function Pagination({ currentPage, isLoading }) {
+function Pagination({ pathParams, queryParams, isLoading }) {
+    const searchParams = new URLSearchParams(queryParams);
+    const currentPage = parseInt(searchParams.get('page')) || 1;
     const navigate = useNavigate();
 
     const handleArrowClick = (direction) => {
         let nextPage = currentPage + direction;
-        if (nextPage <= 0) nextPage = currentPage
-        navigate(`?page=${nextPage}`)
+        if (nextPage <= 0) nextPage = currentPage;
+        searchParams.set('page', nextPage);
+        navigate(pathParams + '?' + searchParams.toString());
     }
 
 

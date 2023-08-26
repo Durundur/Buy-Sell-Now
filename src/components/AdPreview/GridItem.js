@@ -1,14 +1,14 @@
-import { Box, Image, Text, AspectRatio, Flex } from "@chakra-ui/react"
+import { Box, Text, AspectRatio, Flex } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { formatDate } from "../../utils/utils"
 import SecondaryText from '../SecondaryText'
+import { Image } from "../Image"
+
 function GridItem({ adData }) {
     return (
         <Flex direction={'column'} boxShadow={'md'} p={{ base: 2, md: 3 }} bg={'white'} borderRadius={'20px'} w={{ base: '100%' }}>
             <AspectRatio mb={3} ratio={4 / 3}>
-                <Link to={'/ogloszenie/' + adData?._id}>
-                    <Image objectFit={'contain'} src={adData?.images[0]}></Image>
-                </Link>
+                <Image src={adData?.images[0]}></Image>
             </AspectRatio>
             <Flex flexGrow={1} justifyContent={'space-between'} direction={'column'}>
                 <Box flexGrow={0} h={'72px'}>

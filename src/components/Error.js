@@ -7,6 +7,7 @@ export default function Error({ error, variant = "error" }) {
         <VStack py="12">
             {variant === 'error' && <Text fontWeight={'bold'} fontSize={'2xl'}>Whoops, something went wrong.</Text>}
             <Text fontSize={'lg'}>{error?.message}</Text>
+            <Text>{error?.response?.data?.message}</Text>
             {variant === 'error' && <>
                 <Link to={'/'}>
                     <Button size={{ base: 'sm', md: 'md' }} colorScheme={'blue'}>Strona główna</Button>
