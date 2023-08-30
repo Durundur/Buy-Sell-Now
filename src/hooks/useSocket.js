@@ -1,5 +1,6 @@
 import { io } from 'socket.io-client';
 import { useState, useEffect, useRef } from 'react';
+const baseURL = process.env.REACT_APP_API
 
 const useSocket = (updateConversation) => {
     const ws = useRef(null);
@@ -31,7 +32,7 @@ const useSocket = (updateConversation) => {
             })
         }
 
-        const socket = io('http://localhost:7000');
+        const socket = io(baseURL);
         socket.on('connect', onConnect);
         socket.on('disconnect', onDisconnect);
         socket.on('room message', onChatMessageEvent);
