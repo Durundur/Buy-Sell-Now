@@ -1,47 +1,40 @@
 
-import { Link, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../Header";
 import CategoriesData from './CategoriesData'
-import { useRef, useState } from "react"
-import { Box, Container, Wrap, SimpleGrid, Image, VStack, Text, Flex,  } from "@chakra-ui/react";
-function CategoriesMainPage(){
-    const [mainCategory, setMainCategory] = useState();
-    const handleClickMainCategory = (mainCategoryName)=>{
-        setMainCategory(mainCategoryName);
-    }
-    return(
+import { Box, SimpleGrid, Image, VStack, Text, } from "@chakra-ui/react";
+import ContainerBox from "../ContainerBox";
+import { css } from '@emotion/react'
+
+function CategoriesMainPage() {
+    const navigate = useNavigate()
+
+    return (
         <>
-        <Box pb={10} color={'blue.900'} bg={'#fff'}>
-            <Container  maxW={{md:'container.md', lg:'container.lg', xl:'container.xl'}} >
-                <Header>Kategorie Główne</Header>
-                    <SimpleGrid minChildWidth='80px' spacing={10}>
-                        {
-                            CategoriesData.map((category) => {
-                                return (
-                                    <VStack _hover={{
-                                        p: {
-                                            textDecoration: "underline",
-                                        },
-                                        div: {
-                                            backgroundColor: "gray.200",
-                                        }
-                                    }} cursor={'pointer'} onClick={()=>handleClickMainCategory(category.name)} key={category.name} alignItems={'center'}>
-                                            <Box shadow={'md'} bg={'gray.100'} borderRadius={'50%'} padding={'5px'}><Image src={category?.picture}></Image></Box>
-                                            <Text  align={'center'} fontWeight={'bold'} textTransform={'capitalize'}>{category?.name}</Text>
-                                    </VStack>
-                                    
-                                )
-                                
-                            })
-                        }
-                        
-                    </SimpleGrid>
-            </Container>
-        </Box>
-        <Outlet/>
+            <ContainerBox bgColor1={'#fff'}>
+                <Header>Kategorie główne</Header>
+                <SimpleGrid minChildWidth='80px' spacing={10}>
+                    {
+                        CategoriesData.map((category) => {
+                            return (
+                                <VStack _hover={{
+                                    div: {
+                                        backgroundColor: "gray.200",
+                                    }
+                                }} cursor={'pointer'} onClick={() => navigate(`/ogloszenia/${category.name}`)} key={category.name} alignItems={'center'}>
+                                    <Box shadow={'md'} bg={'gray.100'} borderRadius={'50%'} padding={'5px'}><Image src={category?.picture}></Image></Box>
+                                    <Text css={css`:first-letter { text-transform: uppercase;}`} align={'center'} fontWeight={'bold'} >{category?.name}</Text>
+                                </VStack>
+                            )
+                        })
+                    }
+                </SimpleGrid>
+            </ContainerBox>
+            <Outlet />
         </>
-        
+
     )
 }
 
 export default CategoriesMainPage
+

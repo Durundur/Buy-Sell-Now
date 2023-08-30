@@ -1,5 +1,4 @@
 
-
 export const formatDescritpion = (text) => {
     return text?.replace(/<br\s*[\/]?>/gi, "\n")
 }
@@ -37,6 +36,11 @@ export const handleInputChange = (e, data, setData) => {
         }
         target = target[key];
     }
-    target[name[name.length - 1]] = value;
+    if (typeof value === 'object') {
+        target[name[name.length - 1]] = { ...target[name[name.length - 1]], ...value }
+
+    } else {
+        target[name[name.length - 1]] = value;
+    }
     setData(updatedData);
 };

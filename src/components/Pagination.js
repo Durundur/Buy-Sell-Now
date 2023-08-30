@@ -52,4 +52,5 @@ function Pagination({ pathParams, queryParams, isLoading }) {
     )
 }
 
+
 export default Pagination

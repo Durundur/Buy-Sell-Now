@@ -8,7 +8,7 @@ function ListItemPublic({ adData, ...props }) {
     return (
         <Box borderRadius={'20px'} bg={'#fff'} alignItems={'stretch'} boxShadow={'md'} width={'100%'} p={{ base: 2, md: 3 }}>
             <HStack as={Link} to={'/ogloszenie/' + adData?._id} width={'100%'} alignItems={'stretch'}>
-                <AspectRatio ratio={4 / 3} minWidth={['33%', '28%', '23%', '18%', '15%']}>
+                <AspectRatio ratio={4 / 3} minWidth={['200px']}>
                     <Image src={adData?.images[0]}></Image>
                 </AspectRatio>
                 <VStack flexGrow={1} justifyContent={'space-between'} alignItems={'stretch'}>

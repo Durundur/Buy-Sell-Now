@@ -18,10 +18,14 @@ export default function AdListBadges({ details }) {
     let keys = Object.keys(details || {})
     return (
         <Flex height={'60px'} columnGap={'4'} rowGap={'2'} wrap={'wrap'}>
-            {keys.map((key, index) => {
-                if (keysToDisplay.includes(key))
-                    return <Badge key={index} icon={iconMap[key]} text={details[key] + (key === 'mileage' ? ' km' : "")}></Badge>
-            })}
+            {
+                keys.map((key, index) => {
+                    if (keysToDisplay.includes(key)) {
+                        return <Badge key={index} icon={iconMap[key]} text={details[key] + (key === 'mileage' ? ' km' : "")}></Badge>
+                    }
+                    return null;
+                })
+            }
         </Flex>
     )
 }

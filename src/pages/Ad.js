@@ -1,6 +1,6 @@
-import { Box, Container, Flex, HStack, Text, Stack, Divider, Avatar, VStack, Button, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
-import { React, useEffect, useRef, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Box, Flex, HStack, Text, Stack, Divider, Avatar, VStack, Button, Breadcrumb, BreadcrumbItem } from "@chakra-ui/react";
+import { React, useEffect, useRef } from "react";
+import { Link, useParams } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import SecondaryText from '../components/SecondaryText'
 import { TfiHelpAlt, TfiAngleRight, TfiLocationPin, TfiMobile, TfiAngleLeft } from "react-icons/tfi";
@@ -13,16 +13,14 @@ import ContainerBox from '../components/ContainerBox'
 import { formatDate } from "../utils/utils";
 import { createNewConversation } from './../utils/apiServices';
 
-
 function Ad() {
     const { id } = useParams();
     const phoneNumber = useRef(null);
     const { data, error, isLoading, triggerApiCall } = useApi()
 
-
     useEffect(() => {
         triggerApiCall(getAd(id));
-    }, [])
+    }, [id, triggerApiCall])
 
 
     async function handleCreateNewConversation(e) {
@@ -43,7 +41,6 @@ function Ad() {
                         <Text textTransform={'capitalize'}>wróc</Text>
                     </Flex>
                 </Link>
-
                 <Breadcrumb fontSize={'sm'} spacing='8px' textTransform={'capitalize'} separator={<TfiAngleRight />}>
                     <BreadcrumbItem>
                         <Link to={'/'}>Strona główna</Link>
@@ -65,7 +62,7 @@ function Ad() {
             <Flex gap={'20px'} display={'flex'} flexDirection={'row'}>
                 <Flex gap={'20px'} width={'70%'} flexDirection={'column'}>
                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
-                        <Carousel cards={data?.images}></Carousel>
+                        <Carousel cards={data?.images || []}></Carousel>
                     </Box>
 
                     <Stack boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
@@ -126,7 +123,7 @@ function Ad() {
                             </Flex>
                         </HStack>
                         <Box >
-                            <img width="600" height="400" src={`https://maps.geoapify.com/v1/staticmap?style=osm-liberty&width=300&height=200&center=lonlat:${data?.address?.lon},${data?.address?.lat}&zoom=10.2989&apiKey=48c7df543ab243d5bb855a75817032ff`}></img>
+                            <img width="600" alt={'map'} height="400" src={`https://maps.geoapify.com/v1/staticmap?style=osm-liberty&width=300&height=200&center=lonlat:${data?.address?.lon},${data?.address?.lat}&zoom=10.2989&apiKey=48c7df543ab243d5bb855a75817032ff`}></img>
                         </Box>
                     </VStack>
                     {data?.advertiser?.details?.isCompanyAcc ?
@@ -144,11 +141,12 @@ function Ad() {
                             }} overflowY={'scroll'}>{data?.advertiser?.details?.aboutCompany}</Text>
                             <VStack justifyContent={'flex-start'} alignItems={'flex-start'}>
                                 <Text><span style={{ fontWeight: '500' }}>Nazwa firmy:</span> {data?.advertiser?.details?.name}</Text>
-                                <Text><span style={{ fontWeight: '500' }}>NIP:</span> {data?.advertiser?.details?.nip}</Text>
+                                {data?.advertiser?.details?.nip && <Text><span style={{ fontWeight: '500' }}>NIP:</span> {data?.advertiser?.details?.nip}</Text>}
                                 <Text><span style={{ fontWeight: '500' }}>Numer telefonu:</span> {data?.advertiser?.details?.phoneNumber}</Text>
-                                <Text><span style={{ fontWeight: '500' }}>E-mail:</span> {data?.advertiser?.details?.email}</Text>
+                                {data?.advertiser?.details?.email && <Text><span style={{ fontWeight: '500' }}>E-mail:</span> {data?.advertiser?.details?.email}</Text>}
                                 <Text><span style={{ fontWeight: '500' }}>Adres:</span> {data?.advertiser?.details?.address?.street} {data?.advertiser?.details?.address?.buildingNumber}</Text>
                                 <Text>{data?.advertiser?.details?.address?.postcode} {data?.advertiser?.details?.address?.city}</Text>
+                                {data?.advertiser?.details?.companyWebsite && <Text><span style={{ fontWeight: '500' }}>Strona internetowa: </span><a target="_blank" rel="noreferrer" href={data?.advertiser?.details?.companyWebsite} >{data?.advertiser?.details?.companyWebsite}</a></Text>}
                             </VStack>
                         </VStack> : null}
                 </Flex>

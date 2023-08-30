@@ -31,10 +31,12 @@ export const getAllAds = () => {
     return axios({ method: 'get', url: ADS_URL, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
-export const getAds = (params) => {
-    params = params.replace('ogloszenia', 'search')
-    console.log(params)
-    return axios({ method: 'get', url: `${ADS_URL}${params}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+export const getPromotedAds = () => {
+    return axios({ method: 'get', url: `${ADS_URL}/promoted`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+}
+
+export const getAds = (queryParams) => {
+    return axios({ method: 'get', url: `${ADS_URL}${queryParams}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
 
@@ -47,20 +49,8 @@ export const getUserAds = (queryParams) => {
 }
 
 
-export const getUsersAds = (page, userId, mainCatParam, subCatParam, subSubCatParam, sort, order) => {
-    let categoryParamPath = '';
-    if (mainCatParam) {
-        categoryParamPath = categoryParamPath + mainCatParam;
-        if (subCatParam) {
-            categoryParamPath = categoryParamPath + '/' + subCatParam;
-            if (subSubCatParam) categoryParamPath = categoryParamPath + '/' + subSubCatParam;
-        }
-    }
-    let queryParams = '';
-    if (sort) {
-        queryParams = `&sort=${sort}&order=${order}`
-    }
-    return axios({ method: 'get', url: `${ADS_URL}/user/${userId}/${categoryParamPath}?page=${page}${queryParams}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
+export const getUsersAds = (queryParams) => {
+    return axios({ method: 'get', url: `${ADS_URL}/${queryParams}`, withCredentials: true, headers: { 'Content-Type': 'application/json' } })
 }
 
 export const getUsersAdsStats = (userId) => {

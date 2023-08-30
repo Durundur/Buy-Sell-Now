@@ -13,7 +13,7 @@ import { TextInput } from "../components/Form/TextInput";
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { formatDescritpion } from '../utils/utils'
-import AdvertiserInfoInputs from './../components/Form/AdvertiserInfoInputs';
+import AdvertiserInfoInputs from '../components/Form/AdvertiserInfo';
 import { handleInputChange } from "../utils/utils";
 import { getUserInfo } from "../utils/apiServices";
 

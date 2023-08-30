@@ -1,4 +1,4 @@
-import { Box, Flex, VStack, Text, InputGroup, Input, InputLeftElement, Select, FormLabel, FormControl, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { CategoryBadge } from './CategoryBadge';
 import { getUsersAdsStats } from '../../utils/apiServices';
 import useApi from '../../hooks/useApi';
@@ -10,7 +10,7 @@ export function UserAdsFilter({ userId, mainCatParam, subCatParam, subSubCatPara
     const { triggerApiCall, isLoading, data } = useApi();
     useEffect(() => {
         triggerApiCall(getUsersAdsStats(userId))
-    }, [])
+    }, [userId, triggerApiCall])
 
     if (isLoading) return <LoadingSpinner></LoadingSpinner>
     return (

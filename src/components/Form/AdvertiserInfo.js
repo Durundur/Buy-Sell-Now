@@ -1,4 +1,3 @@
-
 import { TextInput } from './TextInput'
 import { LocalizationSuggestionForm } from './LocatizationSuggestion'
 export default function AdvertiserInfoInputs({ onInputChange, localizationInputName }) {

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import NavBar from './components/NavBar/NavBar';
 import SearchBar from './components/Searchbar/SearchBar.js'
 import CategoriesMainPage from './components/SelectCategory/CategoriesMainPage';
@@ -11,7 +10,6 @@ import Ad from './pages/Ad';
 import NewAd from './pages/NewAd';
 import AdsList from './pages/AdsList';
 import EditAd from './pages/EditAd';
-import TestCom from './components/TestCom';
 import { MyAccount, MyAds, MyRating, MySettings, MyShipments, ObservedAds, MyMessages, Chat } from './components/MyAccount';
 import ProtectedRoute from './utils/ProtectedRoute'
 import { AuthContextProvider } from './contexts';
@@ -63,7 +61,6 @@ function App() {
               </Route>
 
             </Route>
-            <Route path='test' element={<TestCom />}></Route>
           </Route>
         </Routes>
       </Router>

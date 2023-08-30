@@ -6,7 +6,7 @@ import { Button } from '@chakra-ui/react'
 import { updateUserInfo } from "../../../utils/apiServices";
 import LoadingSpinner from '../../LoadingSpinner'
 import { Box } from "@chakra-ui/react";
-import AdvertiserInfoInputs from "../../Form/AdvertiserInfoInputs"
+import AdvertiserInfo from "../../Form/AdvertiserInfo"
 import { handleInputChange } from "../../../utils/utils";
 import { CompanyInfo } from '../../Form/CompanyInfo'
 export default function ChangeGeneralInfo({ data, setData, error, isLoading, triggerApiCall, }) {
@@ -34,7 +34,7 @@ function GeneralInfoPersonal({ data, setData, triggerApiCall, error }) {
             })
         })} onSubmit={(values) => { triggerApiCall(updateUserInfo(values)) }}>
             <Form>
-                <AdvertiserInfoInputs onInputChange={(e) => handleInputChange(e, data, setData)}></AdvertiserInfoInputs>
+                <AdvertiserInfo onInputChange={(e) => handleInputChange(e, data, setData)}></AdvertiserInfo>
                 {error && <Text fontSize={'14px'} color={'red.500'}>{error?.response?.data?.message}</Text>}
                 <Button mt={4} variant={"solid"} type={'submit'} colorScheme={"blue"}>
                     Zapisz

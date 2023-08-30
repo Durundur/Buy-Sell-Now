@@ -1,11 +1,12 @@
-import { Box, FormControl, FormLabel, Input, IconButton, Image, AspectRatio } from "@chakra-ui/react";
-import { useState } from "react";
-import Avatar from '../../../components/Avatar/Avatar'
+import { Box, Input, IconButton, } from "@chakra-ui/react";
+import { Avatar } from '../../../components/Avatar'
 import { FaTrash } from 'react-icons/fa';
-import AvatarFallback from "../../Avatar/AvatarFallback";
 
 export default function ChangeAvatar({ avatar, setData }) {
-    const [isHovered, setIsHovered] = useState(true);
+    let avatarSrc = avatar;
+    if (typeof avatar === 'object') {
+        avatarSrc = URL.createObjectURL(avatar);
+    }
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
@@ -17,22 +18,24 @@ export default function ChangeAvatar({ avatar, setData }) {
     }
 
     const handleAvatarRemove = (e) => {
-        e.preventDefault()
+        e.stopPropagation();
+        e.preventDefault();
         setData((prevData) => {
-            return { ...prevData, avatar: null }
+            return { ...prevData, avatar: '' }
         });
     };
 
     return (
-        <Box onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} display={'flex'} justifyContent={'center'} alignItems={'center'} position={'relative'} width={['40vw', '30vw', '15vw']} height={['40vw', '30vw', '15vw']}>
-            <Avatar src={avatar} position={'absolute'} width={'100%'} height={'100%'}></Avatar>
-            {isHovered && avatar && (
-                <Box zindex={101} position={'absolute'}>
-                    <IconButton onClick={(e) => handleAvatarRemove(e)} bg={'gray.200'} color={'blue.900'} icon={<FaTrash />} />
-                </Box>
-            )}
-            <label zindex={100} style={{ cursor: 'pointer', position: 'absolute', width: '100%', height: '100%' }} htmlFor="fileinputavatar"></label>
-            <Input id="fileinputavatar" value={''} onChange={(e) => handleAvatarChange(e)} accept={'image/*'} display={'none'} type={'file'} />
-        </Box>
+        <Box shadow={'md'} borderRadius={'full'} _hover={{ '.delete-bnt': { display: 'block' } }} display={'flex'} justifyContent={'center'} alignItems={'center'} position={'relative'} width={['17vw', '15vw', '13vw', '9vw']} height={['17vw', '15vw', '13vw', '9vw']}>
+            <Avatar bg={'gray.100'} src={avatarSrc} position={'absolute'} width={'100%'} height={'100%'}></Avatar>
+            {
+                avatar ? (<Box onClick={(e) => { handleAvatarRemove(e) }} className={'delete-bnt'} display={'none'} zindex={2} position={'absolute'}>
+                    <IconButton bg={'gray.100'} color={'blue.900'} icon={<FaTrash />} />
+                </Box>) : (<>
+                    <label zindex={1} style={{ cursor: 'pointer', position: 'absolute', width: '100%', height: '100%' }} htmlFor="fileinputavatar"></label>
+                    <Input id="fileinputavatar" value={''} onChange={(e) => { handleAvatarChange(e) }} accept={'image/*'} display={'none'} type={'file'} />
+                </>)
+            }
+        </Box >
     )
 }

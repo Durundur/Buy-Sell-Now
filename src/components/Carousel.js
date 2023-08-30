@@ -4,7 +4,8 @@ import { Box, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick';
-import { useState } from 'react';
+import { FallbackImage } from './Image';
+import { bool } from '../../node_modules/yup/index';
 
 // Settings for the slider
 const settings = {
@@ -17,6 +18,8 @@ const settings = {
   autoplaySpeed: 1000,
   slidesToShow: 1,
   slidesToScroll: 1,
+  adaptiveHeight: true,
+  draggable: true,
 };
 
 export default function Carousel(props) {
@@ -28,6 +31,7 @@ export default function Carousel(props) {
   // buttons as the screen size changes
   const top = useBreakpointValue({ base: '90%', md: '50%' });
   const side = useBreakpointValue({ base: '30%', md: '10px' });
+
 
   return (
     <Box
@@ -75,18 +79,21 @@ export default function Carousel(props) {
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {props?.cards?.map((url, index) => (
-          <Box
-            key={index}
-            height={'600px'}
-            width={'100%'}
-            position="block"
-            backgroundPosition="center"
-            backgroundRepeat="no-repeat"
-            backgroundSize="contain"
-            backgroundImage={`url(${url})`}
-          />
-        ))}
+        {
+          props.cards.length === 0 ? <FallbackImage height={'600px'}></FallbackImage> :
+            props.cards?.map((url, index) => (
+              <Box
+                key={index}
+                height={'600px'}
+                width={'100%'}
+                position="block"
+                backgroundPosition="center"
+                backgroundRepeat="no-repeat"
+                backgroundSize="contain"
+                backgroundImage={`url(${url})`}
+              />
+            ))
+        }
       </Slider>
     </Box>
   );

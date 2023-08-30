@@ -1,15 +1,15 @@
 import { useEffect } from "react"
 import { useOutletContext, useNavigate } from "react-router"
-import { Box, Flex, VStack, Text, InputGroup, Input, InputLeftElement, Select, FormLabel, FormControl, Grid, GridItem } from '@chakra-ui/react';
+import { Flex, InputGroup, Input, InputLeftElement, Select, FormLabel, FormControl, Grid, GridItem } from '@chakra-ui/react';
 import ContainerBox from './../ContainerBox';
 import ListItemPublic from '../../components/AdPreview/ListItemPublic';
 import Pagination from '../../components/Pagination';
 import { getUsersAds } from '../../utils/apiServices';
-import usePagination from '../../hooks/usePagination';
 import { IoSearchOutline } from 'react-icons/io5'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { UserAdsFilter } from "./UserAdsFilter";
 import LoadingSpinner from "../LoadingSpinner";
+import useApi from './../../hooks/useApi';
 
 export default function UserAds(props) {
     const [setActiveTab] = useOutletContext();
@@ -18,8 +18,14 @@ export default function UserAds(props) {
     }, [props.activeTab])
 
     const navigate = useNavigate()
+    const location = useLocation();
+    const { data, isLoading, triggerApiCall } = useApi();
     const { id, mainCatParam, subCatParam, subSubCatParam } = useParams();
-    const { data, setData, error, pageParam, isLoading } = usePagination(getUsersAds, id, mainCatParam, subCatParam, subSubCatParam)
+
+    useEffect(() => {
+        triggerApiCall(getUsersAds((location.pathname + location.search).replace('uzytkownik', 'user')))
+    }, [triggerApiCall, location.pathname, location.search])
+
 
     function handleSortChange(e) {
         const value = e.target.value.split('/');
@@ -62,7 +68,7 @@ export default function UserAds(props) {
                         {data && data.map((ad) => {
                             return <ListItemPublic key={ad._id} adData={ad}></ListItemPublic>
                         })}
-                        <Pagination isLoading={isLoading} currentPage={pageParam}></Pagination>
+                        <Pagination isLoading={isLoading} pathParams={location.pathname} queryParams={location.search}></Pagination>
                     </Flex>
                 </GridItem>
 
