@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseURL = process.env.REACT_APP_API_LOCAL
+const baseURL = process.env.REACT_APP_API
+// const baseURL = process.env.REACT_APP_API_LOCAL
 
 const LOGIN_URL = `${baseURL}api/v1/auth/login`
 const LOGOUT_URL = `${baseURL}api/v1/auth/logout`
