@@ -1,7 +1,7 @@
-import { createRef, useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useOutletContext } from "react-router"
 import ContainerBox from './../ContainerBox';
-import { Flex, Text, Box } from '@chakra-ui/react'
+import { Flex, Text, } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/react';
 export default function UserInfo(props) {
     const [setActiveTab, data] = useOutletContext();

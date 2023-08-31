@@ -1,4 +1,4 @@
-import { Box, Button, Container, Input, InputGroup, VStack, Divider, InputRightElement, Text } from '@chakra-ui/react'
+import { Box, Button, Container, Input, InputGroup, VStack, InputRightElement, } from '@chakra-ui/react'
 import Header from './Header'
 import SecondaryText from './SecondaryText'
 import { useState } from 'react'

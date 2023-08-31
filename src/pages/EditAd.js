@@ -1,4 +1,4 @@
-import { Container, Box, Text, Input, Button, Flex, Textarea, Select } from "@chakra-ui/react";
+import { Box, Text, Button, Flex, Textarea, } from "@chakra-ui/react";
 import SecondaryText from "../components/SecondaryText";
 import UploadGrid from '../components/Uploader/UploadGrid'
 import Category from "../components/SelectCategory/Category";

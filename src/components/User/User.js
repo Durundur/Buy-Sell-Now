@@ -1,17 +1,17 @@
 
 import ContainerBox from './../../components/ContainerBox';
-import { VStack, Text, Box, HStack, Avatar, Button, Image, Flex, Tabs, TabList, TabPanels, TabPanel, Tab, TabIndicator } from '@chakra-ui/react';
+import { VStack, Text, Box, HStack, Avatar, Button, Image, Tabs, TabList, Tab, TabIndicator } from '@chakra-ui/react';
 import useApi from './../../hooks/useApi';
 import { Link, useParams } from 'react-router-dom';
 import { getUsersInfo } from './../../utils/apiServices';
-import { useOutletContext, Outlet } from "react-router"
+import { Outlet } from "react-router"
 import { useState, useEffect } from 'react';
 import { formatDate } from '../../utils/utils';
 
 export default function User(props) {
     const [activeTab, setActiveTab] = useState(0);
     const { id } = useParams()
-    const { data, isLoading, error, triggerApiCall } = useApi();
+    const { data, triggerApiCall } = useApi();
     useEffect(() => {
         triggerApiCall(getUsersInfo(id));
     }, [])

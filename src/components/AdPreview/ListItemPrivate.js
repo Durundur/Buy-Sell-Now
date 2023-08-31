@@ -3,15 +3,14 @@ import { Link } from "react-router-dom"
 import { TfiCalendar, TfiLocationPin } from "react-icons/tfi";
 import { FiPhone, FiHeart, FiEye } from "react-icons/fi";
 import { formatDate } from "../../utils/utils";
-import { GoPrimitiveDot } from 'react-icons/go'
-import { BsCardImage } from 'react-icons/bs'
+import { GoDotFill } from 'react-icons/go'
 import { deleteAd } from "../../utils/apiServices";
 import useApi from "../../hooks/useApi";
 import { Image } from "../Image"
 
 function ListItemPrivate({ adData }) {
     const { mainCategory, subCategory, subSubCategory } = adData;
-    const { response, isLoading, triggerApiCall } = useApi();
+    const { triggerApiCall } = useApi();
 
 
     const handleAdDelete = async () => {
@@ -32,10 +31,10 @@ function ListItemPrivate({ adData }) {
                         <VStack gap={'sm'} alignItems={'stretch'}>
                             <HStack>
                                 <Text textTransform={'capitalize'}>{mainCategory}</Text>
-                                <GoPrimitiveDot size={8} />
+                                <GoDotFill size={8} />
                                 <Text textTransform={'capitalize'}>{subCategory}</Text>
                                 {subSubCategory ? <>
-                                    <GoPrimitiveDot size={8} />
+                                    <GoDotFill size={8} />
                                     <Text textTransform={'capitalize'}>{subSubCategory}</Text>
                                 </> : null}
                             </HStack>

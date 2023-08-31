@@ -1,5 +1,5 @@
-import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Lorem, HStack, GridItem, Image, SimpleGrid, Box, Flex, Text } from "@chakra-ui/react"
-import { useEffect, useRef, useState } from "react"
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader,  ModalBody, ModalCloseButton,  HStack,  Image, SimpleGrid, Box, Flex, Text } from "@chakra-ui/react"
+import {  useState } from "react"
 import CategoriesData from './CategoriesData'
 import MainCategorySelect from './MainCategorySelect'
 import { TfiAngleRight } from 'react-icons/tfi'

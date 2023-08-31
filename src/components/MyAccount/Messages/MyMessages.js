@@ -11,7 +11,7 @@ import { useOutlet } from 'react-router-dom'
 import { useAuthContext } from "../../../contexts";
 
 function MyMessages(props) {
-    const { data, error, isLoading, triggerApiCall, setData } = useApi()
+    const { data, isLoading, triggerApiCall, } = useApi()
     const [setActiveTab] = useOutletContext();
     const outlet = useOutlet()
     const { userInfo } = useAuthContext();

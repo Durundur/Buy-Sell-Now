@@ -1,4 +1,4 @@
-import { createRef, useEffect, useState } from "react"
+import { useEffect, } from "react"
 import { useOutletContext } from "react-router"
 import ContainerBox from './../ContainerBox';
 import { Box, Text, Image } from '@chakra-ui/react'
