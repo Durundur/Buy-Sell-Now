@@ -2,7 +2,7 @@ import { FormLabel, Textarea, FormHelperText, FormControl, FormErrorMessage } fr
 import { useField } from "formik";
 import { css } from '@emotion/react'
 
-export const TextAreaInput = ({ error, ...props }) => {
+export const TextAreaInput = ({ ...props }) => {
     const [field, meta] = useField(props);
 
     return (

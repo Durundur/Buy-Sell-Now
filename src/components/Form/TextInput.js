@@ -2,7 +2,7 @@ import { FormLabel, Input, FormHelperText, FormControl, FormErrorMessage } from 
 import { useField } from "formik";
 import { css } from '@emotion/react'
 
-export const TextInput = ({ error, ...props }) => {
+export const TextInput = (props) => {
   const [field, meta] = useField(props);
 
   return (
@@ -12,7 +12,7 @@ export const TextInput = ({ error, ...props }) => {
       }`} fontWeight={400}>{props?.label}</FormLabel>
       <Input shadow={'sm'} variant="filled" bg={'gray.50'} autoComplete={'off'} {...field} {...props} />
       <FormErrorMessage>{meta.error}</FormErrorMessage>
-      <FormHelperText>{props?.help}</FormHelperText>
-    </FormControl >
+      <FormHelperText>{props.help}</FormHelperText>
+    </FormControl>
   );
 };

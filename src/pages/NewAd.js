@@ -1,13 +1,12 @@
 import { Container, Box, Text, Input, Button, Flex, Textarea, Select } from "@chakra-ui/react";
-import SecondaryText from "../components/SecondaryText";
+import SecondaryText from "../components/Layout/SecondaryText";
 import UploadGrid from '../components/Uploader/UploadGrid'
-import Category from "../components/SelectCategory/Category";
 import { useEffect, useRef, useState } from 'react'
-import LoadingSpinner from "../components/LoadingSpinner"
-import Error from "../components/Error";
+import LoadingSpinner from "../components/Layout/LoadingSpinner"
+import Error from "../components/Layout/Error";
 import useApi from "../hooks/useApi";
-import { postAd } from "../utils/apiServices";
-import ContainerBox from "../components/ContainerBox";
+import { postAd } from "../contexts/AuthContext/AuthServices";
+import ContainerBox from "../components/Layout/ContainerBox";
 import AdDetailsInputs from "../components/Form/AdDetailsInputs";
 import { TextInput } from "../components/Form/TextInput";
 import { Form, Formik } from 'formik';
@@ -15,33 +14,34 @@ import * as Yup from 'yup';
 import { formatDescritpion } from '../utils/utils'
 import AdvertiserInfoInputs from '../components/Form/AdvertiserInfo';
 import { handleInputChange } from "../utils/utils";
-import { getUserInfo } from "../utils/apiServices";
+import { getUserInfo } from "../contexts/AuthContext/AuthServices";
+import SelectCategory from './../components/SelectCategory/SelectCategory';
 
 export default function NewAd() {
     const uploaderRef = useRef()
     const [charCounter, setCharCounter] = useState(0)
-    const { data, error, setData, isLoading, triggerApiCall } = useApi()
+    const { data, error, setData, isLoading, makeRequest } = useApi()
 
-    useEffect(() => {
-        triggerApiCall(getUserInfo())
-            .then(() => {
-                setData((prevData) => {
-                    const { address, ...restAdvertiser } = prevData.advertiser;
-                    return { address, advertiser: restAdvertiser }
-                })
-            })
-    }, [])
+    // useEffect(() => {
+    //     triggerApiCall(getUserInfo())
+    //         .then(() => {
+    //             setData((prevData) => {
+    //                 const { address, ...restAdvertiser } = prevData.advertiser;
+    //                 return { address, advertiser: restAdvertiser }
+    //             })
+    //         })
+    // }, [])
 
 
-    const handleSubmitButton = async (e) => {
-        try {
-            let adImagesUrls = await uploaderRef.current.postFiles();
-            const updatedData = { ...data, images: adImagesUrls };
-            await triggerApiCall(postAd(updatedData));
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const handleSubmitButton = async (e) => {
+    //     try {
+    //         let adImagesUrls = await uploaderRef.current.postFiles();
+    //         const updatedData = { ...data, images: adImagesUrls };
+    //         await triggerApiCall(postAd(updatedData));
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
 
     const handleCategoryChange = (categoryData) => {
@@ -78,7 +78,7 @@ export default function NewAd() {
                                     <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Im więcej szczegółów, tym lepiej!</Text>
                                     <TextInput label={'Tytuł ogłoszenia'} onChange={(e) => handleInputChange(e, data, setData)} name='tittle'></TextInput>
                                     <Text mb={'10px'}>Kategoria</Text>
-                                    <Category mainCategory={data?.mainCategory} subCategory={data?.subCategory} subSubCategory={data?.subSubCategory} onChange={(categoryData) => { handleCategoryChange(categoryData) }} />
+                                    <SelectCategory/>                                
                                 </Box>
                             </Box>
 
@@ -92,12 +92,15 @@ export default function NewAd() {
                                 <Box maxW={'container.sm'}><Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Opis</Text>
                                     <Textarea onChange={(e) => {
                                         handleInputChange(e, data, setData)
-                                        setCharCounter(e.target.value.length)
-                                    }} name="description" value={formatDescritpion(data?.description)} autoComplete={'off'} mb={'10px'} rows={'11'} shadow={'sm'} variant="filled" bg={'gray.50'} resize={'none'} placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></Textarea>
+                                        setCharCounter(e.target.value.length);
+                                    }} name="description" value={data?.description} autoComplete={'off'} mb={'10px'} rows={'11'} shadow={'sm'} variant="filled" bg={'gray.50'} resize={'none'} placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></Textarea>
                                     <Flex mb={'30px'} justifyContent={'space-between'}>
                                         <SecondaryText>{charCounter >= 180 ? null : `Wpisz jeszcze przynajmniej ${180 - charCounter} znaków`}</SecondaryText>
                                         <SecondaryText>{charCounter}/9000</SecondaryText>
                                     </Flex>
+                                    <Text whiteSpace={"pre-wrap"} backgroundColor={'#1212'} width={'100%'} height={"90px"}>
+                                        {data?.description}
+                                    </Text>
                                 </Box>
                             </Box>
 
@@ -120,7 +123,7 @@ export default function NewAd() {
 
                             <Box mb={'20px'} gap={'20px'} display={'flex'} justifyContent={'flex-end'} boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                 <Button variant={'solid'} >Podgląd ogłoszenia</Button>
-                                <Button onClick={(e) => handleSubmitButton(e)} variant={'solid'} colorScheme={'blue'}>Dodaj ogłoszenie</Button>
+                                {/* <Button onClick={(e) => handleSubmitButton(e)} variant={'solid'} colorScheme={'blue'}>Dodaj ogłoszenie</Button> */}
                             </Box>
                         </Flex>
                     </Form>

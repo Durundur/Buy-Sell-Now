@@ -1,8 +1,8 @@
 import { Box, Button } from "@chakra-ui/react"
-import LoadingSpinner from "../../LoadingSpinner"
+import LoadingSpinner from "../../Layout/LoadingSpinner"
 import ChangeBanner from "./ChangeBanner"
 import ChangeAvatar from './ChangeAvatar';
-import { updateUserImages } from '../../../utils/apiServices'
+// import { updateUserImages } from '../../../contexts/AuthContext/AuthServices'
 import axios from "axios";
 export default function ChangeUserImages({ avatar, banner, setData, error, isLoading, triggerApiCall }) {
 
@@ -38,7 +38,7 @@ export default function ChangeUserImages({ avatar, banner, setData, error, isLoa
             urls.banner = filesUrls[1];
         }
         console.log(urls)
-        await triggerApiCall(updateUserImages(urls))
+        // await triggerApiCall(updateUserImages(urls))
         setData((prevData) => {
             return { ...prevData, ...urls }
         })

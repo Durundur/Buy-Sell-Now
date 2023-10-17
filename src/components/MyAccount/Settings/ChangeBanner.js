@@ -1,6 +1,6 @@
 import { Box, Input, IconButton, } from "@chakra-ui/react";
 import { FaTrash } from 'react-icons/fa';
-import { Image } from "../../Image";
+import { Image } from "../../Layout/Image";
 
 export default function ChangeBanner({ banner, setData }) {
     let bannerSrc = banner;

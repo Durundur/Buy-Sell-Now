@@ -1,5 +1,5 @@
 import { Box, Input, IconButton, } from "@chakra-ui/react";
-import { Avatar } from '../../../components/Avatar'
+import { Avatar } from '../../Layout/Avatar'
 import { FaTrash } from 'react-icons/fa';
 
 export default function ChangeAvatar({ avatar, setData }) {

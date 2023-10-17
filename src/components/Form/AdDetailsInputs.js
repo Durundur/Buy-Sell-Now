@@ -2,13 +2,13 @@ import { TextInput } from './TextInput'
 import categoriesFields from "../categoriesFields";
 import { SelectInput } from "./SelectInput";
 
-export default function AdDetailsInputs({ data, onInputChange }) {
-    const detailsFields = categoriesFields.find(o => o.subCategoryName.includes(data?.subCategory))?.fields
+export default function AdDetailsInputs({ subCategoryName }) {
+    const detailsFields = categoriesFields.find(o => o.subCategoryName.includes(subCategoryName))?.fields
     return (<>{
         detailsFields?.map((field, index) => {
             return (
                 field?.type === 'select' ?
-                    <SelectInput onChange={(e) => onInputChange(e)} key={index} label={field?.label} name={field?.name}>
+                    <SelectInput key={index} label={field?.label} name={field?.name}>
                         <option disabled hidden>{field.placeholder}</option>
                         {
                             field.values.map((option, index) => {
@@ -19,7 +19,7 @@ export default function AdDetailsInputs({ data, onInputChange }) {
                         }
                     </SelectInput>
                     :
-                    <TextInput key={index} onChange={(e) => onInputChange(e)} name={field?.name} label={field?.label}></TextInput>
+                    <TextInput key={index} name={field?.name} label={field?.label}></TextInput>
             )
         })
     }</>
