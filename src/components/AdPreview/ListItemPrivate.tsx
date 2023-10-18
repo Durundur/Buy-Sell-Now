@@ -1,10 +1,10 @@
 import { Box, HStack, Text, AspectRatio, VStack, Button } from "@chakra-ui/react"
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { TfiCalendar, TfiLocationPin } from "react-icons/tfi";
 import { FiPhone, FiHeart, FiEye } from "react-icons/fi";
 import { formatDate } from "../../utils/utils";
-// import { GoDot } from 'react-icons/go'
-import {Image} from "../Layout/Image"
+import { GoPrimitiveDot } from 'react-icons/go';
+import { Image } from "../Layout/Image";
 import useApi from "../../hooks/useApi";
 import { AdvertQueryType } from "../../types/ApiRequestDataTypes";
 
@@ -34,10 +34,10 @@ function ListItemPrivate({ adData }: {adData: AdvertQueryType}) {
                         <VStack gap={'sm'} alignItems={'stretch'}>
                             <HStack>
                                 <Text textTransform={'capitalize'}>{mainCategory}</Text>
-                                {/* <GoDot size={8} /> */}
+                                <GoPrimitiveDot size={8} />
                                 <Text textTransform={'capitalize'}>{subCategory}</Text>
                                 {subSubCategory ? <>
-                                    {/* <GoDot size={8} /> */}
+                                    <GoPrimitiveDot size={8} />
                                     <Text textTransform={'capitalize'}>{subSubCategory}</Text>
                                 </> : null}
                             </HStack>
