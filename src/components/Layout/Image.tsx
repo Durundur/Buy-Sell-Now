@@ -1,15 +1,16 @@
 import { Image as Img, Box } from '@chakra-ui/react';
 
 type ImageProps = {
-    src: string
+    src: string,
+    borderRadius?: string
 }
 
 type FallbackImageProps = {
     height?: string
 }
 
-export function Image({ src }: ImageProps) {
-    return <Img objectFit={'contain'} src={src} fallback={<FallbackImage/>}></Img>
+export function Image({ src, borderRadius }: ImageProps) {
+    return <Img borderRadius={borderRadius || ''} objectFit={'contain'} src={src} fallback={<FallbackImage/>}></Img>
 }
 
 

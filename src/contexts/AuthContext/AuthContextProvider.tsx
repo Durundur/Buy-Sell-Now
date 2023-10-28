@@ -48,7 +48,7 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
                 );
                 localStorage.setItem(
                     "userAvatar",
-                    JSON.stringify(response.data.avatar || undefined)
+                    JSON.stringify(response.data.avatar || '')
                 );
                 setUserInfo({ userId: response.data.userId, userAvatar: response.data.avatar })
             }
