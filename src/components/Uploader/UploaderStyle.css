@@ -1,0 +1,11 @@
+
+.uploader__item:hover .uploader__item__img{
+    filter: brightness(65%);
+}
+
+.uploader__item:hover .uploader__item__controls{
+    display: flex;
+}
+
+
+

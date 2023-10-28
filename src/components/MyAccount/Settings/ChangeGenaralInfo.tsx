@@ -5,7 +5,7 @@ import { Button } from '@chakra-ui/react';
 import LoadingSpinner from '../../Layout/LoadingSpinner';
 import { Box } from '@chakra-ui/react';
 import AdvertiserInfo from '../../Form/AdvertiserInfo';
-import { handleInputChange } from '../../../utils/utils';
+import { handleInputChange } from '../../../utils/utilsOld';
 import { CompanyInfo } from '../../Form/CompanyInfo';
 import useApi from '../../../hooks/useApi';
 import { UserDataType } from '../../../types/UserDataType';

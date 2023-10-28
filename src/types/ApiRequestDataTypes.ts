@@ -1,6 +1,9 @@
 import { AdvertPriceType, AdvertType } from "./AdvertDataType";
 import { ConversationChatDataType, ConversationDataType } from "./ConversationDataType";
-import { CompanyAccountDataType, PersonalAccountDataType, UserDataType } from "./UserDataType";
+import { CompanyAccountDataType, PersonalAccountDataType } from "./UserDataType";
+
+
+
 
 export type AdvertQueryType = AdvertType & {
     advertiser: {
@@ -12,6 +15,10 @@ export type AdvertQueryType = AdvertType & {
        }
     }
 } 
+
+export type EditAdvertQueryType = AdvertType & {
+  images: (string | File)[]
+}
 
 export type MyAdvertQueryType = AdvertType;
 

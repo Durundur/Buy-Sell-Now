@@ -10,7 +10,13 @@ const requestConfigDefault: AxiosRequestConfig = {
     headers: { 'Content-Type': 'application/json' }
 }
 
-export default function useApi<T>(requestConfig: AxiosRequestConfig){
+export type ApiResponse<T> = {
+    redirect?: string,
+    data: T;
+}
+
+export default function useApi<T>(requestConfig: AxiosRequestConfig) {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [data, setData] = useState<T>();
     const [error, setError] = useState<Error | undefined>();
@@ -18,10 +24,17 @@ export default function useApi<T>(requestConfig: AxiosRequestConfig){
     const makeRequest = async <D,>(data?: D | undefined): Promise<void> => {
         setIsLoading(true);
         try{
-            const response = await axios<T>({...requestConfigDefault, ...requestConfig, data});
+            const response = await axios<ApiResponse<T> | T>({...requestConfigDefault, ...requestConfig, data});
             if(response.statusText === 'OK'){
                 const query = response.data;
-                setData(query);
+                if ('redirect' in query) {
+                    navigate(query.redirect as string);
+                } else {
+                    setData(query as T);
+                    return;
+                }
+                setData(query.data)
+                return;
             }
         }catch(error){
             setError(error as Error)

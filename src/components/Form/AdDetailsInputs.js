@@ -1,9 +1,10 @@
 import { TextInput } from './TextInput'
-import categoriesFields from "../categoriesFields";
+import categoriesFields from "../../utils/Categories/categoriesFields";
 import { SelectInput } from "./SelectInput";
 
+
 export default function AdDetailsInputs({ subCategoryName }) {
-    const detailsFields = categoriesFields.find(o => o.subCategoryName.includes(subCategoryName))?.fields
+    const detailsFields = categoriesFields.find(o => o.subCategoryName.includes(subCategoryName))?.fields;
     return (<>{
         detailsFields?.map((field, index) => {
             return (
