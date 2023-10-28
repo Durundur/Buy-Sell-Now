@@ -60,7 +60,6 @@ function App() {
                 <Route path='ustawienia' element={<MySettings activeTab={4} />}></Route>
                 <Route path='obserwowane' element={<ObservedAds activeTab={5} />}></Route>
               </Route>
-
             </Route>
           </Route>
         </Routes>

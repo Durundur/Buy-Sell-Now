@@ -49,7 +49,15 @@ export interface AdvertType {
     subCategory: string;
     subSubCategory?: string;
     details: AdvertDetailsType;
-    createdAt: Date;
-    updatedAt: Date;
-    endAt: Date,
-  }
+    createdAt: string;
+    updatedAt: string;
+    endAt: string,
+}
+
+
+
+
+
+
+
+

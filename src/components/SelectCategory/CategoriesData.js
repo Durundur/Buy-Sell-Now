@@ -20,8 +20,7 @@ const categories = [
         subcategories: [
             {
                 name: 'samochody osobowe',
-                subsubcategories: [
-                    'aixam', 'alfa romeo', 'audi', 'BMW', 'cadillac', 'chevrolet', 'chrysler', 'citroen', 'dacia', 'daewoo', 'daihatsu', 'dodge', 'fiat', 'ford', 'honda', 'hyundai', 'infiniti', 'jaguar', 'jeep', 'kia', 'lancia', 'land rover', 'lexus', 'mazda', 'mercedes-benz', 'mini', 'mitsubishi', 'nissan', 'opel', 'peugeot', 'polonez', 'porsche', 'renault', 'rover', 'saab', 'seat', 'skoda', 'smart', 'ssangYong', 'subaru', 'suzuki', 'toyota', 'volkswagen', 'volvo', 'pozostałe samochody osobowe']
+                subsubcategories: ['aixam', 'alfa romeo', 'audi', 'BMW', 'cadillac', 'chevrolet', 'chrysler', 'citroen', 'dacia', 'daewoo', 'daihatsu', 'dodge', 'fiat', 'ford', 'honda', 'hyundai', 'infiniti', 'jaguar', 'jeep', 'kia', 'lancia', 'land rover', 'lexus', 'mazda', 'mercedes-benz', 'mini', 'mitsubishi', 'nissan', 'opel', 'peugeot', 'polonez', 'porsche', 'renault', 'rover', 'saab', 'seat', 'skoda', 'smart', 'ssangYong', 'subaru', 'suzuki', 'toyota', 'volkswagen', 'volvo', 'pozostałe samochody osobowe']
             },
             {
                 name: 'motocykle i skutery',

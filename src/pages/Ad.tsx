@@ -152,10 +152,10 @@ function Ad() {
 									{advertData?.advertiser.name}
 								</Text>
 								<SecondaryText fontWeight={'light'}>
-									Na BSN od {formatDate(advertData?.advertiser.details.createdAt, 'long')}
+									Na BSN od {formatDate(advertData?.advertiser.details.createdAt as string, 'long')}
 								</SecondaryText>
 								<SecondaryText fontWeight={'light'}>
-									Ostatnio online {formatDate(advertData?.advertiser.details.updatedAt, 'long')}
+									Ostatnio online {formatDate(advertData?.advertiser.details.updatedAt as string, 'long')}
 								</SecondaryText>
 							</Flex>
 						</Flex>

@@ -1,45 +1,34 @@
-import { Box, Text, Button, Flex, Textarea, StatDownArrow, DarkMode, } from "@chakra-ui/react";
+import { Box, Text, Button, Flex, } from "@chakra-ui/react";
 import SecondaryText from "../components/Layout/SecondaryText";
-import { useEffect, useRef, useState } from 'react'
 import LoadingSpinner from "../components/Layout/LoadingSpinner"
+import Error from "../components/Layout/Error";
 import useApi from "../hooks/useApi";
-import { useParams } from 'react-router-dom'
 import ContainerBox from "../components/Layout/ContainerBox";
 import AdDetailsInputs from "../components/Form/AdDetailsInputs";
 import { TextInput } from "../components/Form/TextInput";
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import AdvertiserInfoInputs from '../components/Form/AdvertiserInfo';
-import { UPDATE_AD_URL, GET_AD_URL } from '../hooks/ApiEndpoints';
-import { AdvertQueryType, EditAdvertQueryType } from "../types/ApiRequestDataTypes";
-import { TextAreaInput } from './../components/Form/TextAreaInput';
-import SelectCategory from "../components/SelectCategory/SelectCategory";
-import Uploader from '../components/Uploader/Uploader';
+import SelectCategory from '../components/SelectCategory/SelectCategory';
+import { CREATE_AD_URL } from "../hooks/ApiEndpoints";
 import { createFormDataFromObject, flattenObject } from "../utils/utils";
+import Uploader from "../components/Uploader/Uploader";
+import { TextAreaInput } from "../components/Form/TextAreaInput";
+import { EditAdvertQueryType } from "../types/ApiRequestDataTypes";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
 
-
-export default function EditAd() {
-    const { id } = useParams();
-    const { data: updateAdResponse, isLoading: updateAdLoading, makeRequest: updateAd } = useApi({
-        url: UPDATE_AD_URL(id as string),
-        method: 'put',
+export default function NewAd() {
+    const { data: createAdResponse, isLoading, error, makeRequest: createAd } = useApi({
+        url: CREATE_AD_URL,
+        method: 'post',
         headers: { 'Content-Type': 'multipart/form-data', }
     })
-    const { data: adData,  isLoading: getAdLoading, makeRequest: getAd } = useApi<AdvertQueryType>({
-        url: GET_AD_URL(id as string)
-    })
-    const isLoading = updateAdLoading || getAdLoading;
+   
 
-    useEffect(() => {
-        getAd();
-    }, [])
-
-    const postAd = async (newAdData: EditAdvertQueryType) => {
+    const postNewAd = async (adData: EditAdvertQueryType) => {
         try {
-            delete (newAdData as any).advertiser.details;
-            const formData = createFormDataFromObject(newAdData);
-            updateAd<FormData>(formData);
+            const formData = createFormDataFromObject(adData);
+            createAd<FormData>(formData);
         } catch (error) {
             console.log(error)
         }
@@ -47,15 +36,11 @@ export default function EditAd() {
 
     return (
         <ContainerBox bgColor1={'gray.50'}>
-            {isLoading ? <LoadingSpinner></LoadingSpinner> : <></>}
-            {!isLoading ? <>
+            {isLoading ? <LoadingSpinner/> : <></>}
+            {error ? <Error error={error}/> : <></>}
+            {(!isLoading && !error) ? <>
                 <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
-                <Formik onSubmit={(value)=>postAd(value)} initialValues={adData as EditAdvertQueryType} validationSchema={Yup.object().shape({
-                    advertiser: Yup.object().shape({
-                        name: Yup.string().required('Pole obowiązkowe'),
-                        phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/).max(13, 'Niepoprawny numer telefonu').required('Pole obowiązkowe').trim()
-                    }),
-                })}>
+                <Formik enableReinitialize={true} onSubmit={(value) => postNewAd(value)} initialValues={{} as EditAdvertQueryType} validationSchema={Yup.object().shape({})}>
                     {({values}) => {
                         const descriptionCharCounter = values?.description?.length || 0;
                         const subCategory = values?.subCategory;
@@ -80,13 +65,13 @@ export default function EditAd() {
                                     <Box maxW={'container.sm'}><Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Opis</Text>
                                         <TextAreaInput name="description" autoComplete={'off'} mb={'10px'} rows={11} shadow={'sm'} variant="filled" bg={'gray.50'} resize={'none'} placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></TextAreaInput>
                                         <Flex mb={'30px'} justifyContent={'space-between'}>
-                                            <SecondaryText>{descriptionCharCounter >= 180 ? null : `Wpisz jeszcze przynajmniej ${180 - descriptionCharCounter } znaków`}</SecondaryText>
+                                            <SecondaryText>{descriptionCharCounter >= 180 ? null : `Wpisz jeszcze przynajmniej ${180 - descriptionCharCounter} znaków`}</SecondaryText>
                                             <SecondaryText>{descriptionCharCounter}/9000</SecondaryText>
                                         </Flex>
                                     </Box>
                                 </Box>
-                            
-                                { checkIfSubCategoryHasDetailsFields(subCategory) ?
+
+                                 { checkIfSubCategoryHasDetailsFields(subCategory) ?
                                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                         <Box maxW={'30%'}>
                                             <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dodatkowe informacje</Text>
@@ -103,7 +88,7 @@ export default function EditAd() {
 
                                 <Box mb={'20px'} gap={'20px'} display={'flex'} justifyContent={'flex-end'} boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                     <Button variant={'solid'} >Podgląd ogłoszenia</Button>
-                                    <Button type={'submit'} variant={'solid'} colorScheme={'blue'}>Edytuj ogłoszenie</Button>
+                                    <Button type={'submit'} variant={'solid'} colorScheme={'blue'}>Dodaj ogłoszenie</Button>
                                 </Box>
                             </Flex>
                         </Form>)
@@ -113,4 +98,3 @@ export default function EditAd() {
         </ContainerBox>
     )
 }
-
