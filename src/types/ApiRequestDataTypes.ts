@@ -4,7 +4,6 @@ import { CompanyAccountDataType, PersonalAccountDataType } from "./UserDataType"
 
 
 
-
 export type AdvertQueryType = AdvertType & {
     advertiser: {
        details: (PersonalAccountDataType | CompanyAccountDataType) & {

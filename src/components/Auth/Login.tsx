@@ -5,8 +5,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router";
 import { useAuthContext } from '../../contexts'
-import Error from '../Layout/Error'
-import { LoginCredentials } from '../../contexts/AuthContext/types'
+import { LoginCredentials, LoginRequestResponse } from '../../contexts/AuthContext/types'
 
 
 function Login() {
@@ -18,13 +17,17 @@ function Login() {
         password: 'user'
     });
     const { loginHandler } = useAuthContext();
-    const [error, setError] = useState();
+    const [error, setError] = useState<LoginRequestResponse | null>();
 
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const loginUser = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        setError(null);
         e.preventDefault();
         const response = await loginHandler(credentials);
-        if (response?.status === 200) navigate(response.data.redirect)
-        setError(response?.data);
+        if (response?.status === 200 && response?.success) {
+            navigate(response?.redirect as string);
+            return;
+        }
+        else setError(response);
     }
 
 
@@ -57,9 +60,9 @@ function Login() {
                         <Link to={''}><SecondaryText>Nie pamiętam hasła</SecondaryText></Link>
                     </Box>
                     <Box>
-                        {error && <Error variant={'info'} error={error}></Error>}
+                        {error && error.message}
                     </Box>
-                    <Button onClick={(e) => handleSubmit(e)} w={'50%'} colorScheme={'blue'} >Zaloguj się</Button>
+                    <Button onClick={(e) => loginUser(e)} w={'50%'} colorScheme={'blue'} >Zaloguj się</Button>
                     <Button onClick={() => {
                         setCredentials({ username: 'admin', password: 'admin' })
                     }} w={'50%'} colorScheme={'blue'} >Zaloguj się jako Administrator</Button>

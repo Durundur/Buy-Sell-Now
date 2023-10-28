@@ -4,25 +4,25 @@ import Header from '../Layout/Header'
 import SecondaryText from '../Layout/SecondaryText'
 import React, { useState } from 'react'
 import { useAuthContext } from '../../contexts'
-import Error from '../Layout/Error'
-import { RegisterCredentials } from '../../contexts/AuthContext/types'
+import { LoginRequestResponse, RegisterCredentials } from '../../contexts/AuthContext/types'
 
 function Register() {
     const [show, setShow] = React.useState(false);
     const handleClick = () => setShow(!show);
     const [credentials, setCredentials] = useState<RegisterCredentials>({username: '', password: ''});
-    const [error, setError] = useState();
+    const [error, setError] = useState<LoginRequestResponse | null>();
     const { registerHandler } = useAuthContext();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const registerUser = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        setError(null);
         e.preventDefault();
         const response = await registerHandler(credentials);
-        if (response?.status === 201) {
-            navigate(response.data.redirect)
-            return
+        if (response?.status === 200 && response?.success) {
+            navigate(response.redirect as string);
+        }else {
+            setError(response);
         }
-        setError(response?.data);
     }
 
     return (
@@ -57,8 +57,10 @@ function Register() {
                         <Checkbox p={3} size={'lg'}></Checkbox>
                         <SecondaryText>Wyrażam zgodę na używanie przez Grupę BuySellNow sp. z o.o. środków komunikacji elektronicznej oraz telekomunikacyjnych urządzeń końcowych w celu przesyłania mi informacji handlowych oraz prowadzenia marketingu (np. newsletter, wiadomości SMS) przez Grupę BuySellNow sp. z o.o., podmioty powiązane i partnerów biznesowych. Moja zgoda obejmuje numery telefonów i adresy e-mail wykorzystywane podczas korzystania z usług Grupy BuySellNow Sp. z o.o. Wyrażoną zgodę można wycofać lub ograniczyć w dowolnej chwili za pomocą odpowiednich ustawień konta lub zgłaszając nam takie żądanie.</SecondaryText>
                     </HStack>
-                    {error && <Error error={error} variant={'info'}></Error>}
-                    <Button w={'50%'} onClick={(e) => handleSubmit(e)} colorScheme={'blue'} >Załóż konto</Button>
+                    <Box>
+                        {error && error.message}
+                    </Box>
+                    <Button w={'50%'} onClick={(e) => registerUser(e)} colorScheme={'blue'} >Załóż konto</Button>
                     <SecondaryText align={'center'}>lub</SecondaryText>
                     <Button>
                         <Link to='/logowanie'>
