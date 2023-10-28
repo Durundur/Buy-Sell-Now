@@ -128,7 +128,6 @@ function Ad() {
 						<Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>
 							opis
 						</Text>
-						{/* <Text fontSize={'lg'} whiteSpace={'pre-line'} dangerouslySetInnerHTML={{ __html: advertData?.description }}></Text> */}
 						<Text whiteSpace={"pre-wrap"} fontSize={'lg'}>
 							{advertData?.description}
 						</Text>
