@@ -10,19 +10,13 @@ import LoadingSpinner from '../../Layout/LoadingSpinner';
 import useSocket from '../../../hooks/useSocket';
 import { Link } from 'react-router-dom';
 import { Image } from '../../Layout/Image';
-import { ConversationChatQueryType } from '../../../types/ApiRequestDataTypes';
+import { ConversationChatDataType } from '../../../types/ConversationDataType';
 
 export default function Chat() {
 	const scrollRef = useRef<HTMLDivElement>();
 	const { id } = useParams();
 	const { userInfo } = useAuthContext();
-	const {
-		data: conversationChat,
-		error,
-		isLoading,
-		makeRequest: getConversationChat,
-		setData: updateConversationChat,
-	} = useApi<ConversationChatQueryType>({
+	const { data: conversationChat, error, isLoading, makeRequest: getConversationChat, setData: updateConversationChat} = useApi<ConversationChatDataType>({
 		url: 'api/v1/conversations/' + id,
 	});
 	const { isConnectionAlive, joinRoom, sendRoomMessage } = useSocket(updateConversationChat);
