@@ -3,33 +3,37 @@ import ContainerBox from '../Layout/ContainerBox';
 import { VStack, Text, Box, HStack, Avatar, Button, Image, Tabs, TabList, Tab, TabIndicator } from '@chakra-ui/react';
 import useApi from '../../hooks/useApi';
 import { Link, useParams } from 'react-router-dom';
-import { getUsersInfo } from '../../contexts/AuthContext/AuthServices';
 import { Outlet } from "react-router"
 import { useState, useEffect } from 'react';
 import { formatDate } from '../../utils/utils';
+import { GET_USER_PAGE_INFO_URL } from '../../hooks/ApiEndpoints';
+import { UserDataType } from '../../types/UserDataType';
 
-export default function User(props) {
+export default function User() {
     const [activeTab, setActiveTab] = useState(0);
     const { id } = useParams()
-    const { data, makeRequest } = useApi();
-    useEffect(() => {
-        
-    }, [])
+    const { data: userPageData, isLoading: isLoadingUserPage, makeRequest: getUserPageData } = useApi<UserDataType>({
+        url: GET_USER_PAGE_INFO_URL(id as string)
+    });
 
+    useEffect(() => {
+        getUserPageData();
+    }, [])
+    
     return (
         <>
-            {data?.advertiser?.isCompanyAcc && <Box>
-                <Image width={'100%'} src={data?.banner}></Image>
+            {userPageData?.advertiser?.isCompanyAcc && <Box>
+                <Image width={'100%'} src={userPageData?.banner}></Image>
             </Box>}
-            <ContainerBox mt={!data?.advertiser?.isCompanyAcc ? '20px' : '0px'} width={'100%'} style={{ padding: '0', backgroundColor: '#fff' }}>
+            <ContainerBox width={'100%'} style={{marginTop: '20px', padding: '0', backgroundColor: '#fff' }}>
                 <HStack width={'100%'} bg={'#fff'} justifyContent={'space-between'}>
                     <HStack>
                         <Box position={'relative'}>
-                            <Avatar src={data?.avatar} size={'xl'}></Avatar>
+                            <Avatar src={userPageData?.avatar} size={'xl'}></Avatar>
                         </Box>
                         <VStack alignItems={'flex-start'}>
-                            <Text>{data?.advertiser?.name}</Text>
-                            <Text fontSize={'xs'}>Ostatnio online: 25 lip 2023, 15:17 Na Buy Sell Now od: {formatDate(data?.createdAt, 'long')}</Text>
+                            <Text>{userPageData?.advertiser?.name}</Text>
+                            <Text fontSize={'xs'}>Ostatnio online: 25 lip 2023, 15:17 Na Buy Sell Now od: {formatDate(userPageData?.createdAt as string, 'long')}</Text>
                         </VStack>
                     </HStack>
                     <Button>Obserwuj</Button>
@@ -39,7 +43,7 @@ export default function User(props) {
                         <Tab>
                             <Link to={''}>Ogłoszenia</Link>
                         </Tab>
-                        {data?.advertiser?.isCompanyAcc &&
+                        {userPageData?.advertiser?.isCompanyAcc &&
                             <>
                                 <Tab>
                                     <Link to={'informacje'}>Informacje</Link>
@@ -49,13 +53,11 @@ export default function User(props) {
                                 </Tab>
                             </>
                         }
-                        {/*  todo block accesing these pages on private account type  */}
                     </TabList>
                     <TabIndicator mt="-1.5px" height="2px" bg="blue.500" borderRadius="1px" />
                 </Tabs>
             </ContainerBox >
-            <Outlet context={[setActiveTab, data]}></Outlet>
+            <Outlet context={{setActiveTab, userPageData}}></Outlet>
         </>
-
     )
 }

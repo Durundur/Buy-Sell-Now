@@ -61,3 +61,25 @@ export type ConversationChatQueryType = ConversationChatDataType & {
     }
   }
 }
+
+
+export type UserAdsStats = {
+  totalCount: number,
+  stats: MainCategoryStats[] 
+}
+
+export type CategoryStats = {
+  count: number,
+  name: string,
+}
+
+export type MainCategoryStats = CategoryStats & {
+  subCategory: SubCategoryStats[]
+}
+
+export type SubCategoryStats = CategoryStats & {
+  subSubCategory: SubSubCategoryStats[];
+}
+
+export type SubSubCategoryStats = CategoryStats;
+
