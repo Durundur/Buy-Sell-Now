@@ -1,6 +1,6 @@
-import { Box, Text, Button, Flex, Textarea, StatDownArrow, DarkMode, } from "@chakra-ui/react";
+import { Box, Text, Button, Flex, } from "@chakra-ui/react";
 import SecondaryText from "../components/Layout/SecondaryText";
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, } from 'react'
 import LoadingSpinner from "../components/Layout/LoadingSpinner"
 import useApi from "../hooks/useApi";
 import { useParams } from 'react-router-dom'
@@ -8,16 +8,16 @@ import ContainerBox from "../components/Layout/ContainerBox";
 import AdDetailsInputs from "../components/Form/AdDetailsInputs";
 import { TextInput } from "../components/Form/TextInput";
 import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
 import AdvertiserInfoInputs from '../components/Form/AdvertiserInfo';
 import { UPDATE_AD_URL, GET_AD_URL } from '../hooks/ApiEndpoints';
 import { AdvertQueryType, EditAdvertQueryType } from "../types/ApiRequestDataTypes";
 import { TextAreaInput } from './../components/Form/TextAreaInput';
 import SelectCategory from "../components/SelectCategory/SelectCategory";
 import Uploader from '../components/Uploader/Uploader';
-import { createFormDataFromObject, flattenObject } from "../utils/utils";
+import { createFormDataFromObject } from "../utils/utils";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
-import { LocalizationSuggestionForm } from "../components/Form/LocatizationSuggestion";
+import { ValidationSchema } from "../utils/AdvertValidationSchema";
+
 
 
 export default function EditAd() {
@@ -51,12 +51,7 @@ export default function EditAd() {
             {isLoading ? <LoadingSpinner></LoadingSpinner> : <></>}
             {!isLoading ? <>
                 <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
-                <Formik onSubmit={(value)=>postAd(value)} initialValues={adData as EditAdvertQueryType} validationSchema={Yup.object().shape({
-                    advertiser: Yup.object().shape({
-                        name: Yup.string().required('Pole obowiązkowe'),
-                        phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/).max(13, 'Niepoprawny numer telefonu').required('Pole obowiązkowe').trim()
-                    }),
-                })}>
+                <Formik onSubmit={(value)=>postAd(value)} initialValues={adData as EditAdvertQueryType} validationSchema={ValidationSchema}>
                     {({values}) => {
                         const descriptionCharCounter = values?.description?.length || 0;
                         const subCategory = values?.subCategory;
@@ -67,7 +62,7 @@ export default function EditAd() {
                                         <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Im więcej szczegółów, tym lepiej!</Text>
                                         <TextInput label={'Tytuł ogłoszenia'} name='tittle'></TextInput>
                                         <Text mb={'10px'}>Kategoria</Text>
-                                        <SelectCategory />
+                                        <SelectCategory/>
                                     </Box>
                                 </Box>
 

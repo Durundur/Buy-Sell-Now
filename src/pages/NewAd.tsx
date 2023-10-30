@@ -7,7 +7,6 @@ import ContainerBox from "../components/Layout/ContainerBox";
 import AdDetailsInputs from "../components/Form/AdDetailsInputs";
 import { TextInput } from "../components/Form/TextInput";
 import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
 import AdvertiserInfoInputs from '../components/Form/AdvertiserInfo';
 import SelectCategory from '../components/SelectCategory/SelectCategory';
 import { CREATE_AD_URL } from "../hooks/ApiEndpoints";
@@ -16,7 +15,7 @@ import Uploader from "../components/Uploader/Uploader";
 import { TextAreaInput } from "../components/Form/TextAreaInput";
 import { EditAdvertQueryType } from "../types/ApiRequestDataTypes";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
-import { LocalizationSuggestionForm } from "../components/Form/LocatizationSuggestion";
+import { ValidationSchema } from "../utils/AdvertValidationSchema";
 
 export default function NewAd() {
     const { data: createAdResponse, isLoading, error, makeRequest: createAd } = useApi({
@@ -25,7 +24,6 @@ export default function NewAd() {
         headers: { 'Content-Type': 'multipart/form-data', }
     })
    
-
     const postNewAd = async (adData: EditAdvertQueryType) => {
         try {
             const formData = createFormDataFromObject(adData);
@@ -41,7 +39,7 @@ export default function NewAd() {
             {error ? <Error error={error}/> : <></>}
             {(!isLoading && !error) ? <>
                 <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
-                <Formik enableReinitialize={true} onSubmit={(value) => postNewAd(value)} initialValues={{} as EditAdvertQueryType} validationSchema={Yup.object().shape({})}>
+                <Formik onSubmit={(value) => postNewAd(value)} initialValues={{} as EditAdvertQueryType} validationSchema={ValidationSchema}>
                     {({values}) => {
                         const descriptionCharCounter = values?.description?.length || 0;
                         const subCategory = values?.subCategory;
