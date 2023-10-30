@@ -17,6 +17,7 @@ import SelectCategory from "../components/SelectCategory/SelectCategory";
 import Uploader from '../components/Uploader/Uploader';
 import { createFormDataFromObject, flattenObject } from "../utils/utils";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
+import { LocalizationSuggestionForm } from "../components/Form/LocatizationSuggestion";
 
 
 export default function EditAd() {

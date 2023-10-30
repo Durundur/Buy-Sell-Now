@@ -11,11 +11,12 @@ import * as Yup from 'yup';
 import AdvertiserInfoInputs from '../components/Form/AdvertiserInfo';
 import SelectCategory from '../components/SelectCategory/SelectCategory';
 import { CREATE_AD_URL } from "../hooks/ApiEndpoints";
-import { createFormDataFromObject, flattenObject } from "../utils/utils";
+import { createFormDataFromObject } from "../utils/utils";
 import Uploader from "../components/Uploader/Uploader";
 import { TextAreaInput } from "../components/Form/TextAreaInput";
 import { EditAdvertQueryType } from "../types/ApiRequestDataTypes";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
+import { LocalizationSuggestionForm } from "../components/Form/LocatizationSuggestion";
 
 export default function NewAd() {
     const { data: createAdResponse, isLoading, error, makeRequest: createAd } = useApi({
