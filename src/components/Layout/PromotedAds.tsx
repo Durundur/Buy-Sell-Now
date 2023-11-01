@@ -18,7 +18,7 @@ function PromotedAds() {
     }, [])
 
 
-    if (isLoading) return <LoadingSpinner></LoadingSpinner>
+    if (isLoading) return <LoadingSpinner/>
     if(error) return <ContainerBox><Error error={error} variant={'info'}></Error></ContainerBox>
     return (
         <ContainerBox>

@@ -1,6 +1,5 @@
 import { Box, Text, Button, Flex, } from "@chakra-ui/react";
 import SecondaryText from "../components/Layout/SecondaryText";
-import LoadingSpinner from "../components/Layout/LoadingSpinner"
 import Error from "../components/Layout/Error";
 import useApi from "../hooks/useApi";
 import ContainerBox from "../components/Layout/ContainerBox";
@@ -16,6 +15,7 @@ import { TextAreaInput } from "../components/Form/TextAreaInput";
 import { EditAdvertQueryType } from "../types/ApiRequestDataTypes";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
 import { ValidationSchema } from "../utils/AdvertValidationSchema";
+import LoadingSpinnerPage from "../components/Layout/LoadingSpinnerPage";
 
 export default function NewAd() {
     const { data: createAdResponse, isLoading, error, makeRequest: createAd } = useApi({
@@ -32,12 +32,10 @@ export default function NewAd() {
             console.log(error)
         }
     }
-
     return (
         <ContainerBox bgColor1={'gray.50'}>
-            {isLoading ? <LoadingSpinner/> : <></>}
+            {isLoading ? <LoadingSpinnerPage/> : <></>}
             {error ? <Error error={error}/> : <></>}
-            {(!isLoading && !error) ? <>
                 <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
                 <Formik onSubmit={(value) => postNewAd(value)} initialValues={{} as EditAdvertQueryType} validationSchema={ValidationSchema}>
                     {({values}) => {
@@ -93,7 +91,6 @@ export default function NewAd() {
                         </Form>)
                     }}
                 </Formik>
-            </> : <></>}
         </ContainerBox>
     )
 }

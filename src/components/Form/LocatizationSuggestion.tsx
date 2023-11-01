@@ -64,9 +64,10 @@ export function LocalizationSuggestionInput({...props }) {
 
     return (
         <Box flexGrow={1}>
-            <Input ref={inputRef} {...props} onFocus={()=>setSuggestionsVisibility(true)} onBlur={()=>{
+            <Input ref={inputRef} {...props} onFocus={()=>{props.setTouched(true);setSuggestionsVisibility(true)}} onBlur={()=>{
                 setTimeout(()=>setSuggestionsVisibility(false), 200)}} onChange={(e) => {
                 getSuggestions(e.target.value);
+                props.setFieldValue({ city: '', state: '', county: '', lat: 0, lon: 0 });
                 setInputValue(e.target.value);
             }} value={inputValue} variant={"filled"} bg={'gray.50'} autoComplete={'off'} ></Input>
             <Box display={suggestionsVisibility ? 'block' : 'none'} shadow={'md'} bg={'#fff'} width={'100%'} position={'absolute'} zIndex={5}>
@@ -103,11 +104,12 @@ type LocalizationSuggestionFormProps = {
 
 export function LocalizationSuggestionForm({label, ...props }: LocalizationSuggestionFormProps) {
     const [field, meta, helpers] = useField(props);
+    const error = typeof meta?.error === 'object' ? meta.error[Object.keys(meta.error)[0]] : meta?.error;
     return (
         <FormControl my={'15px'} isInvalid={(meta?.error && meta?.touched) as boolean}>
             <FormLabel css={css`:first-letter {text-transform: capitalize}`} fontWeight={400}>{label}</FormLabel>
-            <LocalizationSuggestionInput setFieldValue={helpers.setValue} {...field} {...props}/>
-            <FormErrorMessage>{meta.error}</FormErrorMessage>
+            <LocalizationSuggestionInput setTouched={helpers.setTouched} setFieldValue={helpers.setValue} {...field} {...props}/>
+            <FormErrorMessage>{error}</FormErrorMessage>
             <FormHelperText>{props?.help as string}</FormHelperText>
         </FormControl >
     )

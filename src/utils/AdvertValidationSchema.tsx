@@ -39,7 +39,7 @@ export const ValidationSchema = Yup.object().shape({
 	address: Yup.object().shape({
 		city: Yup.string().required('Lokalizacja jest wymagana'),
 		state: Yup.string().required('Lokalizacja jest wymagana'),
-		county: Yup.string().required('Lokalizacja jest wymagana'),
+		county: Yup.string(),
 		lat: Yup.number().required('Lokalizacja jest wymagana'),
 		lon: Yup.number().required('Lokalizacja jest wymagana')
 	})
