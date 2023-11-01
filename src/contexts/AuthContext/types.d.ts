@@ -17,8 +17,8 @@ export interface LoginRequestResponse{
     success: boolean
 }
 
-export type LoginHandlerType = (credentials: LoginCredentials) => Promise<LoginRequestResponse | AxiosResponse<LoginRequestResponse> | undefined>
-export type RegisterHandlerType = (credentials: RegisterCredentials) => Promise<LoginRequestResponse | AxiosResponse<LoginRequestResponse> | undefined>
+export type LoginHandlerType = (credentials: LoginCredentials) => Promise<LoginRequestResponse | undefined>
+export type RegisterHandlerType = (credentials: RegisterCredentials) => Promise<LoginRequestResponse | undefined>
 export type CheckAuthenticationHandlerType = () => AxiosResponse<LoginRequestResponse>
 export type LogoutHandlerType = () => Promise<void>
 export type UserInfoType = {

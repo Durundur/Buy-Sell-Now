@@ -1,5 +1,6 @@
 import { type AxiosError } from "axios";
 import { createContext, useEffect, useState, } from "react";
+import { redirect } from "react-router";
 import { loginUser, logoutUser, signupUser, ensureAuth } from "./AuthServices";
 import { AuthContexType, LoginHandlerType, RegisterHandlerType, CheckAuthenticationHandlerType, LogoutHandlerType, LoginRequestResponse, UserInfoType } from "./types";
 
@@ -24,17 +25,19 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
                     "userInfo",
                     JSON.stringify(response.data.userId)
                 );
-                setUserInfo({ ...userInfo, userId: response.data.userId })
+                localStorage.setItem(
+                    "userAvatar",
+                    JSON.stringify(response.data.avatar || '')
+                );
+                setUserInfo({ ...userInfo, userId: response.data.userId, userAvatar: response.data?.avatar });
             }
-            return response
         } catch (error) {
-            const e = error as AxiosError<LoginRequestResponse>
-            if (e?.response?.status === 401) {
+            const e = (error as AxiosError<LoginRequestResponse>).response?.data
+            if (e?.status === 401) {
                 localStorage.removeItem("userInfo");
                 localStorage.removeItem("userAvatar");
-                setUserInfo({userAvatar: undefined, userId: undefined})
+                setUserInfo({userAvatar: undefined, userId: undefined});
             }
-            return e.response
         }
     }
 
@@ -52,10 +55,10 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
                 );
                 setUserInfo({ userId: response.data.userId, userAvatar: response.data.avatar })
             }
-            return response
+            return response.data
         } 
         catch (error) {
-            return (error as AxiosError<LoginRequestResponse>).response?.data
+            return (error as AxiosError<LoginRequestResponse>).response?.data;
         }
     }
 
@@ -69,11 +72,11 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
                 );
                 localStorage.setItem(
                     "userAvatar",
-                    JSON.stringify(response.data.avatar || undefined)
+                    JSON.stringify(response.data.avatar || '')
                 );
                 setUserInfo({ userId: response.data.userId, userAvatar: response.data.avatar })
             }
-            return response
+            return response.data
         } catch (error) {
             return (error as AxiosError<LoginRequestResponse>).response?.data
         }

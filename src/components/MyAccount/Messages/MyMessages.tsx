@@ -10,11 +10,7 @@ import { useAuthContext } from '../../../contexts';
 import { ConversationQueryType } from '../../../types/ApiRequestDataTypes';
 
 function MyMessages({ ...props }) {
-	const {
-		data: MyConversations,
-		isLoading,
-		makeRequest: getMyConversations,
-	} = useApi<ConversationQueryType[]>({
+	const { data: MyConversations, isLoading, makeRequest: getMyConversations} = useApi<ConversationQueryType[]>({
 		url: 'api/v1/conversations',
 	});
 	const outlet = useOutlet();

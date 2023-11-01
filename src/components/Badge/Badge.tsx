@@ -1,7 +1,8 @@
 import { Icon, Text, Flex } from "@chakra-ui/react"
 import {type IconType} from 'react-icons'
+import {BoxProps} from '@chakra-ui/react'
 
-type BadgeProps = {
+type BadgeProps = BoxProps & {
   text: string,
   icon?: IconType,
   bgColor?: string,
@@ -10,9 +11,9 @@ type BadgeProps = {
   padding?: string,
 }
 
-export default function Badge({ text, icon, bgColor, color, borderRadius, padding }: BadgeProps) {
+export default function Badge({ text, icon, bgColor, color, borderRadius, padding, ...props }: BadgeProps) {
   if (text === undefined) return null
-  return <Flex textAlign={'center'} direction={'row'} gap={'2'} alignItems={'center'} mr={'4'} as="span">
+  return <Flex {...props} textAlign={'center'} direction={'row'} gap={'2'} alignItems={'center'} mr={'4'} as="span">
     {icon ? <Icon as={icon}></Icon> : null}
     <Text shadow={'sm'} p={padding || "1"} css={{
       "&:first-letter": {

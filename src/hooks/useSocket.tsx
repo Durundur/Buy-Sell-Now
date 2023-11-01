@@ -1,7 +1,6 @@
 import { io, type Socket } from 'socket.io-client';
-import { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react';
-import { ConversationChatMessageType } from '../types/ConversationDataType';
-import { ConversationChatQueryType } from '../types/ApiRequestDataTypes';
+import { useState, useEffect, useRef, Dispatch } from 'react';
+import { ConversationChatDataType, ConversationChatMessageType } from '../types/ConversationDataType';
 const baseURL = process.env.REACT_APP_API as string;
 
 export interface WebSocketChatMessage {
@@ -10,7 +9,7 @@ export interface WebSocketChatMessage {
     author: string,
 }
 
-const useSocket = (updateConversation: Dispatch<SetStateAction<ConversationChatQueryType | undefined>>) => {
+const useSocket = (updateConversation: Dispatch<React.SetStateAction<ConversationChatDataType | undefined>>) => {
     const ws = useRef<Socket | null>(null);
     const [isConnectionAlive, setIsConnectionAlive] = useState(false);
 

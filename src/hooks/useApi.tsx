@@ -33,14 +33,14 @@ export default function useApi<T>(requestConfig: AxiosRequestConfig) {
                     setData(query as T);
                     return;
                 }
-                setData(query.data)
+                setData(query.data);
                 return;
             }
         }catch(error){
-            setError(error as Error)
+            setError(error as Error);
         }
         finally{
-            setIsLoading(false)
+            setIsLoading(false);
         }
     }
 

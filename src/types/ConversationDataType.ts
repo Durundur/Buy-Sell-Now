@@ -1,7 +1,20 @@
+import { AdvertPriceType } from "./AdvertDataType"
 
 
 export interface ConversationChatDataType{
-    _id: string,
+    conversation: {
+        ad:{
+            _id: string,
+            advertiser: {
+                name: string,
+                _id: string
+            }
+            images: string[]
+            price: AdvertPriceType
+            tittle: string
+        }
+        _id: string,
+    }
     messages: ConversationChatMessageType[],
 }
 
