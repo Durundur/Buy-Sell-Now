@@ -30,7 +30,6 @@ function ListItemPrivate({ adData }: {adData: AdvertQueryType}) {
                         <Link  to={'/ogloszenie/' + adData?._id}>
                             <Text noOfLines={2} fontSize={'xl'}>{adData?.tittle}</Text>
                         </Link>
-                        {/* height: 60px as box */}
                         <VStack gap={'sm'} alignItems={'stretch'}>
                             <HStack>
                                 <Text textTransform={'capitalize'}>{mainCategory}</Text>
