@@ -16,8 +16,14 @@ import SelectCategory from "../components/SelectCategory/SelectCategory";
 import Uploader from '../components/Uploader/Uploader';
 import { createFormDataFromObject } from "../utils/utils";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
-import { ValidationSchema } from "../utils/AdvertValidationSchema";
+import { AdvertValidationSchema } from '../utils/AdvertValidationSchema';
 
+
+/*
+
+input select (wbierz) label
+validation details
+*/
 
 export default function EditAd() {
 	const { id } = useParams();
@@ -45,13 +51,14 @@ export default function EditAd() {
 		}
 	};
 	return (
-		<ContainerBox bgColor1={'gray.50'}>
-			{isLoading ? <LoadingSpinner></LoadingSpinner> : <></>}
-            {!isLoading ? <>
+	<ContainerBox bgColor1={'gray.50'}>
+		{isLoading ? <LoadingSpinner></LoadingSpinner> : <></>}
+		{!isLoading ? (
+			<>
 				<Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>
 					Edytuj ogłoszenie
 				</Text>
-				<Formik onSubmit={(value) => postAd(value)} initialValues={adData as EditAdvertQueryType} validationSchema={ValidationSchema}>
+				<Formik onSubmit={(value) => postAd(value)} initialValues={adData as EditAdvertQueryType} validationSchema={AdvertValidationSchema}>
 					{({ values }) => {
 						const descriptionCharCounter = values?.description?.length || 0;
 						const subCategory = values?.subCategory;
@@ -84,7 +91,16 @@ export default function EditAd() {
 											<Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>
 												Opis
 											</Text>
-											<TextAreaInput name='description' autoComplete={'off'} mb={'10px'} rows={11} shadow={'sm'} variant='filled' bg={'gray.50'} resize={'none'} placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></TextAreaInput>
+											<TextAreaInput
+												name='description'
+												autoComplete={'off'}
+												mb={'10px'}
+												rows={11}
+												shadow={'sm'}
+												variant='filled'
+												bg={'gray.50'}
+												resize={'none'}
+												placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></TextAreaInput>
 											<Flex mb={'30px'} justifyContent={'space-between'}>
 												<SecondaryText>{descriptionCharCounter >= 180 ? null : `Wpisz jeszcze przynajmniej ${180 - descriptionCharCounter} znaków`}</SecondaryText>
 												<SecondaryText>{descriptionCharCounter}/9000</SecondaryText>
@@ -114,7 +130,15 @@ export default function EditAd() {
 										</Box>
 									</Box>
 
-									<Box mb={'20px'} gap={'20px'} display={'flex'} justifyContent={'flex-end'} boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
+									<Box
+										mb={'20px'}
+										gap={'20px'}
+										display={'flex'}
+										justifyContent={'flex-end'}
+										boxShadow={'md'}
+										bg={'#fff'}
+										borderRadius={'20px'}
+										padding={'20px'}>
 										<Button variant={'solid'}>Podgląd ogłoszenia</Button>
 										<Button type={'submit'} variant={'solid'} colorScheme={'blue'}>
 											Edytuj ogłoszenie
@@ -125,7 +149,10 @@ export default function EditAd() {
 						);
 					}}
 				</Formik>
-			</> : <></>}
-		</ContainerBox>
-	);
+			</>
+		) : (
+			<></>
+		)}
+	</ContainerBox>
+);
 }

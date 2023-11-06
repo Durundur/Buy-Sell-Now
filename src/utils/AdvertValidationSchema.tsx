@@ -1,26 +1,24 @@
 import * as Yup from 'yup';
-import { checkIfSubSubCategoriesExist } from './Categories/categoriesDataMethods';
+import { checkIfCategoryHasPriceField, checkIfSubSubCategoriesExist, createSchemaForCategoriesDetails } from './Categories/categoriesDataMethods';
 
-export const ValidationSchema = Yup.object().shape({
+export const AdvertValidationSchema = Yup.object().shape({
 	tittle: Yup.string()
 		.min(16, 'Tytuł nie może być krótszy niż 16 znaków.')
 		.max(100, 'Tytuł musi mieć mniej niż 100 znaków')
 		.required('Tytuł jest najważniejszy, nie zapomnij o nim'),
 	mainCategory: Yup.string().required('Kategoria jest wymagana'),
 	subCategory: Yup.string().required('Kategoria jest wymagana'),
-	subSubCategory: Yup.string().when(checkIfSubSubCategoriesExist('mainCategory', 'subCategory').toString(), {
-		is: true,
-		then: (schema) => schema.required('Kategoria jest wymagana'),
+	subSubCategory: Yup.string().when(['mainCategory', 'subCategory'], (categories, field) => {
+		if (checkIfSubSubCategoriesExist(categories[0], categories[1])) {
+			return field.required('Kategoria jest wymagana');
+		}
+		return field.notRequired();
 	}),
 	description: Yup.string()
 		.min(180, 'Min. 180 znaków. Pamiętaj o szczegółowych informacjach czy uszkodzeniach (jeżeli takie występują)')
 		.max(9000, 'Opis jest za długi')
 		.required('Opis jest wymagany')
 		.trim(),
-
-	price: Yup.object().shape({
-		value: Yup.number().required('Pole obowiązkowe')
-	}),
 
 	advertiser: Yup.object().shape({
 		name: Yup.string()
@@ -42,5 +40,17 @@ export const ValidationSchema = Yup.object().shape({
 		county: Yup.string(),
 		lat: Yup.number().required('Lokalizacja jest wymagana'),
 		lon: Yup.number().required('Lokalizacja jest wymagana')
+	}),
+
+	price: Yup.object().when(['mainCategory', 'subCategory', 'subSubCategory'], (categories, field) => {
+		if(checkIfCategoryHasPriceField(categories[0], categories[1], categories[2])){
+			return field.shape({ value: Yup.number().required('Pole obowiązkowe')})
+		}
+		return field.optional();
+	}),
+	details: Yup.object().when(['mainCategory', 'subCategory', 'subSubCategory'], (categories, field) => {
+		return field.shape(createSchemaForCategoriesDetails(categories[0], categories[1], categories[2]));
 	})
 });
+
+

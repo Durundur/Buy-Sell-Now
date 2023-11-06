@@ -1,26 +1,47 @@
 import { Text, Button, Flex, Box, Image, useDisclosure, Modal, ModalBody, ModalOverlay, ModalHeader, ModalCloseButton, ModalContent, FormErrorMessage, useFormErrorStyles } from '@chakra-ui/react';
-import { useFormikContext } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import SecondaryText from '../Layout/SecondaryText';
 import CategoriesData from './CategoriesData';
 import SelectCategoryLists from './SelectCategoryLists';
 import SelectMainCategory from './SelectMainCategory';
 import { useEffect } from 'react';
-import { AdvertQueryType } from '../../types/ApiRequestDataTypes';
 import { checkIfSubSubCategoriesExist } from '../../utils/Categories/categoriesDataMethods';
 import { FormControl } from '@chakra-ui/react';
 
 export default function SelectCategory() {
-	const { values, setFieldValue, getFieldMeta } = useFormikContext<AdvertQueryType>();
+	const [mainCategoryField, mainCategoryMeta, mainCategoryHelpers] = useField('mainCategory');
+	const [subCategoryField, subCategoryMeta, subCategoryHelpers] = useField('subCategory');
+	const [subSubCategoryField, subSubCategoryMeta, subSubCategoryHelpers] = useField('subSubCategory');
+	const [detailsField, detailsMeta, detailsHelpers] = useField('details');
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const mainCategory = values?.mainCategory;
-	const subCategory = values?.subCategory;
-	const subSubCategory = values?.subSubCategory;
-	const mainCategoryMeta = getFieldMeta('mainCategory');
-	const subCategoryMeta = getFieldMeta('subCategory');
-	const subSubCategoryMeta = getFieldMeta('subSubCategory');
+	const mainCategory = mainCategoryField.value;
+	const subCategory = subCategoryField.value
+	const subSubCategory = subSubCategoryField.value
+
+	const setFieldValue = (category: 'mainCategory' | 'subCategory' | 'subSubCategory', value: string) => {
+		switch(category){
+			case 'mainCategory':
+				subCategoryHelpers.setValue(undefined);
+				subSubCategoryHelpers.setValue(undefined);
+				detailsHelpers.setValue(undefined);
+				detailsHelpers.setTouched(false);
+				mainCategoryHelpers.setValue(value);
+				break;
+			case 'subCategory':
+				subSubCategoryHelpers.setValue(undefined);
+				detailsHelpers.setValue({});
+				subCategoryHelpers.setValue(value);
+				break;
+			case 'subSubCategory':
+				subSubCategoryHelpers.setValue(value);
+				break
+		}
+	}
+
 	let isComplete =
 		(Boolean(mainCategory) && Boolean(subCategory) && Boolean(subSubCategory)) ||
 		!checkIfSubSubCategoriesExist(mainCategory, subCategory);
+
 
 	useEffect(() => {
 		if (isComplete) {
@@ -38,8 +59,14 @@ export default function SelectCategory() {
 		setFieldValue('subSubCategory', '');
 		onClose();
 	};
+	
 	return (
-	<FormControl isInvalid={!isComplete}>
+	<FormControl
+		isInvalid={
+			(Boolean(mainCategoryMeta?.error) && Boolean(mainCategoryMeta?.touched)) ||
+			(Boolean(subCategoryMeta?.error) && Boolean(subCategoryMeta?.touched)) ||
+			(Boolean(subSubCategoryMeta?.error) && Boolean(subSubCategoryMeta?.touched))
+		}>
 		<SelectCategoryButton
 			isComplete={isComplete}
 			mainCategory={mainCategory}
@@ -55,7 +82,6 @@ export default function SelectCategory() {
 				<ModalBody>
 					{mainCategory ? (
 						<SelectCategoryLists
-							isComplete={isComplete}
 							onClose={onClose}
 							setFieldValue={setFieldValue}
 							mainCategory={mainCategory}

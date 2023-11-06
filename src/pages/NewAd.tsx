@@ -14,7 +14,7 @@ import Uploader from "../components/Uploader/Uploader";
 import { TextAreaInput } from "../components/Form/TextAreaInput";
 import { EditAdvertQueryType } from "../types/ApiRequestDataTypes";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
-import { ValidationSchema } from "../utils/AdvertValidationSchema";
+import { AdvertValidationSchema } from '../utils/AdvertValidationSchema';
 import LoadingSpinnerPage from "../components/Layout/LoadingSpinnerPage";
 
 export default function NewAd() {
@@ -37,7 +37,7 @@ export default function NewAd() {
             {isLoading ? <LoadingSpinnerPage/> : <></>}
             {error ? <Error error={error}/> : <></>}
                 <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
-                <Formik onSubmit={(value) => postNewAd(value)} initialValues={{} as EditAdvertQueryType} validationSchema={ValidationSchema}>
+                <Formik onSubmit={(value) => postNewAd(value)} initialValues={{} as EditAdvertQueryType} validationSchema={AdvertValidationSchema}>
                     {({values}) => {
                         const descriptionCharCounter = values?.description?.length || 0;
                         const subCategory = values?.subCategory;
@@ -72,7 +72,7 @@ export default function NewAd() {
                                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                         <Box maxW={'30%'}>
                                             <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dodatkowe informacje</Text>
-                                            <AdDetailsInputs subCategoryName={subCategory}></AdDetailsInputs>
+                                            <AdDetailsInputs key={subCategory} subCategoryName={subCategory}></AdDetailsInputs>
                                         </Box >
                                 </Box > : <></>}
 
