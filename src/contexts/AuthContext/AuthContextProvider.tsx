@@ -1,6 +1,5 @@
 import { type AxiosError } from "axios";
 import { createContext, useEffect, useState, } from "react";
-import { redirect } from "react-router";
 import { loginUser, logoutUser, signupUser, ensureAuth } from "./AuthServices";
 import { AuthContexType, LoginHandlerType, RegisterHandlerType, CheckAuthenticationHandlerType, LogoutHandlerType, LoginRequestResponse, UserInfoType } from "./types";
 

@@ -22,7 +22,7 @@ type CarouselProps = {
   cards: string[]
 }
 
-export default function Carousel({cards, ...props}: CarouselProps) {
+export default function Carousel({cards}: CarouselProps) {
   const [slider, setSlider] = useState<Slider | null>(null);
   const top = useBreakpointValue({ base: '90%', md: '50%' });
   const side = useBreakpointValue({ base: '30%', md: '10px' });
