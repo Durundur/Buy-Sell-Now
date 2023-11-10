@@ -8,8 +8,8 @@ export const AuthContext = createContext<AuthContexType>({} as AuthContexType);
 const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
     
     const [userInfo, setUserInfo] = useState<UserInfoType>({
-        userId: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo") || '') : '',
-        userAvatar: localStorage.getItem("userAvatar") ? JSON.parse(localStorage.getItem("userAvatar") || '') : '',
+        userId: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo") || "") : "",
+        userAvatar: localStorage.getItem("userAvatar") ? JSON.parse(localStorage.getItem("userAvatar") || "") : "",
     });
 
     useEffect(() => {
@@ -22,11 +22,11 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
             if (response.status === 200) {
                 localStorage.setItem(
                     "userInfo",
-                    JSON.stringify(response.data.userId)
+                    JSON.stringify(response.data.userId || "")
                 );
                 localStorage.setItem(
                     "userAvatar",
-                    JSON.stringify(response.data.avatar || '')
+                    JSON.stringify(response.data.avatar || "")
                 );
                 setUserInfo({ ...userInfo, userId: response.data.userId, userAvatar: response.data?.avatar });
             }
@@ -35,7 +35,7 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
             if (e?.status === 401) {
                 localStorage.removeItem("userInfo");
                 localStorage.removeItem("userAvatar");
-                setUserInfo({userAvatar: '', userId: ''});
+                setUserInfo({userAvatar: "", userId: ""});
             }
         }
     }
@@ -50,7 +50,7 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
                 );
                 localStorage.setItem(
                     "userAvatar",
-                    JSON.stringify(response.data.avatar || '')
+                    JSON.stringify(response.data.avatar || "")
                 );
                 setUserInfo({ userId: response.data.userId, userAvatar: response.data.avatar })
             }
@@ -71,7 +71,7 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
                 );
                 localStorage.setItem(
                     "userAvatar",
-                    JSON.stringify(response.data.avatar || '')
+                    JSON.stringify(response.data.avatar || "")
                 );
                 setUserInfo({ userId: response.data.userId, userAvatar: response.data.avatar })
             }
@@ -88,7 +88,7 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
             if (response?.status === 200 || response?.status === 201) {
                 localStorage.removeItem("userInfo");
                 localStorage.removeItem("userAvatar");
-                setUserInfo({userAvatar: '', userId: ''})
+                setUserInfo({userAvatar: "", userId: ""})
             }
         } catch (error) {
             console.log(error)
