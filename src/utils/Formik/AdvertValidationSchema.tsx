@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { checkIfCategoryHasPriceField, checkIfSubSubCategoriesExist, createSchemaForCategoriesDetails } from './Categories/categoriesDataMethods';
+import { checkIfCategoryHasPriceField, checkIfSubSubCategoriesExist, createSchemaForCategoriesDetails } from '../Categories/categoriesDataMethods';
 
 export const AdvertValidationSchema = Yup.object().shape({
 	tittle: Yup.string()

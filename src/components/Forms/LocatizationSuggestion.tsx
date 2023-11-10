@@ -35,7 +35,7 @@ export function LocalizationSuggestionInput({ setValue, setTouched, setError, ..
 			}
 		}
 	}
-
+	
 	function createSuggestionLabel(suggestionObject: SuggestionType) {
 		if (!suggestionObject) {
 			return '';
@@ -78,7 +78,7 @@ export function LocalizationSuggestionInput({ setValue, setTouched, setError, ..
 				}}
 				onChange={(e) => {
 					getSuggestions(e.target.value);
-					setValue({ city: '', state: '', county: '', lat: 0, lon: 0 });
+					setValue({ ...props.value, city: '', state: '', county: '', lat: 0, lon: 0 });
 					setInputValue(e.target.value);
 				}}
 				value={inputValue}
@@ -97,7 +97,7 @@ export function LocalizationSuggestionInput({ setValue, setTouched, setError, ..
 							return (
 								<Box
 									onClick={() => {
-										setValue({ city, state, county, lat, lon });
+										setValue({ ...props.value, city, state, county, lat, lon });
 										setInputValue(createSuggestionLabel(suggestion));
 										setSuggestionsVisibility(false);
 									}}

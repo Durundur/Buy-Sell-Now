@@ -8,8 +8,8 @@ export default function AdDetailsInputs({ subCategoryName }: { subCategoryName: 
 		<>
 			{detailsFields?.map((field, index) => {
 				return field?.type === 'select' ? (
-					<SelectInput key={index} label={field?.label} defaultValue={' '} name={field?.name}>
-						<option value=' ' disabled >
+					<SelectInput key={index} label={field?.label} name={field?.name}>
+						<option value='' disabled >
 							{field.placeholder}
 						</option>
 						{field.values?.map((option, index) => {

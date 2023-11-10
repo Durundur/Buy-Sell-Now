@@ -3,19 +3,20 @@ import SecondaryText from "../components/Layout/SecondaryText";
 import Error from "../components/Layout/Error";
 import useApi from "../hooks/useApi";
 import ContainerBox from "../components/Layout/ContainerBox";
-import AdDetailsInputs from "../components/Form/AdDetailsInputs";
-import { TextInput } from "../components/Form/TextInput";
+import AdDetailsInputs from "../components/Forms/AdDetailsInputs";
+import { TextInput } from "../components/Forms/TextInput";
 import { Form, Formik } from 'formik';
-import AdvertiserInfoInputs from '../components/Form/AdvertiserInfo';
+import AdvertiserInfoInputs from '../components/Forms/AdvertiserInfo';
 import SelectCategory from '../components/SelectCategory/SelectCategory';
 import { CREATE_AD_URL } from "../hooks/ApiEndpoints";
 import { createFormDataFromObject } from "../utils/utils";
 import Uploader from "../components/Uploader/Uploader";
-import { TextAreaInput } from "../components/Form/TextAreaInput";
-import { EditAdvertQueryType } from "../types/ApiRequestDataTypes";
+import { TextAreaInput } from "../components/Forms/TextAreaInput";
+import { EditAdvertQueryType } from "../types/ApiDataTypes";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
-import { AdvertValidationSchema } from '../utils/AdvertValidationSchema';
+import { AdvertValidationSchema } from '../utils/Formik/AdvertValidationSchema';
 import LoadingSpinnerPage from "../components/Layout/LoadingSpinnerPage";
+import { AdvertInitialValues } from "../utils/Formik/AdvertInitialValues";
 
 export default function NewAd() {
     const { data: createAdResponse, isLoading, error, makeRequest: createAd } = useApi({
@@ -37,7 +38,7 @@ export default function NewAd() {
             {isLoading ? <LoadingSpinnerPage/> : <></>}
             {error ? <Error error={error}/> : <></>}
                 <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
-                <Formik onSubmit={(value) => postNewAd(value)} initialValues={{} as EditAdvertQueryType} validationSchema={AdvertValidationSchema}>
+                <Formik onSubmit={(value) => postNewAd(value)} initialValues={AdvertInitialValues as EditAdvertQueryType} validationSchema={AdvertValidationSchema}>
                     {({values}) => {
                         const descriptionCharCounter = values?.description?.length || 0;
                         const subCategory = values?.subCategory;

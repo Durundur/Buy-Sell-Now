@@ -3,7 +3,7 @@ import { FiCamera, FiTrash2 } from 'react-icons/fi';
 import { MdOutlineCameraswitch } from 'react-icons/md';
 import { Image } from '../Layout/Image';
 import './UploaderStyle.css';
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { useField } from 'formik';
 
 export default function UploaderWraper() {

@@ -7,6 +7,7 @@ import SelectMainCategory from './SelectMainCategory';
 import { useEffect } from 'react';
 import { checkIfSubSubCategoriesExist } from '../../utils/Categories/categoriesDataMethods';
 import { FormControl } from '@chakra-ui/react';
+import { clearObjectFields } from '../../utils/utils';
 
 export default function SelectCategory() {
 	const [mainCategoryField, mainCategoryMeta, mainCategoryHelpers] = useField('mainCategory');
@@ -23,13 +24,13 @@ export default function SelectCategory() {
 			case 'mainCategory':
 				subCategoryHelpers.setValue(undefined);
 				subSubCategoryHelpers.setValue(undefined);
-				detailsHelpers.setValue(undefined);
+				detailsHelpers.setValue(clearObjectFields(detailsField.value));
 				detailsHelpers.setTouched(false);
 				mainCategoryHelpers.setValue(value);
 				break;
 			case 'subCategory':
 				subSubCategoryHelpers.setValue(undefined);
-				detailsHelpers.setValue({});
+				detailsHelpers.setValue(clearObjectFields(detailsField.value));
 				subCategoryHelpers.setValue(value);
 				break;
 			case 'subSubCategory':

@@ -1,6 +1,6 @@
 import { Avatar, Flex, VStack, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { ConversationQueryType } from '../../../types/ApiRequestDataTypes';
+import { ConversationQueryType } from '../../../types/ApiDataTypes';
 
 export default function ConversationPreview({
 	userId,

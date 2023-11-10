@@ -5,25 +5,18 @@ import LoadingSpinner from "../components/Layout/LoadingSpinner"
 import useApi from "../hooks/useApi";
 import { useParams } from 'react-router-dom'
 import ContainerBox from "../components/Layout/ContainerBox";
-import AdDetailsInputs from "../components/Form/AdDetailsInputs";
-import { TextInput } from "../components/Form/TextInput";
+import AdDetailsInputs from "../components/Forms/AdDetailsInputs";
+import { TextInput } from "../components/Forms/TextInput";
 import { Form, Formik } from 'formik';
-import AdvertiserInfoInputs from '../components/Form/AdvertiserInfo';
+import AdvertiserInfoInputs from '../components/Forms/AdvertiserInfo';
 import { UPDATE_AD_URL, GET_AD_URL } from '../hooks/ApiEndpoints';
-import { AdvertQueryType, EditAdvertQueryType } from "../types/ApiRequestDataTypes";
-import { TextAreaInput } from './../components/Form/TextAreaInput';
+import { AdvertQueryType, EditAdvertQueryType } from "../types/ApiDataTypes";
+import { TextAreaInput } from '../components/Forms/TextAreaInput';
 import SelectCategory from "../components/SelectCategory/SelectCategory";
 import Uploader from '../components/Uploader/Uploader';
 import { createFormDataFromObject } from "../utils/utils";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
-import { AdvertValidationSchema } from '../utils/AdvertValidationSchema';
-
-
-/*
-
-input select (wbierz) label
-validation details
-*/
+import { AdvertValidationSchema } from '../utils/Formik/AdvertValidationSchema';
 
 export default function EditAd() {
 	const { id } = useParams();

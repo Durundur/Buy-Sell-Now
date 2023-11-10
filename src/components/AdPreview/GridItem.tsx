@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { formatDate } from "../../utils/utils"
 import SecondaryText from '../Layout/SecondaryText'
 import {Image} from "../Layout/Image"
-import { AdvertQueryType } from "../../types/ApiRequestDataTypes"
+import { AdvertQueryType } from "../../types/ApiDataTypes"
 
 function GridItem({ adData }: {adData: AdvertQueryType}) {
     return (
