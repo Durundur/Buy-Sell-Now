@@ -4,7 +4,7 @@ import { TfiLocationPin } from "react-icons/tfi";
 import { formatDate } from "../../utils/utils";
 import AdListBadges from "../Badge/AdListBadges";
 import {Image} from "../Layout/Image";
-import { AdvertQueryType } from "../../types/ApiRequestDataTypes";
+import { AdvertQueryType } from "../../types/ApiDataTypes";
 
 function ListItemPublic({ adData}: {adData: AdvertQueryType}) {
     return (

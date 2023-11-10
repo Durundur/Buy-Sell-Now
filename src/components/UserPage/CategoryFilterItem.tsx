@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import { CategoryBadge } from './CategoryBadge';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { MainCategoryStats, SubCategoryStats } from '../../types/ApiRequestDataTypes';
+import { MainCategoryStats, SubCategoryStats } from '../../types/ApiDataTypes';
 
 type CategoryFilterItemProps = {
     userId: string, 

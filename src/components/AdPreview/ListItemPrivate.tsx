@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { TfiCalendar, TfiLocationPin } from "react-icons/tfi";
 import { FiPhone, FiHeart, FiEye } from "react-icons/fi";
 import { formatDate } from "../../utils/utils";
-import { GoPrimitiveDot } from 'react-icons/go';
+import { GoDot } from 'react-icons/go';
 import { Image } from "../Layout/Image";
 import useApi from "../../hooks/useApi";
-import { AdvertQueryType } from "../../types/ApiRequestDataTypes";
+import { AdvertQueryType } from "../../types/ApiDataTypes";
 
 function ListItemPrivate({ adData }: {adData: AdvertQueryType}) {
     const { mainCategory, subCategory, subSubCategory } = adData;
@@ -30,14 +30,13 @@ function ListItemPrivate({ adData }: {adData: AdvertQueryType}) {
                         <Link  to={'/ogloszenie/' + adData?._id}>
                             <Text noOfLines={2} fontSize={'xl'}>{adData?.tittle}</Text>
                         </Link>
-                        {/* height: 60px as box */}
                         <VStack gap={'sm'} alignItems={'stretch'}>
                             <HStack>
                                 <Text textTransform={'capitalize'}>{mainCategory}</Text>
-                                <GoPrimitiveDot size={8} />
+                                <GoDot size={8} />
                                 <Text textTransform={'capitalize'}>{subCategory}</Text>
                                 {subSubCategory ? <>
-                                    <GoPrimitiveDot size={8} />
+                                    <GoDot size={8} />
                                     <Text textTransform={'capitalize'}>{subSubCategory}</Text>
                                 </> : null}
                             </HStack>

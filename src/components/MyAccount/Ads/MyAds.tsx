@@ -8,7 +8,7 @@ import ContainerBox from '../../Layout/ContainerBox';
 import Error from "../../Layout/Error";
 import { useLocation } from 'react-router-dom'
 import useApi from "../../../hooks/useApi";
-import { AdvertQueryType } from "../../../types/ApiRequestDataTypes";
+import { AdvertQueryType } from "../../../types/ApiDataTypes";
 
 function MyAds({...props}) {
     const location = useLocation();

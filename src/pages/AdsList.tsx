@@ -8,7 +8,7 @@ import useApi from '../hooks/useApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { NoAds } from '../components/AdPage/NoAds';
-import { AdvertQueryType } from '../types/ApiRequestDataTypes';
+import { AdvertQueryType } from '../types/ApiDataTypes';
 import { GET_ADS_URL } from './../hooks/ApiEndpoints';
 
 export default function AdsList() {

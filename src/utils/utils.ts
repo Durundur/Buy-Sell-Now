@@ -1,4 +1,4 @@
-import { EditAdvertQueryType } from "../types/ApiRequestDataTypes";
+import { EditAdvertQueryType } from "../types/ApiDataTypes";
 
 export const flattenObject = (value: object, currentKey?: string) => {
     let result = {};
@@ -26,7 +26,7 @@ export const createFormDataFromObject = (object: EditAdvertQueryType) => {
         for (let i = 0; i < object?.images.length; i++) {
             let img: string | File = object?.images[i];
             if (img instanceof File) {
-                formData.append(`file.${i}`, img as File);
+                formData.append(`image.${i}`, img as File);
             }
         }
         return formData;
@@ -38,4 +38,11 @@ export const createFormDataFromObject = (object: EditAdvertQueryType) => {
 export const formatDate = (dateString: string, formatName: "full" | "long" | "medium" | "short") => {
     let date = new Date(dateString);
     return date.toLocaleDateString('pl-PL', { dateStyle: formatName });
+}
+
+export const clearObjectFields = (object: {[x: string]: string}) => {
+    Object.keys(object).map((key)=>{
+        object[key] = '';
+    })
+    return object;
 }

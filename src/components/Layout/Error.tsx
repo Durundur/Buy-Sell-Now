@@ -1,13 +1,6 @@
 import { VStack, Text, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-interface ErrorResponse{
-    message: string,
-    status: number,
-    success: boolean,
-    stack: string
-}
-
 
 type ErrorProps = {
     error: Error

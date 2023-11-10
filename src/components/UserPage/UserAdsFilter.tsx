@@ -5,7 +5,7 @@ import LoadingSpinner from '../Layout/LoadingSpinner'
 import { useEffect } from 'react';
 import { CategoryFilterItem } from './CategoryFilterItem'
 import { GET_USER_PAGE_ADS_STATS_URL } from '../../hooks/ApiEndpoints';
-import { UserAdsStats } from '../../types/ApiRequestDataTypes';
+import { UserAdsStats } from '../../types/ApiDataTypes';
 
 type UserAdsFilterProps = {
     userId: string,

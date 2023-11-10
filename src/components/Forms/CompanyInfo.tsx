@@ -10,8 +10,8 @@ export function CompanyInfo() {
 			<TextInput label='ulica' name='advertiser.address.street' type='text' placeholder='' />
 			<TextInput label='numer budynku' name='advertiser.address.buildingNumber' type='text' placeholder='' />
 			<TextInput label='kod pocztowy' name='advertiser.address.postcode' type='text' placeholder='' />
-			<LocalizationSuggestionForm label='miasto' name={'advertiser.address'} type='text'></LocalizationSuggestionForm>
-			<TextAreaInput name={'advertiser.aboutCompany'} label={'O firmie'} placeholder='Informacje o firmie'></TextAreaInput>
+			<LocalizationSuggestionForm label='miasto' name={'advertiser.address'}></LocalizationSuggestionForm>
+			<TextAreaInput rows={5} name={'advertiser.aboutCompany'} label={'O firmie'} placeholder='Informacje o firmie'></TextAreaInput>
 			<TextInput label='NIP' name='advertiser.nip' type='text' placeholder='' />
 			<TextInput label='e-mail' name='advertiser.email' type='text' placeholder='' />
 			<TextInput label='strona internetowa' name='advertiser.companyWebsite' type='text' placeholder='' />

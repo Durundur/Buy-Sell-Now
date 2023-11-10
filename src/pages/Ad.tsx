@@ -1,16 +1,4 @@
-import {
-	Box,
-	Flex,
-	HStack,
-	Text,
-	Stack,
-	Divider,
-	Avatar,
-	VStack,
-	Button,
-	Breadcrumb,
-	BreadcrumbItem,
-} from '@chakra-ui/react';
+import { Box, Flex, HStack, Text, Stack, Divider, Avatar, VStack, Button, Breadcrumb, BreadcrumbItem} from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { Link, To, useParams } from 'react-router-dom';
 import Carousel from '../components/AdPage/Carousel';
@@ -28,7 +16,7 @@ import AdBadges from '../components/Badge/AdBadges';
 import useApi from '../hooks/useApi';
 import ContainerBox from '../components/Layout/ContainerBox';
 import { formatDate } from '../utils/utils';
-import { AdvertQueryType } from '../types/ApiRequestDataTypes';
+import { AdvertQueryType } from '../types/ApiDataTypes';
 import { GET_AD_URL } from './../hooks/ApiEndpoints';
 
 function Ad() {

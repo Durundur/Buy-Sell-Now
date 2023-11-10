@@ -11,7 +11,7 @@ import { UserAdsFilter } from './UserAdsFilter';
 import LoadingSpinner from '../Layout/LoadingSpinner';
 import useApi from '../../hooks/useApi';
 import { GET_USER_ADS_URL } from '../../hooks/ApiEndpoints';
-import { AdvertQueryType } from '../../types/ApiRequestDataTypes';
+import { AdvertQueryType } from '../../types/ApiDataTypes';
 
 export default function UserAds({ ...props }) {
     const {setActiveTab}: {setActiveTab: React.Dispatch<React.SetStateAction<number>>} = useOutletContext();

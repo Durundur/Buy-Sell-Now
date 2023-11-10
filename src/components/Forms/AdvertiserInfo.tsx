@@ -1,7 +1,7 @@
 import { TextInput } from './TextInput';
 import { LocalizationSuggestionForm } from './LocatizationSuggestion';
 
-export default function AdvertiserInfoInputs({ localizationInputName }) {
+export default function AdvertiserInfoInputs({ localizationInputName }: {localizationInputName: string}) {
 	return (
 		<>
 			<TextInput label='osoba kontaktowa' name='advertiser.name' type='text' placeholder='' />
