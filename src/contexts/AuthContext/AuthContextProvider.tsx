@@ -8,8 +8,8 @@ export const AuthContext = createContext<AuthContexType>({} as AuthContexType);
 const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
     
     const [userInfo, setUserInfo] = useState<UserInfoType>({
-        userId: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo") || '') : undefined,
-        userAvatar: localStorage.getItem("userAvatar") ? JSON.parse(localStorage.getItem("userAvatar") || '') : undefined,
+        userId: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo") || '') : '',
+        userAvatar: localStorage.getItem("userAvatar") ? JSON.parse(localStorage.getItem("userAvatar") || '') : '',
     });
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
             if (e?.status === 401) {
                 localStorage.removeItem("userInfo");
                 localStorage.removeItem("userAvatar");
-                setUserInfo({userAvatar: undefined, userId: undefined});
+                setUserInfo({userAvatar: '', userId: ''});
             }
         }
     }
