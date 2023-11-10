@@ -6,7 +6,7 @@ import ContainerBox from "./ContainerBox";
 import Error from "./Error";
 import useApi from './../../hooks/useApi';
 import { useEffect } from 'react';
-import { AdvertQueryType } from "../../types/ApiRequestDataTypes";
+import { AdvertQueryType } from "../../types/ApiDataTypes";
 
 function PromotedAds() {
     const { data: PromotedAds, isLoading, error, makeRequest: getPromotedAds } = useApi<AdvertQueryType[]>({
@@ -18,7 +18,7 @@ function PromotedAds() {
     }, [])
 
 
-    if (isLoading) return <LoadingSpinner></LoadingSpinner>
+    if (isLoading) return <LoadingSpinner/>
     if(error) return <ContainerBox><Error error={error} variant={'info'}></Error></ContainerBox>
     return (
         <ContainerBox>

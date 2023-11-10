@@ -1,18 +1,6 @@
-import {
-	Box,
-	Flex,
-	HStack,
-	Text,
-	Stack,
-	Divider,
-	Avatar,
-	VStack,
-	Button,
-	Breadcrumb,
-	BreadcrumbItem,
-} from '@chakra-ui/react';
+import { Box, Flex, HStack, Text, Stack, Divider, Avatar, VStack, Button, Breadcrumb, BreadcrumbItem} from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, To, useParams } from 'react-router-dom';
 import Carousel from '../components/AdPage/Carousel';
 import SecondaryText from '../components/Layout/SecondaryText';
 import {
@@ -28,7 +16,7 @@ import AdBadges from '../components/Badge/AdBadges';
 import useApi from '../hooks/useApi';
 import ContainerBox from '../components/Layout/ContainerBox';
 import { formatDate } from '../utils/utils';
-import { AdvertQueryType } from '../types/ApiRequestDataTypes';
+import { AdvertQueryType } from '../types/ApiDataTypes';
 import { GET_AD_URL } from './../hooks/ApiEndpoints';
 
 function Ad() {
@@ -78,7 +66,7 @@ function Ad() {
 	return (
 		<ContainerBox bgColor1={'gray.50'}>
 			<Flex justifyItems={'center'} alignItems={'center'} gap={10} direction={'row'} p={'6'}>
-				<Link to={'-1'}>
+				<Link to={-1 as To}>
 					<Flex justifyItems={'center'} alignItems={'center'} gap={'2'}>
 						<TfiAngleLeft></TfiAngleLeft>
 						<Text textTransform={'capitalize'}>wróc</Text>
@@ -121,15 +109,18 @@ function Ad() {
 						<Text fontSize='2xl' fontWeight={'medium'}>
 							{advertData?.tittle}
 						</Text>
-						<Text fontSize={'2xl'} fontWeight={'bold'}>
-							{advertData?.price?.value + ' zł'}
-						</Text>
+						{advertData?.price ? (
+							<Text fontSize={'2xl'} fontWeight={'bold'}>
+								{advertData?.price?.value + ' zł'}
+							</Text>
+						) : (
+							<></>
+						)}
 						<AdBadges details={advertData?.details || {}}></AdBadges>
 						<Text fontSize='md' textTransform={'uppercase'} fontWeight={'bold'}>
 							opis
 						</Text>
-						{/* <Text fontSize={'lg'} whiteSpace={'pre-line'} dangerouslySetInnerHTML={{ __html: advertData?.description }}></Text> */}
-						<Text whiteSpace={"pre-wrap"} fontSize={'lg'}>
+						<Text whiteSpace={'pre-wrap'} fontSize={'lg'}>
 							{advertData?.description}
 						</Text>
 						<Divider></Divider>
@@ -155,7 +146,8 @@ function Ad() {
 									Na BSN od {formatDate(advertData?.advertiser.details.createdAt as string, 'long')}
 								</SecondaryText>
 								<SecondaryText fontWeight={'light'}>
-									Ostatnio online {formatDate(advertData?.advertiser.details.updatedAt as string, 'long')}
+									Ostatnio online{' '}
+									{formatDate(advertData?.advertiser.details.updatedAt as string, 'long')}
 								</SecondaryText>
 							</Flex>
 						</Flex>

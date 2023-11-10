@@ -1,4 +1,4 @@
-const { Container, Text, Center } = require("@chakra-ui/react");
+import { Container, Text, Center } from "@chakra-ui/react";
 
 function Header({children, ...props}: {children: React.ReactNode}){
     return(

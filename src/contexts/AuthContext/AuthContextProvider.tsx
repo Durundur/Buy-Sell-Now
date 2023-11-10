@@ -8,8 +8,8 @@ export const AuthContext = createContext<AuthContexType>({} as AuthContexType);
 const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
     
     const [userInfo, setUserInfo] = useState<UserInfoType>({
-        userId: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo") || '') : undefined,
-        userAvatar: localStorage.getItem("userAvatar") ? JSON.parse(localStorage.getItem("userAvatar") || '') : undefined,
+        userId: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo") || "") : "",
+        userAvatar: localStorage.getItem("userAvatar") ? JSON.parse(localStorage.getItem("userAvatar") || "") : "",
     });
 
     useEffect(() => {
@@ -22,19 +22,21 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
             if (response.status === 200) {
                 localStorage.setItem(
                     "userInfo",
-                    JSON.stringify(response.data.userId)
+                    JSON.stringify(response.data.userId || "")
                 );
-                setUserInfo({ ...userInfo, userId: response.data.userId })
+                localStorage.setItem(
+                    "userAvatar",
+                    JSON.stringify(response.data.avatar || "")
+                );
+                setUserInfo({ ...userInfo, userId: response.data.userId, userAvatar: response.data?.avatar });
             }
-            return response
         } catch (error) {
-            const e = error as AxiosError<LoginRequestResponse>
-            if (e?.response?.status === 401) {
+            const e = (error as AxiosError<LoginRequestResponse>).response?.data
+            if (e?.status === 401) {
                 localStorage.removeItem("userInfo");
                 localStorage.removeItem("userAvatar");
-                setUserInfo({userAvatar: undefined, userId: undefined})
+                setUserInfo({userAvatar: "", userId: ""});
             }
-            return e.response
         }
     }
 
@@ -48,14 +50,14 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
                 );
                 localStorage.setItem(
                     "userAvatar",
-                    JSON.stringify(response.data.avatar || '')
+                    JSON.stringify(response.data.avatar || "")
                 );
                 setUserInfo({ userId: response.data.userId, userAvatar: response.data.avatar })
             }
-            return response
+            return response.data
         } 
         catch (error) {
-            return (error as AxiosError<LoginRequestResponse>).response?.data
+            return (error as AxiosError<LoginRequestResponse>).response?.data;
         }
     }
 
@@ -69,11 +71,11 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
                 );
                 localStorage.setItem(
                     "userAvatar",
-                    JSON.stringify(response.data.avatar || undefined)
+                    JSON.stringify(response.data.avatar || "")
                 );
                 setUserInfo({ userId: response.data.userId, userAvatar: response.data.avatar })
             }
-            return response
+            return response.data
         } catch (error) {
             return (error as AxiosError<LoginRequestResponse>).response?.data
         }
@@ -86,7 +88,7 @@ const AuthContextProvider = ({ children }: {children: JSX.Element}) => {
             if (response?.status === 200 || response?.status === 201) {
                 localStorage.removeItem("userInfo");
                 localStorage.removeItem("userAvatar");
-                setUserInfo({userAvatar: '', userId: ''})
+                setUserInfo({userAvatar: "", userId: ""})
             }
         } catch (error) {
             console.log(error)

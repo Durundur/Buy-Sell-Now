@@ -1,98 +1,56 @@
 import { Formik, Form } from 'formik';
 import { Text } from '@chakra-ui/react';
-import * as Yup from 'yup';
 import { Button } from '@chakra-ui/react';
 import LoadingSpinner from '../../Layout/LoadingSpinner';
-import { Box } from '@chakra-ui/react';
-import AdvertiserInfo from '../../Form/AdvertiserInfo';
-import { handleInputChange } from '../../../utils/utilsOld';
-import { CompanyInfo } from '../../Form/CompanyInfo';
+import AdvertiserInfo from '../../Forms/AdvertiserInfo';
+import { CompanyInfo } from '../../Forms/CompanyInfo';
 import useApi from '../../../hooks/useApi';
-import { UserDataType } from '../../../types/UserDataType';
+import { AccountDataType } from '../../../types/UserDataType';
+import { GeneralInfoCompanyValidationSchema, GeneralInfoPersonalValidationSchema } from '../../../utils/Formik/GeneralInfoValidationSchema';
+import { UPDATE_ACC_GENERAL_INFO_URL } from '../../../hooks/ApiEndpoints';
+import { ApiQueryResponseType } from '../../../types/ApiDataTypes';
+import { SelectIfCompanyAcc } from '../../Forms/SelectIfCompanyAcc';
 
-export default function ChangeGeneralInfo({ mySettingsData }: { mySettingsData: UserDataType }) {
-	return (
-		<Box w={['100%', '80%', '65%', '40%']}>
-			{mySettingsData?.advertiser?.isCompanyAcc ? (
-				<GeneralInfoCompany data={mySettingsData} />
-			) : (
-				<GeneralInfoPersonal data={mySettingsData} />
-			)}
-		</Box>
-	);
-}
+type ChangeGeneralInfoProps = { generalInfo: AccountDataType };
 
-function GeneralInfoPersonal({ data }: { data: UserDataType }) {
+export default function ChangeGeneralInfo({ generalInfo }: ChangeGeneralInfoProps) {
 	const {
-		data: requestResponse,
+		data: updateUserInfoResponse,
 		error: requestError,
 		isLoading,
-		makeRequest: updateUserInfo,
-	} = useApi({
-		url: 'api/v1/settings/general-info',
-		method: 'put',
+		makeRequest: updateUserInfo
+	} = useApi<ApiQueryResponseType<AccountDataType>>({
+		url: UPDATE_ACC_GENERAL_INFO_URL,
+		method: 'put'
 	});
-
+	const isCompanyAcc = updateUserInfoResponse?.data?.isCompanyAcc || generalInfo?.isCompanyAcc;
 	if (isLoading) return <LoadingSpinner />;
 	return (
 		<Formik
-			initialValues={{ advertiser: { ...data?.advertiser } }}
-			validationSchema={Yup.object().shape({
-				advertiser: Yup.object().shape({
-					name: Yup.string().required('Pole obowiązkowe'),
-					phoneNumber: Yup.string()
-						.matches(
-							/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-						)
-						.max(13, 'Niepoprawny numer telefonu')
-						.required('Pole obowiązkowe')
-						.trim(),
-				}),
-			})}
+			initialValues={{ advertiser: updateUserInfoResponse?.data || generalInfo }}
+			validationSchema={isCompanyAcc ? GeneralInfoCompanyValidationSchema : GeneralInfoPersonalValidationSchema}
 			onSubmit={(values) => {
 				updateUserInfo(values);
 			}}>
 			<Form>
-				<AdvertiserInfo localizationInputName={''}></AdvertiserInfo>
+				{isCompanyAcc ? (
+					<CompanyInfo />
+				) : (
+					<>
+						<AdvertiserInfo localizationInputName={''} />
+						<SelectIfCompanyAcc></SelectIfCompanyAcc>
+					</>
+				)}
 				{requestError && (
 					<Text fontSize={'14px'} color={'red.500'}>
 						{requestError.message}
 					</Text>
 				)}
-				<Button mt={4} variant={'solid'} type={'submit'} colorScheme={'blue'}>
-					Zapisz
-				</Button>
-			</Form>
-		</Formik>
-	);
-}
-
-function GeneralInfoCompany({ data }: { data: UserDataType }) {
-	const {
-		data: requestResponse,
-		error: requestError,
-		isLoading,
-		makeRequest: updateUserInfo,
-	} = useApi({
-		url: 'api/v1/settings/general-info',
-		method: 'put',
-	});
-
-	if (isLoading) return <LoadingSpinner />;
-	return (
-		<Formik
-			initialValues={{ advertiser: { ...data?.advertiser } }}
-			onSubmit={async (values) => {
-				updateUserInfo(values);
-			}}>
-			<Form>
-				<CompanyInfo></CompanyInfo>
-				{
-				requestError && (
-				<Text fontSize={'14px'} color={'red.500'}>
-					{requestError.message}
-				</Text>)
-				}
+				{updateUserInfoResponse?.message && (
+					<Text fontSize={'14px'} color={'blue.900'}>
+						{updateUserInfoResponse.message}
+					</Text>
+				)}
 				<Button mt={4} variant={'solid'} type={'submit'} colorScheme={'blue'}>
 					Zapisz
 				</Button>

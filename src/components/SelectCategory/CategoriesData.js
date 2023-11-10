@@ -24,7 +24,7 @@ const categories = [
             },
             {
                 name: 'motocykle i skutery',
-                subsubcategories: ['chopper', 'enduro-funbike', 'cross', 'motorower', 'quad', 'skuter', 'sportowy', 'szosowo-Turystyczny', 'pozostałe motocykle i skutery']
+                subsubcategories: ['chopper', 'enduro-funbike', 'cross', 'motorower', 'quad', 'skuter', 'sportowy', 'szosowo-turystyczny', 'pozostałe motocykle i skutery']
             },
             {
                 name: 'dostawcze',

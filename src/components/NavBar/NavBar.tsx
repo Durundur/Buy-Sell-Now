@@ -1,8 +1,9 @@
-import { Container, Flex, ButtonGroup, Button, Avatar, Divider, Box, Menu, MenuButton, MenuList, MenuItem, MenuGroup, MenuDivider } from '@chakra-ui/react'
+import { Container, Flex, ButtonGroup, Button, Divider, Box, Menu, MenuButton, MenuList, MenuItem, MenuGroup, MenuDivider } from '@chakra-ui/react'
 import { Link, Outlet } from "react-router-dom";
 import { IoAdd, IoPersonAddOutline } from "react-icons/io5";
 import Logo from './Logo'
 import { useAuthContext } from "../../contexts";
+import { Avatar } from '../Layout/Avatar';
 
 function NavBar() {
     const { userInfo, logoutHandler } = useAuthContext();
@@ -15,7 +16,7 @@ function NavBar() {
                     <Flex zIndex={10} alignItems={'center'} gap={'6 '}>
                         <Menu >
                             <MenuButton>
-                                <Avatar src={userInfo?.userAvatar} size={{ base: 'sm' }}></Avatar>
+                                <Avatar src={userInfo?.userAvatar as string} size={{ base: 'sm' }}></Avatar>
                             </MenuButton>
                             <MenuList >
                                 <MenuGroup fontSize={'md'} title="Moje konto">

@@ -7,14 +7,10 @@ import { useOutletContext } from 'react-router';
 import LoadingSpinner from '../../Layout/LoadingSpinner';
 import { useOutlet } from 'react-router-dom';
 import { useAuthContext } from '../../../contexts';
-import { ConversationQueryType } from '../../../types/ApiRequestDataTypes';
+import { ConversationQueryType } from '../../../types/ApiDataTypes';
 
 function MyMessages({ ...props }) {
-	const {
-		data: MyConversations,
-		isLoading,
-		makeRequest: getMyConversations,
-	} = useApi<ConversationQueryType[]>({
+	const { data: MyConversations, isLoading, makeRequest: getMyConversations} = useApi<ConversationQueryType[]>({
 		url: 'api/v1/conversations',
 	});
 	const outlet = useOutlet();

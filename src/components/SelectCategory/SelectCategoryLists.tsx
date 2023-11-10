@@ -1,10 +1,9 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
-import { FormikErrors } from 'formik/dist/types';
 import { useMemo } from 'react';
 import { TfiAngleRight } from 'react-icons/tfi';
 import CategoriesData from './CategoriesData';
 
-export default function SelectCategoryLists({mainCategory, subCategory, subSubCategory, setFieldValue, onClose, isComplete}: {mainCategory: string, subCategory: string, subSubCategory: string, setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void|FormikErrors<unknown>>, onClose: () => void, isComplete:boolean}) {
+export default function SelectCategoryLists({mainCategory, subCategory, subSubCategory, setFieldValue, onClose}: {mainCategory: string, subCategory: string, subSubCategory: string, setFieldValue: (category: 'mainCategory' | 'subCategory' | 'subSubCategory', value: string) => void, onClose: () => void}) {
 	const subCategoriesMap = useMemo(()=> (CategoriesData.find(o => o.name === mainCategory)?.subcategories) || [], [mainCategory]);
 	const subSubCategoriesMap = useMemo(()=>(subCategoriesMap.find(o => o.name === subCategory)?.subsubcategories) || [], [subCategory, subCategoriesMap]);
 
@@ -14,8 +13,6 @@ export default function SelectCategoryLists({mainCategory, subCategory, subSubCa
 				{
 					CategoriesData?.map((mainCat, index) =><SelectCategoryListItem setFieldValue={() => {
 						setFieldValue('mainCategory', mainCat.name);
-						setFieldValue('subCategory', '');
-						setFieldValue('subSubCategory', '');
 					}} isActive={mainCat.name === mainCategory} key={'mainCategory-' + index} label={mainCat.name}></SelectCategoryListItem>)
 
 				}
@@ -25,7 +22,6 @@ export default function SelectCategoryLists({mainCategory, subCategory, subSubCa
 					Array.isArray(subCategoriesMap) ? subCategoriesMap.map((subCat: any, index) =>{
 						return <SelectCategoryListItem setFieldValue={()=>{
 							setFieldValue('subCategory', subCat.name);
-							setFieldValue('subSubCategory', '');
 						}} isActive={subCat.name === subCategory} key={'subCategory-' + index} label={subCat.name}></SelectCategoryListItem>
 					}) : <></>
 				}
@@ -79,7 +75,7 @@ function SelectCategoryListItem({label, isActive, setFieldValue}: {label: string
 			bg={!isActive ? 'gray.50' : 'gray.200'}
 			padding={'20px'}
 			borderRadius={'10px'}>
-			<Text textTransform={'capitalize'}>{label}</Text>
+			<Text className='firstLetterUppercase'>{label}</Text>
 			<TfiAngleRight />
 		</Flex>
 	);

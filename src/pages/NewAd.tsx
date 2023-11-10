@@ -1,21 +1,22 @@
 import { Box, Text, Button, Flex, } from "@chakra-ui/react";
 import SecondaryText from "../components/Layout/SecondaryText";
-import LoadingSpinner from "../components/Layout/LoadingSpinner"
 import Error from "../components/Layout/Error";
 import useApi from "../hooks/useApi";
 import ContainerBox from "../components/Layout/ContainerBox";
-import AdDetailsInputs from "../components/Form/AdDetailsInputs";
-import { TextInput } from "../components/Form/TextInput";
+import AdDetailsInputs from "../components/Forms/AdDetailsInputs";
+import { TextInput } from "../components/Forms/TextInput";
 import { Form, Formik } from 'formik';
-import * as Yup from 'yup';
-import AdvertiserInfoInputs from '../components/Form/AdvertiserInfo';
+import AdvertiserInfoInputs from '../components/Forms/AdvertiserInfo';
 import SelectCategory from '../components/SelectCategory/SelectCategory';
 import { CREATE_AD_URL } from "../hooks/ApiEndpoints";
-import { createFormDataFromObject, flattenObject } from "../utils/utils";
+import { createFormDataFromObject } from "../utils/utils";
 import Uploader from "../components/Uploader/Uploader";
-import { TextAreaInput } from "../components/Form/TextAreaInput";
-import { EditAdvertQueryType } from "../types/ApiRequestDataTypes";
+import { TextAreaInput } from "../components/Forms/TextAreaInput";
+import { EditAdvertQueryType } from "../types/ApiDataTypes";
 import { checkIfSubCategoryHasDetailsFields } from "../utils/Categories/categoriesDataMethods";
+import { AdvertValidationSchema } from '../utils/Formik/AdvertValidationSchema';
+import LoadingSpinnerPage from "../components/Layout/LoadingSpinnerPage";
+import { AdvertInitialValues } from "../utils/Formik/AdvertInitialValues";
 
 export default function NewAd() {
     const { data: createAdResponse, isLoading, error, makeRequest: createAd } = useApi({
@@ -24,7 +25,6 @@ export default function NewAd() {
         headers: { 'Content-Type': 'multipart/form-data', }
     })
    
-
     const postNewAd = async (adData: EditAdvertQueryType) => {
         try {
             const formData = createFormDataFromObject(adData);
@@ -33,14 +33,12 @@ export default function NewAd() {
             console.log(error)
         }
     }
-
     return (
         <ContainerBox bgColor1={'gray.50'}>
-            {isLoading ? <LoadingSpinner/> : <></>}
+            {isLoading ? <LoadingSpinnerPage/> : <></>}
             {error ? <Error error={error}/> : <></>}
-            {(!isLoading && !error) ? <>
                 <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
-                <Formik enableReinitialize={true} onSubmit={(value) => postNewAd(value)} initialValues={{} as EditAdvertQueryType} validationSchema={Yup.object().shape({})}>
+                <Formik onSubmit={(value) => postNewAd(value)} initialValues={AdvertInitialValues as EditAdvertQueryType} validationSchema={AdvertValidationSchema}>
                     {({values}) => {
                         const descriptionCharCounter = values?.description?.length || 0;
                         const subCategory = values?.subCategory;
@@ -75,7 +73,7 @@ export default function NewAd() {
                                     <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                         <Box maxW={'30%'}>
                                             <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dodatkowe informacje</Text>
-                                            <AdDetailsInputs subCategoryName={subCategory}></AdDetailsInputs>
+                                            <AdDetailsInputs key={subCategory} subCategoryName={subCategory}></AdDetailsInputs>
                                         </Box >
                                 </Box > : <></>}
 
@@ -94,7 +92,6 @@ export default function NewAd() {
                         </Form>)
                     }}
                 </Formik>
-            </> : <></>}
         </ContainerBox>
     )
 }

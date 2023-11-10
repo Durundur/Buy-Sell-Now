@@ -1,7 +1,9 @@
+import { numType } from "./AdvertDataType";
+
 export interface UserDataType {
 	_id: string;
 	username: string;
-	advertiser: PersonalAccountDataType | CompanyAccountDataType;
+	advertiser: AccountDataType;
 	avatar: string;
 	updatedAt: string;
 	createdAt: string;
@@ -13,9 +15,11 @@ export interface AccountAddressDataType {
 	postcode: string;
 	state: string;
 	county: string;
-	lat?: string;
-	lon?: string;
+	lat?: numType;
+	lon?: numType;
 }
+
+export type AccountDataType = PersonalAccountDataType | CompanyAccountDataType;
 
 export interface PersonalAccountDataType {
 	name: string;
@@ -32,7 +36,7 @@ export interface CompanyAccountDataType {
 	isCompanyAcc: true;
 	address: AccountAddressDataType & {
 		street: string;
-		buildingNumber: number;
+		buildingNumber: numType;
 	};
 	nip: string,
 	email: string
