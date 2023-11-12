@@ -24,10 +24,10 @@ export default function NewAd() {
         method: 'post',
         headers: { 'Content-Type': 'multipart/form-data', }
     })
-   
-    const postNewAd = async (adData: EditAdvertQueryType) => {
+
+    const postNewAd = async (adData: unknown) => {
         try {
-            const formData = createFormDataFromObject(adData);
+            const formData = createFormDataFromObject(adData as EditAdvertQueryType);
             createAd<FormData>(formData);
         } catch (error) {
             console.log(error)
@@ -35,63 +35,63 @@ export default function NewAd() {
     }
     return (
         <ContainerBox bgColor1={'gray.50'}>
-            {isLoading ? <LoadingSpinnerPage/> : <></>}
-            {error ? <Error error={error}/> : <></>}
-                <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
-                <Formik onSubmit={(value) => postNewAd(value)} initialValues={AdvertInitialValues as EditAdvertQueryType} validationSchema={AdvertValidationSchema}>
-                    {({values}) => {
-                        const descriptionCharCounter = values?.description?.length || 0;
-                        const subCategory = values?.subCategory;
-                        return (<Form>
-                            <Flex gap={'20px'} flexDirection={'column'}>
-                                <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
-                                    <Box maxW={'container.sm'}>
-                                        <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Im więcej szczegółów, tym lepiej!</Text>
-                                        <TextInput label={'Tytuł ogłoszenia'} name='tittle'></TextInput>
-                                        <Text mb={'10px'}>Kategoria</Text>
-                                        <SelectCategory />
-                                    </Box>
+            {isLoading ? <LoadingSpinnerPage /> : <></>}
+            {error ? <Error error={error} /> : <></>}
+            <Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>Edytuj ogłoszenie</Text>
+            <Formik onSubmit={(value) => postNewAd(value)} initialValues={AdvertInitialValues} validationSchema={AdvertValidationSchema}>
+                {({ values }) => {
+                    const descriptionCharCounter = values?.description?.length || 0;
+                    const subCategory = values?.subCategory;
+                    return (<Form>
+                        <Flex gap={'20px'} flexDirection={'column'}>
+                            <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
+                                <Box maxW={'container.sm'}>
+                                    <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Im więcej szczegółów, tym lepiej!</Text>
+                                    <TextInput label={'Tytuł ogłoszenia'} name='tittle'></TextInput>
+                                    <Text mb={'10px'}>Kategoria</Text>
+                                    <SelectCategory />
                                 </Box>
+                            </Box>
 
-                                <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
-                                    <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Zdjęcia</Text>
-                                    <SecondaryText mb={'10px'} >Pierwsze zdjęcie będzie zdjęciem głównym. Przeciągaj zdjęcia na inne miejsca, aby zmienić ich kolejność</SecondaryText>
-                                    <Uploader></Uploader>
+                            <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
+                                <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Zdjęcia</Text>
+                                <SecondaryText mb={'10px'} >Pierwsze zdjęcie będzie zdjęciem głównym. Przeciągaj zdjęcia na inne miejsca, aby zmienić ich kolejność</SecondaryText>
+                                <Uploader></Uploader>
+                            </Box>
+
+                            <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
+                                <Box maxW={'container.sm'}><Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Opis</Text>
+                                    <TextAreaInput name="description" autoComplete={'off'} mb={'10px'} rows={11} shadow={'sm'} variant="filled" bg={'gray.50'} resize={'none'} placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></TextAreaInput>
+                                    <Flex mb={'30px'} justifyContent={'space-between'}>
+                                        <SecondaryText>{descriptionCharCounter >= 180 ? null : `Wpisz jeszcze przynajmniej ${180 - descriptionCharCounter} znaków`}</SecondaryText>
+                                        <SecondaryText>{descriptionCharCounter}/9000</SecondaryText>
+                                    </Flex>
                                 </Box>
+                            </Box>
 
-                                <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
-                                    <Box maxW={'container.sm'}><Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Opis</Text>
-                                        <TextAreaInput name="description" autoComplete={'off'} mb={'10px'} rows={11} shadow={'sm'} variant="filled" bg={'gray.50'} resize={'none'} placeholder='Wpisz te informacje, które byłyby ważne dla Ciebie podczas przeglądania takiego ogłoszenia'></TextAreaInput>
-                                        <Flex mb={'30px'} justifyContent={'space-between'}>
-                                            <SecondaryText>{descriptionCharCounter >= 180 ? null : `Wpisz jeszcze przynajmniej ${180 - descriptionCharCounter} znaków`}</SecondaryText>
-                                            <SecondaryText>{descriptionCharCounter}/9000</SecondaryText>
-                                        </Flex>
-                                    </Box>
-                                </Box>
-
-                                 { checkIfSubCategoryHasDetailsFields(subCategory) ?
-                                    <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
-                                        <Box maxW={'30%'}>
-                                            <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dodatkowe informacje</Text>
-                                            <AdDetailsInputs key={subCategory} subCategoryName={subCategory}></AdDetailsInputs>
-                                        </Box >
-                                </Box > : <></>}
-
+                            {checkIfSubCategoryHasDetailsFields(subCategory) ?
                                 <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
                                     <Box maxW={'30%'}>
-                                        <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dane kontaktowe</Text>
-                                        <AdvertiserInfoInputs localizationInputName={'address'}></AdvertiserInfoInputs>
-                                    </Box>
-                                </Box>
+                                        <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dodatkowe informacje</Text>
+                                        <AdDetailsInputs key={subCategory} subCategoryName={subCategory}></AdDetailsInputs>
+                                    </Box >
+                                </Box > : <></>}
 
-                                <Box mb={'20px'} gap={'20px'} display={'flex'} justifyContent={'flex-end'} boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
-                                    <Button variant={'solid'} >Podgląd ogłoszenia</Button>
-                                    <Button type={'submit'} variant={'solid'} colorScheme={'blue'}>Dodaj ogłoszenie</Button>
+                            <Box boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
+                                <Box maxW={'30%'}>
+                                    <Text mb={'30px'} fontWeight={'bold'} fontSize={'md'}>Dane kontaktowe</Text>
+                                    <AdvertiserInfoInputs localizationInputName={'address'}></AdvertiserInfoInputs>
                                 </Box>
-                            </Flex>
-                        </Form>)
-                    }}
-                </Formik>
+                            </Box>
+
+                            <Box mb={'20px'} gap={'20px'} display={'flex'} justifyContent={'flex-end'} boxShadow={'md'} bg={'#fff'} borderRadius={'20px'} padding={'20px'}>
+                                <Button variant={'solid'} >Podgląd ogłoszenia</Button>
+                                <Button type={'submit'} variant={'solid'} colorScheme={'blue'}>Dodaj ogłoszenie</Button>
+                            </Box>
+                        </Flex>
+                    </Form>)
+                }}
+            </Formik>
         </ContainerBox>
     )
 }

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { checkIfCategoryHasPriceField, checkIfSubSubCategoriesExist, createSchemaForCategoriesDetails } from '../Categories/categoriesDataMethods';
+import { checkIfCategoryHasPriceField, checkIfSubSubCategoriesExist, createValidationSchemaForCategoriesDetails } from '../Categories/categoriesDataMethods';
 
 export const AdvertValidationSchema = Yup.object().shape({
 	tittle: Yup.string()
@@ -49,7 +49,7 @@ export const AdvertValidationSchema = Yup.object().shape({
 		return field.optional();
 	}),
 	details: Yup.object().when(['mainCategory', 'subCategory', 'subSubCategory'], (categories, field) => {
-		return field.shape(createSchemaForCategoriesDetails(categories[0], categories[1], categories[2]));
+		return field.shape(createValidationSchemaForCategoriesDetails(categories[0], categories[1], categories[2]));
 	})
 });
 

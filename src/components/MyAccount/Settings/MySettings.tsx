@@ -9,10 +9,11 @@ import ChangeUserImages from './ChangeUserImages';
 import { useOutletContext } from 'react-router';
 import LoadingSpinner from '../../Layout/LoadingSpinner';
 import { CompanyAccountDataType, PersonalAccountDataType, UserDataType } from '../../../types/UserDataType';
+import { GET_ACC_GENERAL_INFO_URL } from '../../../hooks/ApiEndpoints';
 
 function MySettings({ ...props }) {
 	const { data: accountData, error, isLoading, makeRequest: getAccountData} = useApi<UserDataType>({
-		url: 'api/v1/settings/general-info'
+		url: GET_ACC_GENERAL_INFO_URL
 	});
 
 	const { setActiveTab }: { setActiveTab: React.Dispatch<React.SetStateAction<number>> } = useOutletContext();

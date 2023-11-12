@@ -2,7 +2,7 @@ import { EditAdvertQueryType } from "../types/ApiDataTypes";
 
 export const flattenObject = (value: object, currentKey?: string) => {
     let result = {};
-    Object.keys(value).forEach(key => { 
+    Object.keys(value).forEach(key => {
         const tempKey = currentKey ? `${currentKey}.${key}` : key;
         if (typeof value[key as keyof typeof value] !== "object") {
             result[tempKey as keyof typeof value] = value[key as keyof typeof value];
@@ -40,9 +40,24 @@ export const formatDate = (dateString: string, formatName: "full" | "long" | "me
     return date.toLocaleDateString('pl-PL', { dateStyle: formatName });
 }
 
-export const clearObjectFields = (object: {[x: string]: string}) => {
-    Object.keys(object).map((key)=>{
+export const clearObjectFields = (object: { [x: string]: unknown }) => {
+    Object.keys(object).map((key) => {
         object[key] = '';
     })
     return object;
+}
+
+export const createInitialValuesObject = (initialValuesSchema: { [x: string]: unknown }, initialValuesObject: { [x: string]: unknown }) => {
+    if (initialValuesObject) {
+        Object.entries(initialValuesSchema).forEach(([key, value]: [string, unknown]) => {
+            if (initialValuesObject[key] !== undefined && initialValuesObject[key] !== null) {
+                if (typeof value === 'object' && !Array.isArray(value)) {
+                    initialValuesSchema[key] = { ...(value as { [x: string]: unknown }), ...(initialValuesObject[key] as { [x: string]: unknown }) };
+                } else {
+                    initialValuesSchema[key] = initialValuesObject[key];
+                }
+            }
+        });
+        return initialValuesSchema;
+    }
 }

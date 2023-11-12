@@ -8,10 +8,11 @@ import LoadingSpinner from '../../Layout/LoadingSpinner';
 import { useOutlet } from 'react-router-dom';
 import { useAuthContext } from '../../../contexts';
 import { ConversationQueryType } from '../../../types/ApiDataTypes';
+import { GET_ACC_CONVERSATIONS_URL } from '../../../hooks/ApiEndpoints';
 
 function MyMessages({ ...props }) {
 	const { data: MyConversations, isLoading, makeRequest: getMyConversations} = useApi<ConversationQueryType[]>({
-		url: 'api/v1/conversations',
+		url: GET_ACC_CONVERSATIONS_URL,
 	});
 	const outlet = useOutlet();
 	const { userInfo } = useAuthContext();

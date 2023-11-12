@@ -28,7 +28,8 @@ type objectKey = keyof typeof keysMap;
 
 const getKeyValue = (key: string, value: 'label' | 'unit') => {
     const keyVal = keysMap[key as objectKey];
-    if(typeof keyVal === "object") return keyVal[value];
+    if(typeof keyVal === "object" && keyVal !== null) return keyVal[value];
+    if(value === 'unit') return '';
     return keyVal;
 }
 

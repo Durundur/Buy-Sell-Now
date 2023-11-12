@@ -51,7 +51,7 @@ export default function EditAd() {
 				<Text mb={'30px'} fontWeight={'bold'} fontSize={'lg'}>
 					Edytuj ogłoszenie
 				</Text>
-				<Formik onSubmit={(value) => postAd(value)} initialValues={adData as EditAdvertQueryType} validationSchema={AdvertValidationSchema}>
+				<Formik enableReinitialize={true} onSubmit={(value) => postAd(value)} initialValues={adData as EditAdvertQueryType} validationSchema={AdvertValidationSchema}>
 					{({ values }) => {
 						const descriptionCharCounter = values?.description?.length || 0;
 						const subCategory = values?.subCategory;

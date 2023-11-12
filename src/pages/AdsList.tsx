@@ -19,7 +19,7 @@ export default function AdsList() {
 		isLoading,
 		makeRequest: getAdvertList,
 	} = useApi<AdvertQueryType[]>({
-		url: GET_ADS_URL((location.pathname + location.search).replace('ogloszenia', 'search')),
+		url: GET_ADS_URL((location.pathname + location.search).replace('/ogloszenia/', '')),
 	});
 
 	useEffect(() => {
