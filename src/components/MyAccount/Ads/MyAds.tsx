@@ -9,13 +9,15 @@ import Error from "../../Layout/Error";
 import { useLocation } from 'react-router-dom'
 import useApi from "../../../hooks/useApi";
 import { AdvertQueryType } from "../../../types/ApiDataTypes";
+import { GET_USER_ADS_URL } from "../../../hooks/ApiEndpoints";
 
 function MyAds({...props}) {
     const location = useLocation();
     const { data: MyAds, error, isLoading, makeRequest: getMyAds } = useApi<AdvertQueryType[]>({
-        url: 'api/v1/ads/user' + location.search,
+        url: GET_USER_ADS_URL(location.search),
+        // url: 'api/v1/ads/user' + location.search,
     });
-
+    
     useEffect(()=>{
         getMyAds();
     }, [location.search])

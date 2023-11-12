@@ -42,7 +42,7 @@ export default function ChangeBanner({ banner, setImages }: ChangeBannerProps) {
 			<Image borderRadius={'20px'} src={bannerSrc as string} position={'absolute'} width={'100%'} height={'100%'}></Image>
 			{banner ? (
 				<Box className={'delete-bnt'} display={'none'} zIndex={2} position={'absolute'}>
-					<IconButton onClick={() => handleBannerRemove()} bg={'gray.400'} color={'blue.900'} icon={<FaTrash />} aria-label={''} />
+					<IconButton onClick={() => handleBannerRemove()} bg={'gray.100'} color={'blue.900'} icon={<FaTrash />} aria-label={''} />
 				</Box>
 			) : (
 				<>

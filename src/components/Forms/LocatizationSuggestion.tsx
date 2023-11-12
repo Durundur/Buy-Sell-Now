@@ -1,7 +1,7 @@
 import { Input, Text, Box, FormLabel, FormHelperText, FormControl, FormErrorMessage } from '@chakra-ui/react';
 import axios from 'axios';
-import { useState, useRef } from 'react';
-import { FieldHelperProps, FieldInputProps, useField } from "formik";
+import { useState, useRef, useEffect } from 'react';
+import { FieldHelperProps, FieldInputProps, useField, useFormikContext } from "formik";
 import { css } from '@emotion/react'
 
 type SuggestionType = {
@@ -13,15 +13,28 @@ type SuggestionType = {
     lat: number
 }
 
+
+type AddressType = {
+	city: string,
+    state: string,
+    county: string
+    lon: number,
+    lat: number
+}
+
 type LocalizationSuggestionInputProps = FieldInputProps<SuggestionType> & FieldHelperProps<SuggestionType>;
 
 
-export function LocalizationSuggestionInput({ setValue, setTouched, setError, ...props }: LocalizationSuggestionInputProps) {
+export function LocalizationSuggestionInput({...props}) {
+	const [field, meta, helpers] = useField<AddressType>(props.name);
 	const [suggestionsVisibility, setSuggestionsVisibility] = useState(true);
 	const [suggestions, setSuggestions] = useState<SuggestionType[]>([]);
-	const addressLabel = createSuggestionLabel(props.value);
+	const addressLabel = createSuggestionLabel(field.value);
 	const [inputValue, setInputValue] = useState(addressLabel || ' ');
-	const inputRef = useRef<HTMLInputElement | null>(null);
+	
+	useEffect(()=>{
+		setInputValue(createSuggestionLabel(field.value));
+	}, [field.value?.city, field.value?.county, field.value?.state, field.value?.lon, field.value?.lat])
 
 	async function getSuggestions(query: string) {
 		if (query) {
@@ -67,18 +80,16 @@ export function LocalizationSuggestionInput({ setValue, setTouched, setError, ..
 	return (
 		<Box flexGrow={1}>
 			<Input
-				ref={inputRef}
-				{...props}
 				onFocus={() => {
-					setTouched(true);
 					setSuggestionsVisibility(true);
+					helpers.setTouched({city: true, state: true, county: true, lat: true, lon: true} as any);
 				}}
 				onBlur={() => {
 					setTimeout(() => setSuggestionsVisibility(false), 200);
 				}}
 				onChange={(e) => {
 					getSuggestions(e.target.value);
-					setValue({ ...props.value, city: '', state: '', county: '', lat: 0, lon: 0 });
+					helpers.setValue({ ...field.value, city: '', state: '', county: '', lat: 0, lon: 0 });
 					setInputValue(e.target.value);
 				}}
 				value={inputValue}
@@ -97,7 +108,7 @@ export function LocalizationSuggestionInput({ setValue, setTouched, setError, ..
 							return (
 								<Box
 									onClick={() => {
-										setValue({ ...props.value, city, state, county, lat, lon });
+										helpers.setValue({ ...field.value, city, state, county, lat, lon });
 										setInputValue(createSuggestionLabel(suggestion));
 										setSuggestionsVisibility(false);
 									}}
@@ -125,12 +136,17 @@ type LocalizationSuggestionFormProps = {
 }
 
 export function LocalizationSuggestionForm({ ...props }: LocalizationSuggestionFormProps) {
-    const [field, meta, helpers] = useField(props.name);
-    const error = typeof meta?.error === 'object' ? meta.error[Object.keys(meta.error)[0]] : meta?.error;
+    const [cityField, cityMeta] = useField(`${props.name}.city`);
+    const [countyField, countyMeta] = useField(`${props.name}.county`);
+    const [stateField, stateMeta] = useField(`${props.name}.state`);
+    const [latField, latMeta] = useField(`${props.name}.lat`);
+    const [lonField, lonMeta] = useField(`${props.name}.lon`);
+    const error = cityMeta.error ?? countyMeta.error ?? stateMeta.error ?? latMeta.error ?? lonMeta.error;
+	const touched = cityMeta.touched && countyMeta.touched && stateMeta.touched && latMeta.touched && lonMeta.touched;
     return (
-        <FormControl my={'15px'} isInvalid={(meta?.error && meta?.touched) as boolean}>
-            <FormLabel css={css`:first-letter {text-transform: capitalize}`} fontWeight={400}>{props.label}</FormLabel>
-            <LocalizationSuggestionInput {...helpers} {...field}/>
+        <FormControl my={'15px'} isInvalid={(error && touched) as boolean}>
+            <FormLabel className='firstLetterUppercase' fontWeight={400}>{props.label}</FormLabel>
+            <LocalizationSuggestionInput {...props}/>
             <FormErrorMessage>{error}</FormErrorMessage>
             <FormHelperText>{props.help}</FormHelperText>
         </FormControl >

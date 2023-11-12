@@ -3,13 +3,7 @@ import { useEffect, useRef } from 'react';
 import { Link, To, useParams } from 'react-router-dom';
 import Carousel from '../components/AdPage/Carousel';
 import SecondaryText from '../components/Layout/SecondaryText';
-import {
-	TfiHelpAlt,
-	TfiAngleRight,
-	TfiLocationPin,
-	TfiMobile,
-	TfiAngleLeft,
-} from 'react-icons/tfi';
+import { TfiHelpAlt, TfiAngleRight, TfiLocationPin, TfiMobile, TfiAngleLeft} from 'react-icons/tfi';
 import LoadingSpinner from '../components/Layout/LoadingSpinner';
 import Error from '../components/Layout/Error';
 import AdBadges from '../components/Badge/AdBadges';
@@ -17,27 +11,17 @@ import useApi from '../hooks/useApi';
 import ContainerBox from '../components/Layout/ContainerBox';
 import { formatDate } from '../utils/utils';
 import { AdvertQueryType } from '../types/ApiDataTypes';
-import { GET_AD_URL } from './../hooks/ApiEndpoints';
+import { CREATE_ACC_CONVERSATION, GET_AD_URL } from './../hooks/ApiEndpoints';
 
 function Ad() {
 	const { id } = useParams();
 	const phoneNumber = useRef<HTMLParagraphElement>(null);
-	const {
-		data: advertData,
-		isLoading,
-		error,
-		makeRequest: getAdvertData,
-	} = useApi<AdvertQueryType>({
+	const { data: advertData, isLoading, error, makeRequest: getAdvertData} = useApi<AdvertQueryType>({
 		url: GET_AD_URL(id as string),
 	});
 
-	const {
-		data: createNewConversationResponse,
-		isLoading: isl,
-		error: e,
-		makeRequest: createNewConversation,
-	} = useApi({
-		url: 'api/v1/conversations/new-conversation',
+	const { data: createNewConversationResponse, isLoading: isl, error: e, makeRequest: createNewConversation} = useApi({
+		url: CREATE_ACC_CONVERSATION,
 		method: 'post',
 	});
 

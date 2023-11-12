@@ -7,14 +7,15 @@ import { GoDot } from 'react-icons/go';
 import { Image } from "../Layout/Image";
 import useApi from "../../hooks/useApi";
 import { AdvertQueryType } from "../../types/ApiDataTypes";
+import { DELETE_AD_URL } from "../../hooks/ApiEndpoints";
 
 function ListItemPrivate({ adData }: {adData: AdvertQueryType}) {
     const { mainCategory, subCategory, subSubCategory } = adData;
     const { data: response, isLoading, error, makeRequest: deleteAd } = useApi({
-        url: 'api/v1/ads/' + adData._id,
+        url: DELETE_AD_URL(adData._id),
         method: 'delete'
     });
-
+    
     const handleAdDelete = async () => {
         deleteAd();
     }

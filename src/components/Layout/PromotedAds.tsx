@@ -7,10 +7,11 @@ import Error from "./Error";
 import useApi from './../../hooks/useApi';
 import { useEffect } from 'react';
 import { AdvertQueryType } from "../../types/ApiDataTypes";
+import { GET_PROMOTED_ADS_URL } from "../../hooks/ApiEndpoints";
 
 function PromotedAds() {
     const { data: PromotedAds, isLoading, error, makeRequest: getPromotedAds } = useApi<AdvertQueryType[]>({
-        url: 'api/v1/ads/promoted',
+        url: GET_PROMOTED_ADS_URL,
     });
 
     useEffect(() => {

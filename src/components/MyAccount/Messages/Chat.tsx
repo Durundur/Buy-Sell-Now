@@ -11,13 +11,14 @@ import useSocket from '../../../hooks/useSocket';
 import { Link } from 'react-router-dom';
 import { Image } from '../../Layout/Image';
 import { ConversationChatDataType } from '../../../types/ConversationDataType';
+import { GET_ACC_CONVERSATION_CHAT_URL } from './../../../hooks/ApiEndpoints';
 
 export default function Chat() {
 	const scrollRef = useRef<HTMLDivElement>();
 	const { id } = useParams();
 	const { userInfo } = useAuthContext();
 	const { data: conversationChat, error, isLoading, makeRequest: getConversationChat, setData: updateConversationChat} = useApi<ConversationChatDataType>({
-		url: 'api/v1/conversations/' + id,
+		url: GET_ACC_CONVERSATION_CHAT_URL(id as string),
 	});
 	const { isConnectionAlive, joinRoom, sendRoomMessage } = useSocket(updateConversationChat);
 
