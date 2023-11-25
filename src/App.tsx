@@ -44,11 +44,11 @@ function App() {
             <Route>
               <Route path='logowanie' element={<Login />}></Route>
               <Route path='rejestracja' element={<Register />}></Route>
-              <Route path='nowe' element={<NewAd />}></Route>
-              <Route path='edycja/:id' element={<EditAd />} />
+              <Route path='nowe' element={<ProtectedRoute><NewAd /></ProtectedRoute>}></Route>
+              <Route path='edycja/:id' element={<ProtectedRoute><EditAd /></ProtectedRoute>} />
 
               <Route path='moje-konto' element={
-                <ProtectedRoute redirect="logowanie">
+                <ProtectedRoute>
                   <MyAccount />
                 </ProtectedRoute>}>
                 <Route path='ogloszenia' element={<MyAds activeTab={0} />}></Route>
@@ -60,6 +60,7 @@ function App() {
                 <Route path='ustawienia' element={<MySettings activeTab={4} />}></Route>
                 <Route path='obserwowane' element={<ObservedAds activeTab={5} />}></Route>
               </Route>
+
             </Route>
           </Route>
         </Routes>

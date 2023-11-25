@@ -59,24 +59,23 @@ function Ad() {
 				<Breadcrumb
 					fontSize={'sm'}
 					spacing='8px'
-					textTransform={'capitalize'}
-					separator={<TfiAngleRight />}>
+					separator={<TfiAngleRight />}>	
 					<BreadcrumbItem>
 						<Link to={'/'}>Strona główna</Link>
 					</BreadcrumbItem>
 
 					<BreadcrumbItem>
-						<Link to={`/ogloszenia/${advertData?.mainCategory}`}>{advertData?.mainCategory}</Link>
+						<Link className={'firstLetterUppercase'} to={`/ogloszenia/${advertData?.mainCategory}`}>{advertData?.mainCategory}</Link>
 					</BreadcrumbItem>
 
 					<BreadcrumbItem>
-						<Link to={`/ogloszenia/${advertData?.mainCategory}/${advertData?.subCategory}`}>
+						<Link className={'firstLetterUppercase'} to={`/ogloszenia/${advertData?.mainCategory}/${advertData?.subCategory}`}>
 							{advertData?.subCategory}
 						</Link>
 					</BreadcrumbItem>
 
 					<BreadcrumbItem>
-						<Link
+						<Link className={'firstLetterUppercase'}
 							to={`/ogloszenia/${advertData?.mainCategory}/${advertData?.subCategory}/${advertData?.subSubCategory}`}>
 							{advertData?.subSubCategory}
 						</Link>
