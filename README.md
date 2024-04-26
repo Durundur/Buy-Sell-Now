@@ -1,4 +1,4 @@
-https://buysellnow.netlify.app (work in progress)
+https://frog01-40917.wykr.es/ (work in progress)
 
 Rest API: https://github.com/Durundur/Buy-Sell-NOW-server
 
