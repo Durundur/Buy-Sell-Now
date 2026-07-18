@@ -1,11 +1,28 @@
-FROM node:alpine
+FROM node:20-alpine AS builder
 
-WORKDIR /usr/buy-sell-now-front
+WORKDIR /app
 
-COPY ["package*.json","./"]
+COPY . .
 
 RUN npm install
+RUN npm run build
 
-COPY ./ ./
+FROM nginx:alpine AS runner
 
-CMD ["npm", "start"]
+COPY --from=builder /app/dist /app
+RUN echo ' \
+server { \
+    listen 8080; \
+    location / { \
+        root /app; \
+        index index.html; \
+        try_files $uri $uri/ /index.html; \
+        include /etc/nginx/mime.types; \
+    } \
+} \
+' > /etc/nginx/conf.d/default.conf
+
+EXPOSE 8080
+
+RUN nginx -t
+CMD ["nginx", "-g", "daemon off;"]
