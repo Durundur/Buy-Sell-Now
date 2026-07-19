@@ -26,7 +26,7 @@ jobs:
                 "deploy_target": "oracle1",
                 "host_port": "51887",
                 "container_port": "8080",
-                "app_secrets": {
+                "env_variables": {
                   "BUY_SELL_NOW_API_URL": "https://localhost:30917/"
                 }
               }
