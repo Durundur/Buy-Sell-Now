@@ -1,7 +1,7 @@
 import { io, type Socket } from 'socket.io-client';
 import { useState, useEffect, useRef, Dispatch } from 'react';
 import { ConversationChatDataType, ConversationChatMessageType } from '../types/ConversationDataType';
-const baseURL = import.meta.env.VITE_APP_API as string;
+const baseURL = import.meta.env.VITE_BUY_SELL_NOW_API_URL as string;
 
 export interface WebSocketChatMessage {
     conversationId: string

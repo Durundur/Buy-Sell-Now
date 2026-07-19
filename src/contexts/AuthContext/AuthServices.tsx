@@ -1,7 +1,7 @@
 import axios, { type AxiosPromise } from "axios";
 import { LoginCredentials, LoginRequestResponse, RegisterCredentials } from "./types";
 
-const baseURL = import.meta.env.VITE_APP_API
+const baseURL = import.meta.env.VITE_BUY_SELL_NOW_API_URL
 const LOGIN_URL = `${baseURL}api/v1/auth/login`
 const LOGOUT_URL = `${baseURL}api/v1/auth/logout`
 const SIGNUP_URL = `${baseURL}api/v1/auth/register`

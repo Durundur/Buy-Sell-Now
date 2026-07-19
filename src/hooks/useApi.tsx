@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-const API_BASE_URL = import.meta.env.VITE_APP_API;
+const API_BASE_URL = import.meta.env.VITE_BUY_SELL_NOW_API_URL;
 
 const requestConfigDefault: AxiosRequestConfig = {
 	method: 'get',

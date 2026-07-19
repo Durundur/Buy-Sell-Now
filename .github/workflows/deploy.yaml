@@ -27,7 +27,7 @@ jobs:
                 "host_port": "51887",
                 "container_port": "8080",
                 "env_variables": {
-                  "BUY_SELL_NOW_API_URL": "https://localhost:30917/"
+                  "VITE_BUY_SELL_NOW_API_URL": "https://buysellnow.durundur.online/api"
                 }
               }
             }'
