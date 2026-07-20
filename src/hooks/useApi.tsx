@@ -1,13 +1,13 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import axios, { AxiosRequestConfig } from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 const API_BASE_URL = import.meta.env.VITE_BUY_SELL_NOW_API_URL;
 
 const requestConfigDefault: AxiosRequestConfig = {
-	method: 'get',
+	method: "get",
 	baseURL: API_BASE_URL,
 	withCredentials: true,
-	headers: { 'Content-Type': 'application/json' }
+	headers: { "Content-Type": "application/json" },
 };
 
 export default function useApi<T extends object>(requestConfig: AxiosRequestConfig) {
@@ -20,14 +20,12 @@ export default function useApi<T extends object>(requestConfig: AxiosRequestConf
 		setIsLoading(true);
 		try {
 			const response = await axios<T>({ ...requestConfigDefault, ...requestConfig, data });
-			if (response.statusText === 'OK') {
-				const query = response.data;
-				if ('redirect' in query && query.redirect) {
-					navigate(query.redirect as string);
-				}
-				setData(query);
-				return;
+			const query = response.data;
+			if ("redirect" in query && query.redirect) {
+				navigate(query.redirect as string);
 			}
+			setData(query);
+			return;
 		} catch (error) {
 			setError(error as Error);
 		} finally {
