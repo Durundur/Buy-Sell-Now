@@ -26,8 +26,6 @@ jobs:
                 "deploy_target": "oracle1",
                 "host_port": "51887",
                 "container_port": "8080",
-                "env_variables": {
-                  "VITE_BUY_SELL_NOW_API_URL": "https://buysellnow.durundur.online/api"
-                }
+                "env_variables": {}
               }
             }'
